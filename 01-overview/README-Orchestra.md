@@ -197,23 +197,103 @@ This scenario involves EVERY SAP module working together:
 
 **The Miracle:** All of this happens automatically, in seconds, across multiple time zones, currencies, and languages.
 
+## 📊 SAP Integration Flow Chart Summary
+
+### 🔄 Complete Order Processing Flow
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         SAP MODULE INTEGRATION FLOW                     │
+│                                                                         │
+│    Customer Order                                                       │
+│         │                                                               │
+│         ▼                                                               │
+│    ┌─────────┐    Credit Check    ┌─────────┐                          │
+│    │   SD    │◄─────────────────►│  FI-AR  │                          │
+│    │ Sales & │                   │Accounts │                          │
+│    │Distrib. │                   │Receivable│                          │
+│    └────┬────┘                   └─────────┘                          │
+│         │                                                               │
+│         ▼ Stock Check                                                   │
+│    ┌─────────┐    Material Req    ┌─────────┐    Production Need       │
+│    │   MM    │◄─────────────────►│   PP    │                          │
+│    │Materials│                   │Production│                          │
+│    │  Mgmt   │                   │Planning │                          │
+│    └────┬────┘                   └────┬────┘                          │
+│         │                             │                               │
+│         ▼ Purchase Orders              ▼ Resource Planning             │
+│    ┌─────────┐                   ┌─────────┐    ┌─────────┐            │
+│    │  FI-AP  │                   │   HCM   │    │   PM    │            │
+│    │Accounts │                   │ Human   │    │ Plant   │            │
+│    │ Payable │                   │Resources│    │Maintain.│            │
+│    └─────────┘                   └─────────┘    └─────────┘            │
+│         │                             │              │                 │
+│         └─────────────┬─────────────────┼──────────────┘                 │
+│                       │                 │                              │
+│                       ▼                 ▼                              │
+│                 ┌─────────┐       ┌─────────┐                          │
+│                 │   QM    │       │   FI    │                          │
+│                 │ Quality │       │Financial│                          │
+│                 │  Mgmt   │       │Account. │                          │
+│                 └─────────┘       └────┬────┘                          │
+│                       │                │                               │
+│                       └────────────────┼─────────────┐                 │
+│                                        │             │                 │
+│                                        ▼             ▼                 │
+│                                  ┌─────────┐   ┌─────────┐             │
+│                                  │   CO    │   │   LE    │             │
+│                                  │Control- │   │Logistics│             │
+│                                  │ ling    │   │Execution│             │
+│                                  └─────────┘   └─────────┘             │
+│                                        │             │                 │
+│                                        └─────┬───────┘                 │
+│                                              │                         │
+│                                              ▼                         │
+│                                        Customer Delivery                │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
 ## The Real-World Module Integration Patterns
 
 ### Pattern 1: The Order-to-Cash Flow
-**SD → MM → PP → FI → CO**
-- Customer orders → Check inventory → Produce if needed → Record payment → Analyze profitability
+```
+Customer Order → SD → MM (Stock Check) → PP (Production) → LE (Delivery) → FI (Invoice) → CO (Profit Analysis)
+```
 
 ### Pattern 2: The Procure-to-Pay Flow  
-**MM → FI → AP**
-- Need materials → Purchase → Receive goods → Process invoice → Make payment
+```
+Material Need → MM (Purchase) → FI-AP (Invoice) → FI (Payment) → CO (Cost Analysis)
+```
 
 ### Pattern 3: The Hire-to-Retire Flow
-**HCM → PA → PY → FI**
-- Hire employee → Manage performance → Process payroll → Record costs
+```
+Hire → HCM (Personnel) → HCM-PY (Payroll) → FI (Cost Recording) → CO (HR Cost Analysis)
+```
 
 ### Pattern 4: The Plan-to-Produce Flow
-**PP → MM → HCM → QM → PM**
-- Plan production → Reserve materials → Schedule workers → Ensure quality → Maintain equipment
+```
+Production Plan → PP → MM (Materials) → HCM (Workers) → QM (Quality) → PM (Equipment) → PP (Execute)
+```
+
+### 🎯 Key Integration Points
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    CRITICAL DATA FLOWS                          │
+├─────────────┬─────────────────────────────────────────────────┤
+│ Integration │ Data Flow Description                           │
+├─────────────┼─────────────────────────────────────────────────┤
+│ SD → MM     │ Sales order triggers stock availability check   │
+│ MM → PP     │ Stock shortage creates production requirement   │
+│ PP → HCM    │ Production needs trigger workforce planning     │
+│ PP → PM     │ Production schedule coordinates maintenance     │
+│ MM → FI-AP  │ Purchase orders create payment obligations      │
+│ SD → FI-AR  │ Sales orders create customer receivables        │
+│ All → CO    │ Every transaction feeds profitability analysis │
+│ PP → QM     │ Production orders trigger quality planning      │
+│ SD → LE     │ Sales orders initiate delivery planning         │
+└─────────────┴─────────────────────────────────────────────────┘
+```
 
 ## Why This Integration Matters
 
