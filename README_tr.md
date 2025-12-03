@@ -97,28 +97,28 @@ Melike'nin gözleri büyümüştü. "Yani SAP, Elif'le birlikte büyüyen işlet
 
 ### Aşama 1: Uyanış (Temel)
 **"Büyük Resmi Anlamak"**
-- [Genel Bakış](./01-overview/README.md) - SAP ekosistemi ve modüllerin nasıl etkileştiği
-- [Temel Navigasyon](./02-navigation/README.md) - SAP dünyasındaki ilk adımlarınız
+- [Genel Bakış](./Mini%20Tutorials/01-overview/README.md) - SAP ekosistemi ve modüllerin nasıl etkileştiği
+- [Temel Navigasyon](./Mini%20Tutorials/02-navigation/README.md) - SAP dünyasındaki ilk adımlarınız
 
 ### Aşama 2: Eğitim (Temel Modüller)
 **"Temel Becerileri Öğrenmek"**
-- [MM - Malzeme Yönetimi](./03-materials-management/README.md) - "Eşyaları" yönetme sanatı
-- [PP - Üretim Planlama](./04-production-planning/README.md) - Ham malzemeleri ürünlere dönüştürmek
-- [SD - Satış ve Dağıtım](./05-sales-distribution/README.md) - Ürünleri müşterilere ulaştırmak
-- [FI - Mali Muhasebe](./06-financial-accounting/README.md) - Para izini takip etmek
+- [MM - Malzeme Yönetimi](./Mini%20Tutorials/03-materials-management/README.md) - "Eşyaları" yönetme sanatı
+- [PP - Üretim Planlama](./Mini%20Tutorials/04-production-planning/README.md) - Ham malzemeleri ürünlere dönüştürmek
+- [SD - Satış ve Dağıtım](./Mini%20Tutorials/05-sales-distribution/README.md) - Ürünleri müşterilere ulaştırmak
+- [FI - Mali Muhasebe](./Mini%20Tutorials/06-financial-accounting/README.md) - Para izini takip etmek
 
 ### Aşama 3: Uzmanlaşma (Gelişmiş Modüller)
 **"Seçtiğiniz Yolda Ustalaşmak"**
-- [CO - Kontrolling](./07-controlling/README.md) - Maliyet analizinin dedektif işi
-- [HCM - İnsan Sermayesi Yönetimi](./08-human-capital/README.md) - En değerli varlığı yönetmek: insanlar
-- [QM - Kalite Yönetimi](./09-quality-management/README.md) - Mükemmelliği sağlamak
-- [PM - Tesis Bakımı](./10-plant-maintenance/README.md) - Çarkları döndürmeye devam etmek
+- [CO - Kontrolling](./Mini%20Tutorials/07-controlling/README.md) - Maliyet analizinin dedektif işi
+- [HCM - İnsan Sermayesi Yönetimi](./Mini%20Tutorials/08-human-capital/README.md) - En değerli varlığı yönetmek: insanlar
+- [QM - Kalite Yönetimi](./Mini%20Tutorials/09-quality-management/README.md) - Mükemmelliği sağlamak
+- [PM - Tesis Bakımı](./Mini%20Tutorials/10-plant-maintenance/README.md) - Çarkları döndürmeye devam etmek
 
 ### Aşama 4: Entegrasyon (Gelişmiş Konular)
 **"SAP Ustası Olmak"**
-- [Modüller Arası Senaryolar](./11-integration-scenarios/README.md) - Her şey nasıl birlikte çalışır
-- [Özelleştirme ve Konfigürasyon](./12-customization/README.md) - SAP'yi işiniz için çalıştırmak
-- [Raporlama ve Analitik](./13-reporting/README.md) - Veriyi içgörüye dönüştürmek
+- [Modüller Arası Senaryolar](./Mini%20Tutorials/11-integration-scenarios/README.md) - Her şey nasıl birlikte çalışır
+- [Özelleştirme ve Konfigürasyon](./Mini%20Tutorials/12-customization/README.md) - SAP'yi işiniz için çalıştırmak
+- [Raporlama ve Analitik](./Mini%20Tutorials/13-reporting/README.md) - Veriyi içgörüye dönüştürmek
 
 ## Modül Entegrasyonunun Büyüsü
 
@@ -177,7 +177,7 @@ SAP'yi anlamak dünya çapında fırsatlara kapı açar.
 
 ## Başlarken
 
-Yolculuğunuza başlamaya hazır mısınız? [Bölüm 1: SAP Genel Bakış](./01-overview/README.md) ile başlayın; burada Melike ilk defa SAP'nin gerçekte ne olduğunu ve her başarılı işletmenin neden bu dili konuşması gerektiğini öğrenir.
+Yolculuğunuza başlamaya hazır mısınız? [Bölüm 1: SAP Genel Bakış](./Mini%20Tutorials/01-overview/README.md) ile başlayın; burada Melike ilk defa SAP'nin gerçekte ne olduğunu ve her başarılı işletmenin neden bu dili konuşması gerektiğini öğrenir.
 
 Unutmayın: Her SAP uzmanı bir zamanlar acemiydi. Başarılı olanlarla vazgeçenler arasındaki fark yetenek değil - sebat ve doğru rehberdir.
 
