@@ -1,93 +1,93 @@
-# Ek B: Glossary for Old ABAPers
+# Ek B: Eski ABAP'çılar için Sözlük
 
-> *BTP Terms Translated to What You Know*
+> *BTP Terimleri Bildiğiniz Şekilde Çevrildi*
 
 ---
 
-## Concept Map
+## Kavram Haritası
 
 ```mermaid
 mindmap
-  root((BTP Concepts))
-    Infrastructure
-      Global Account = License
-      Subaccount = SAP System
-      Region = Data Center
-      Environment = App Server
-    Development
+  root((BTP Kavramları))
+    Altyapı
+      Global Account = Lisans
+      Subaccount = SAP Sistemi
+      Region = Veri Merkezi
+      Environment = Uygulama Sunucusu
+    Geliştirme
       BAS = Eclipse/WebIDE
-      RAP = New ABAP Model
+      RAP = Yeni ABAP Modeli
       CDS = Modern DDIC
-      MTA = Transport Package
-    Integration
+      MTA = Transport Paketi
+    Entegrasyon
       Destination = SM59
       Cloud Connector = SAProuter
-      OData = RFC over HTTP
-    AI
-      Joule = AI Assistant
-      Skill = Function Module
-      Agent = Orchestrator
-      Grounding = Documentation
-    Cloud Model
-      RISE = Managed S/4
-      Clean Core = No Z in Core
-      Side-by-side = Z in BTP
+      OData = HTTP üzerinden RFC
+    Yapay Zeka
+      Joule = Yapay Zeka Asistanı
+      Skill = Fonksiyon Modülü
+      Agent = Orkestratör
+      Grounding = Dokümantasyon
+    Bulut Modeli
+      RISE = Yönetilen S/4
+      Clean Core = Çekirdekte Z Yok
+      Side-by-side = BTP'de Z
 ```
 
 ---
 
-## Complete Glossary
+## Tam Sözlük
 
-| BTP Term | What It Means | Old-World Equivalent | Örnek |
-|----------|---------------|---------------------|---------|
-| **Global Account** | Your master contract with SAP | The license agreement | `ACME_CORP_GA` |
-| **Subaccount** | Isolated environment for work | Like a separate SAP system | `ACME_PROD_EU10` |
-| **Destination** | Named connection configuration | SM59 RFC destination | `S4_SALES_ORDERS` |
-| **Cloud Connector** | Tunnel to on-premise | Like SAProuter but modern | CC on-prem server |
-| **Service Instance** | Enabled feature | Like an installed add-on | `xsuaa-instance` |
-| **Entitlement** | Permission to use a service | License allocation | 10 HANA Cloud units |
-| **Environment** | Runtime platform | Application server | Cloud Foundry |
-| **BAS** | Business Application Studio (IDE) | WebIDE / Eclipse | Browser-based dev |
-| **RAP** | RESTful ABAP Programming | New dev model for ABAP | Behavior definitions |
-| **CDS** | Core Data Services | Like DDIC views but modern | `@Annotation` syntax |
-| **OData** | REST-like API protocol | Like RFC but HTTP | V2/V4 services |
-| **Fiori Elements** | Template-based UI | Like ALV but for web | List Report |
-| **MTA** | Multi-Target Application | Deployment package | `mtar` file |
-| **Work Zone** | Central launchpad | Like Fiori Launchpad | SAP Build Work Zone |
-| **Clean Core** | No modifications to standard | The goal SAP always wanted | No SMOD/CMOD |
-| **Side-by-side** | Extension outside S/4 | Z-code in BTP not S/4 | Custom app on BTP |
-| **Joule** | AI assistant | Nothing comparable (new!) | Chat-based AI |
-| **Skill** | Single AI capability | Like one function module | GetSalesOrder skill |
-| **Agent** | AI orchestrator | Like calling multiple FMs | Customer Service Agent |
-| **Grounding** | Teaching AI context | Like custom documentation | Company policies |
-| **Action Project** | API wrapper for Joule | Wrapper function group | SAP Build Actions |
-| **RISE** | SAP's cloud bundle | Managed S/4 + services | RISE with SAP contract |
-| **Private Edition** | Dedicated S/4 instance | Like hosted on-prem | Single tenant |
-| **Public Edition** | Shared S/4 (multi-tenant) | New, no direct equivalent | Multi-tenant SaaS |
-| **gCTS** | Git-based transport | CTS but with Git | Version control |
-| **Key User Extensibility** | Low-code customization | Like easy enhancement | Custom Fields app |
-
----
-
-## Transaction Code Equivalents
-
-| Old Transaction | BTP Equivalent | Notes |
-|-----------------|----------------|-------|
-| `SE80` | Business Application Studio | Web-based IDE |
-| `SE38` | BAS ABAP perspective | For ABAP Environment |
-| `SE11` | CDS views in ADT | Data modeling |
-| `SM59` | Destination Service | In BTP Cockpit |
-| `SICF` | Cloud Foundry routes | HTTP services |
-| `ST01` | BTP Monitoring | Cockpit → Monitoring |
-| `SU01` | User Management | IAM in BTP Cockpit |
-| `STMS` | gCTS | Git-based transports |
-| `SE09/SE10` | gCTS / Git | Transport management |
-| `SMICM` | Cloud Foundry logs | `cf logs` command |
-| `SM21` | BTP Cockpit Logs | System logs |
+| BTP Terimi | Anlamı | Eski Dünya Karşılığı | Örnek |
+|------------|--------|---------------------|---------|
+| **Global Account** | SAP ile ana sözleşmeniz | Lisans anlaşması | `ACME_CORP_GA` |
+| **Subaccount** | Çalışma için izole ortam | Ayrı bir SAP sistemi gibi | `ACME_PROD_EU10` |
+| **Destination** | Adlandırılmış bağlantı yapılandırması | SM59 RFC destination | `S4_SALES_ORDERS` |
+| **Cloud Connector** | On-premise'e tünel | SAProuter gibi ama modern | CC on-prem sunucusu |
+| **Service Instance** | Etkinleştirilmiş özellik | Kurulu bir eklenti gibi | `xsuaa-instance` |
+| **Entitlement** | Bir servisi kullanma izni | Lisans tahsisi | 10 HANA Cloud birimi |
+| **Environment** | Çalışma zamanı platformu | Uygulama sunucusu | Cloud Foundry |
+| **BAS** | Business Application Studio (IDE) | WebIDE / Eclipse | Tarayıcı tabanlı geliştirme |
+| **RAP** | RESTful ABAP Programming | ABAP için yeni geliştirme modeli | Behavior tanımlamaları |
+| **CDS** | Core Data Services | DDIC view'lar gibi ama modern | `@Annotation` sözdizimi |
+| **OData** | REST benzeri API protokolü | RFC gibi ama HTTP | V2/V4 servisleri |
+| **Fiori Elements** | Şablon tabanlı UI | ALV gibi ama web için | List Report |
+| **MTA** | Multi-Target Application | Deployment paketi | `mtar` dosyası |
+| **Work Zone** | Merkezi launchpad | Fiori Launchpad gibi | SAP Build Work Zone |
+| **Clean Core** | Standarda modifikasyon yok | SAP'ın her zaman istediği hedef | SMOD/CMOD yok |
+| **Side-by-side** | S/4 dışında extension | S/4 yerine BTP'de Z-kod | BTP'de özel uygulama |
+| **Joule** | Yapay zeka asistanı | Karşılaştırılabilir bir şey yok (yeni!) | Sohbet tabanlı yapay zeka |
+| **Skill** | Tek bir yapay zeka yeteneği | Tek bir fonksiyon modülü gibi | GetSalesOrder skill |
+| **Agent** | Yapay zeka orkestratörü | Birden fazla FM çağırmak gibi | Customer Service Agent |
+| **Grounding** | Yapay zekaya bağlam öğretmek | Özel dokümantasyon gibi | Şirket politikaları |
+| **Action Project** | Joule için API wrapper | Wrapper fonksiyon grubu | SAP Build Actions |
+| **RISE** | SAP'ın bulut paketi | Yönetilen S/4 + servisler | RISE with SAP sözleşmesi |
+| **Private Edition** | Ayrılmış S/4 instance | Barındırılan on-prem gibi | Tek kiracı |
+| **Public Edition** | Paylaşımlı S/4 (multi-tenant) | Yeni, doğrudan karşılığı yok | Multi-tenant SaaS |
+| **gCTS** | Git tabanlı transport | Git ile CTS | Versiyon kontrolü |
+| **Key User Extensibility** | Low-code özelleştirme | Kolay geliştirme gibi | Custom Fields uygulaması |
 
 ---
 
-## Common Acronyms
+## Transaction Kodu Karşılıkları
+
+| Eski Transaction | BTP Karşılığı | Notlar |
+|------------------|---------------|--------|
+| `SE80` | Business Application Studio | Web tabanlı IDE |
+| `SE38` | BAS ABAP perspektifi | ABAP Environment için |
+| `SE11` | ADT'de CDS view'lar | Veri modelleme |
+| `SM59` | Destination Service | BTP Cockpit'te |
+| `SICF` | Cloud Foundry route'ları | HTTP servisleri |
+| `ST01` | BTP İzleme | Cockpit → Monitoring |
+| `SU01` | Kullanıcı Yönetimi | BTP Cockpit'te IAM |
+| `STMS` | gCTS | Git tabanlı transport'lar |
+| `SE09/SE10` | gCTS / Git | Transport yönetimi |
+| `SMICM` | Cloud Foundry log'ları | `cf logs` komutu |
+| `SM21` | BTP Cockpit Log'ları | Sistem log'ları |
+
+---
+
+## Yaygın Kısaltmalar
 
 ```mermaid
 graph LR
@@ -96,7 +96,7 @@ graph LR
         CF[CF - Cloud Foundry]
     end
 
-    subgraph "Development"
+    subgraph "Geliştirme"
         BAS[BAS - Business Application Studio]
         RAP[RAP - RESTful ABAP Programming]
         CDS[CDS - Core Data Services]
@@ -104,7 +104,7 @@ graph LR
         CAP[CAP - Cloud Application Programming]
     end
 
-    subgraph "Security"
+    subgraph "Güvenlik"
         IAS[IAS - Identity Authentication Service]
         IPS[IPS - Identity Provisioning Service]
         XSUAA[XSUAA - Extended Services UAA]
@@ -112,57 +112,57 @@ graph LR
     end
 ```
 
-| Acronym | Full Name | Description |
-|---------|-----------|-------------|
-| **BTP** | Business Technology Platform | SAP's cloud platform |
-| **BAS** | Business Application Studio | Cloud IDE |
-| **RAP** | RESTful ABAP Programming | Modern ABAP development model |
-| **CDS** | Core Data Services | Data modeling language |
-| **MTA** | Multi-Target Application | Deployment unit |
-| **CF** | Cloud Foundry | Runtime environment |
-| **IAS** | Identity Authentication Service | Authentication service |
-| **IPS** | Identity Provisioning Service | User sync |
-| **XSUAA** | Extended Services for UAA | Authorization service |
-| **UAA** | User Account and Authentication | Security component |
-| **SaaS** | Software as a Service | Cloud delivery model |
+| Kısaltma | Tam Adı | Açıklama |
+|----------|---------|----------|
+| **BTP** | Business Technology Platform | SAP'ın bulut platformu |
+| **BAS** | Business Application Studio | Bulut IDE |
+| **RAP** | RESTful ABAP Programming | Modern ABAP geliştirme modeli |
+| **CDS** | Core Data Services | Veri modelleme dili |
+| **MTA** | Multi-Target Application | Deployment birimi |
+| **CF** | Cloud Foundry | Çalışma zamanı ortamı |
+| **IAS** | Identity Authentication Service | Kimlik doğrulama servisi |
+| **IPS** | Identity Provisioning Service | Kullanıcı senkronizasyonu |
+| **XSUAA** | Extended Services for UAA | Yetkilendirme servisi |
+| **UAA** | User Account and Authentication | Güvenlik bileşeni |
+| **SaaS** | Software as a Service | Bulut dağıtım modeli |
 | **CAP** | Cloud Application Programming | Node.js/Java framework |
-| **ADT** | ABAP Development Tools | Eclipse plugin |
-| **FLP** | Fiori Launchpad | Entry point for Fiori |
-| **API** | Application Programming Interface | Service endpoint |
-| **SSO** | Single Sign-On | One login for all |
+| **ADT** | ABAP Development Tools | Eclipse eklentisi |
+| **FLP** | Fiori Launchpad | Fiori giriş noktası |
+| **API** | Application Programming Interface | Servis endpoint'i |
+| **SSO** | Single Sign-On | Tümü için tek oturum açma |
 
 ---
 
-## Quick Concept Translations
+## Hızlı Kavram Çevirileri
 
-### "I want to create a Z-program"
+### "Bir Z-program oluşturmak istiyorum"
 
-**Old way:** SE38 → Create program → Write code → Activate
+**Eski yöntem:** SE38 → Program oluştur → Kod yaz → Aktive et
 
-**BTP way:**
-1. Open BAS or ADT
-2. Create RAP-based CDS view
-3. Add behavior definition
-4. Generate Fiori Elements UI
-5. Deploy to Cloud Foundry
+**BTP yöntemi:**
+1. BAS veya ADT'yi aç
+2. RAP tabanlı CDS view oluştur
+3. Behavior definition ekle
+4. Fiori Elements UI oluştur
+5. Cloud Foundry'ye deploy et
 
 ---
 
-### "I want to call an RFC"
+### "Bir RFC çağırmak istiyorum"
 
-**Old way:** CALL FUNCTION 'FM_NAME' DESTINATION 'DEST'
+**Eski yöntem:** CALL FUNCTION 'FM_NAME' DESTINATION 'DEST'
 
-**BTP way:**
+**BTP yöntemi:**
 ```abap
-" Using HTTP in ABAP Environment
+" ABAP Environment'ta HTTP kullanarak
 DATA(lo_http) = cl_http_destination_provider=>create_by_cloud_destination(
   i_name = 'MY_DESTINATION'
 ).
 ```
 
-Or via OData:
+Veya OData ile:
 ```javascript
-// In CAP/Node.js
+// CAP/Node.js'te
 const result = await S4.run(
   SELECT.from('API_SALES_ORDER_SRV.A_SalesOrder')
 );
@@ -170,11 +170,11 @@ const result = await S4.run(
 
 ---
 
-### "I want to create a custom table"
+### "Özel bir tablo oluşturmak istiyorum"
 
-**Old way:** SE11 → Create table → Add fields → Activate
+**Eski yöntem:** SE11 → Tablo oluştur → Alan ekle → Aktive et
 
-**BTP way (ABAP Environment):**
+**BTP yöntemi (ABAP Environment):**
 ```sql
 @EndUserText.label: 'My Custom Table'
 define table zmytable {
@@ -186,54 +186,54 @@ define table zmytable {
 
 ---
 
-### "I want to transport my code"
+### "Kodumu transport etmek istiyorum"
 
-**Old way:** SE09 → Create transport → Add objects → Release
+**Eski yöntem:** SE09 → Transport oluştur → Nesneleri ekle → Release et
 
-**BTP way (gCTS):**
+**BTP yöntemi (gCTS):**
 ```bash
 git add .
 git commit -m "My changes"
 git push
-# CI/CD pipeline handles deployment
+# CI/CD pipeline deployment'ı yönetir
 ```
 
 ---
 
-## API vs FM Reference
+## API vs FM Referansı
 
-| Function Module Pattern | API Equivalent |
+| Fonksiyon Modülü Kalıbı | API Karşılığı |
 |------------------------|----------------|
 | `BAPI_SALESORDER_GETLIST` | `GET /API_SALES_ORDER_SRV/A_SalesOrder` |
 | `BAPI_MATERIAL_GET_DETAIL` | `GET /API_PRODUCT_SRV/A_Product('MATERIAL')` |
 | `BAPI_PURCHASEORDER_CREATE1` | `POST /API_PURCHASEORDER_PROCESS_SRV/A_PurchaseOrder` |
-| `RFC_READ_TABLE` | Use released CDS views instead |
+| `RFC_READ_TABLE` | Bunun yerine yayınlanmış CDS view'ları kullanın |
 | `POPUP_TO_CONFIRM` | Fiori dialog / sap.m.MessageBox |
 
 ---
 
-## Mental Model Shift
+## Zihinsel Model Değişimi
 
 ```mermaid
 graph TD
-    subgraph "Old Thinking"
-        OLD1[Write code in S/4]
-        OLD2[Modify standard]
-        OLD3[Transport to PRD]
-        OLD4[Everything internal]
+    subgraph "Eski Düşünce"
+        OLD1[S/4'te kod yaz]
+        OLD2[Standardı modifiye et]
+        OLD3[PRD'ye transport et]
+        OLD4[Her şey dahili]
     end
 
-    subgraph "New Thinking"
-        NEW1[Write code in BTP]
-        NEW2[Use APIs only]
+    subgraph "Yeni Düşünce"
+        NEW1[BTP'de kod yaz]
+        NEW2[Sadece API kullan]
         NEW3[CI/CD deployment]
-        NEW4[API-first design]
+        NEW4[API-first tasarım]
     end
 
-    OLD1 --> |"Shift to"| NEW1
-    OLD2 --> |"Shift to"| NEW2
-    OLD3 --> |"Shift to"| NEW3
-    OLD4 --> |"Shift to"| NEW4
+    OLD1 --> |"Şuna geç"| NEW1
+    OLD2 --> |"Şuna geç"| NEW2
+    OLD3 --> |"Şuna geç"| NEW3
+    OLD4 --> |"Şuna geç"| NEW4
 
     style NEW1 fill:#4CAF50,color:white
     style NEW2 fill:#4CAF50,color:white
@@ -247,6 +247,6 @@ graph TD
 
 ---
 
-**Yazar:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Storyteller & Digital Transformation Advocate
+**Yazar:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Hikaye Anlatıcısı & Dijital Dönüşüm Savunucusu
 
-*Oluşturuldu ❤️ dünya genelindeki SAP öğrencileri için*
+*Dünya genelindeki SAP öğrencileri için ❤️ ile oluşturuldu*

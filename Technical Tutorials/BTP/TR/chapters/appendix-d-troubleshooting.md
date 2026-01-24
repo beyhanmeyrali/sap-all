@@ -1,25 +1,25 @@
-# Ek D: Sorun Giderme Yaygın Sorunlar
+# Ek D: Yaygın Sorunları Giderme
 
-> *When Things Don't Work*
+> *İşler Çalışmadığında*
 
 ---
 
-## Sorun Giderme Flowchart
+## Sorun Giderme Akış Şeması
 
 ```mermaid
 flowchart TD
-    ERROR[Something's Wrong] --> TYPE{What type of error?}
+    ERROR[Bir Şeyler Yanlış] --> TYPE{Hata türü nedir?}
 
-    TYPE --> |"Connection"| CONN[Connection Issues]
-    TYPE --> |"Authentication"| AUTH[Auth Problems]
-    TYPE --> |"Deployment"| DEPLOY[Deployment Failures]
-    TYPE --> |"Joule"| JOULE[Joule Issues]
-    TYPE --> |"Performance"| PERF[Performance]
+    TYPE --> |"Bağlantı"| CONN[Bağlantı Sorunları]
+    TYPE --> |"Kimlik Doğrulama"| AUTH[Kimlik Doğrulama Problemleri]
+    TYPE --> |"Dağıtım"| DEPLOY[Dağıtım Hataları]
+    TYPE --> |"Joule"| JOULE[Joule Sorunları]
+    TYPE --> |"Performans"| PERF[Performans]
 
-    CONN --> CONN1{Where's the issue?}
-    CONN1 --> |"Destination"| D1[Check Destination Config]
-    CONN1 --> |"Cloud Connector"| D2[Check CC Status]
-    CONN1 --> |"Network"| D3[Check Firewall/DNS]
+    CONN --> CONN1{Sorun nerede?}
+    CONN1 --> |"Destination"| D1[Destination Yapılandırmasını Kontrol Et]
+    CONN1 --> |"Cloud Connector"| D2[CC Durumunu Kontrol Et]
+    CONN1 --> |"Ağ"| D3[Güvenlik Duvarı/DNS Kontrol Et]
 
     style ERROR fill:#f44336,color:white
     style D1 fill:#4CAF50,color:white
@@ -29,19 +29,19 @@ flowchart TD
 
 ---
 
-## Destination Errors
+## Destination Hataları
 
-### "Connection refused" or "Host not found"
+### "Connection refused" veya "Host not found"
 
 ```mermaid
 flowchart TD
-    ERR[Connection Refused] --> C1{Is URL correct?}
-    C1 --> |"No"| F1[Fix URL]
-    C1 --> |"Yes"| C2{Is target running?}
-    C2 --> |"No"| F2[Start target system]
-    C2 --> |"Yes"| C3{OnPremise?}
-    C3 --> |"Yes"| F3[Check Cloud Connector]
-    C3 --> |"No"| F4[Check firewall/DNS]
+    ERR[Connection Refused] --> C1{URL doğru mu?}
+    C1 --> |"Hayır"| F1[URL'yi Düzelt]
+    C1 --> |"Evet"| C2{Hedef çalışıyor mu?}
+    C2 --> |"Hayır"| F2[Hedef sistemi başlat]
+    C2 --> |"Evet"| C3{OnPremise mi?}
+    C3 --> |"Evet"| F3[Cloud Connector'ı Kontrol Et]
+    C3 --> |"Hayır"| F4[Güvenlik duvarı/DNS kontrol et]
 
     style ERR fill:#f44336,color:white
     style F1 fill:#4CAF50,color:white
@@ -50,51 +50,51 @@ flowchart TD
     style F4 fill:#4CAF50,color:white
 ```
 
-**Cause**: URL is wrong or system is down
+**Neden**: URL yanlış veya sistem kapalı
 
-**Diagnostic steps:**
-1. Copy the URL and paste in browser—does it respond?
-2. Check if target system is running
-3. For OnPremise: Is Cloud Connector connected?
-4. Check DNS resolution
+**Tanılama adımları:**
+1. URL'yi kopyalayıp tarayıcıya yapıştırın—yanıt veriyor mu?
+2. Hedef sistemin çalışıp çalışmadığını kontrol edin
+3. OnPremise için: Cloud Connector bağlı mı?
+4. DNS çözümlemesini kontrol edin
 
-**Fix:**
+**Çözüm:**
 ```yaml
-# Verify destination configuration
+# Destination yapılandırmasını doğrulayın
 1. BTP Cockpit → Subaccount → Connectivity → Destinations
-2. Click "Check Connection" button
-3. Read error message carefully
-4. For OnPremise, verify virtual host matches CC mapping
+2. "Check Connection" butonuna tıklayın
+3. Hata mesajını dikkatle okuyun
+4. OnPremise için, sanal hostun CC eşlemesiyle uyuştuğunu doğrulayın
 ```
 
 ---
 
 ### "401 Unauthorized"
 
-**Cause**: Authentication failed
+**Neden**: Kimlik doğrulama başarısız oldu
 
 ```mermaid
 flowchart TD
-    ERR[401 Unauthorized] --> C1{Auth Type?}
-    C1 --> |"Basic"| B1[Check user/password]
-    C1 --> |"OAuth"| O1{Token received?}
-    O1 --> |"No"| O2[Check Token URL]
-    O1 --> |"Yes"| O3[Check token permissions]
+    ERR[401 Unauthorized] --> C1{Kimlik Doğrulama Türü?}
+    C1 --> |"Basic"| B1[Kullanıcı/şifreyi kontrol et]
+    C1 --> |"OAuth"| O1{Token alındı mı?}
+    O1 --> |"Hayır"| O2[Token URL'sini Kontrol Et]
+    O1 --> |"Evet"| O3[Token izinlerini kontrol et]
 
     style ERR fill:#f44336,color:white
 ```
 
-**Fix checklist:**
+**Çözüm kontrol listesi:**
 
-| Auth Type | Check This |
-|-----------|------------|
-| **Basic** | Username and password correct? User locked? |
-| **OAuth2** | Client ID, Secret, Token URL all correct? |
-| **SAMLBearer** | Trust configured? User mapped? |
+| Kimlik Doğrulama Türü | Bunu Kontrol Edin |
+|----------------------|-------------------|
+| **Basic** | Kullanıcı adı ve şifre doğru mu? Kullanıcı kilitli mi? |
+| **OAuth2** | Client ID, Secret, Token URL hepsi doğru mu? |
+| **SAMLBearer** | Güven yapılandırması yapıldı mı? Kullanıcı eşlendi mi? |
 
-**For OAuth2:**
+**OAuth2 için:**
 ```bash
-# Test token endpoint manually with curl
+# Token endpoint'ini curl ile manuel test edin
 curl -X POST "https://authentication.eu10.hana.ondemand.com/oauth/token" \
   -H "Content-Type: application/x-www-form-urlencoded" \
   -d "grant_type=client_credentials&client_id=YOUR_CLIENT_ID&client_secret=YOUR_SECRET"
@@ -104,355 +104,355 @@ curl -X POST "https://authentication.eu10.hana.ondemand.com/oauth/token" \
 
 ### "403 Forbidden"
 
-**Cause**: Authenticated but not authorized
+**Neden**: Kimlik doğrulandı ancak yetkilendirilmedi
 
-**Fix:**
-1. Check user has required roles on target system
-2. For Cloud Connector: Verify path is exposed in resources
-3. Check if IP is whitelisted on target
-4. Verify `sap-client` header if needed
+**Çözüm:**
+1. Kullanıcının hedef sistemde gerekli rollere sahip olup olmadığını kontrol edin
+2. Cloud Connector için: Yolun kaynaklarda açığa çıkarıldığını doğrulayın
+3. Hedefte IP'nin beyaz listede olup olmadığını kontrol edin
+4. Gerekiyorsa `sap-client` header'ını doğrulayın
 
 ```yaml
-# Common missing authorization scenarios
-- User exists but no roles assigned
-- Path not exposed in Cloud Connector resources
-- API requires specific scope not granted
-- sap-client header missing for SAP systems
+# Yaygın eksik yetkilendirme senaryoları
+- Kullanıcı mevcut ancak rol atanmamış
+- Yol Cloud Connector kaynaklarında açığa çıkarılmamış
+- API, verilmemiş belirli bir kapsam gerektiriyor
+- SAP sistemleri için sap-client header'ı eksik
 ```
 
 ---
 
-### "Certificate error" / SSL Issues
+### "Certificate error" / SSL Sorunları
 
-**Cause**: SSL/TLS certificate problem
+**Neden**: SSL/TLS sertifika problemi
 
-**Fix:**
+**Çözüm:**
 
-| Environment | Solution |
-|-------------|----------|
-| **Development** | Add `TrustAll=true` to destination (NEVER in prod!) |
-| **Production** | Import CA certificate to BTP Trust Store |
+| Ortam | Çözüm |
+|-------|-------|
+| **Geliştirme** | Destination'a `TrustAll=true` ekleyin (Üretimde ASLA!) |
+| **Üretim** | CA sertifikasını BTP Trust Store'a içe aktarın |
 
 ```yaml
-# For self-signed certs in dev
+# Geliştirmede kendinden imzalı sertifikalar için
 Additional Properties:
-  TrustAll: true  # DEVELOPMENT ONLY!
+  TrustAll: true  # YALNIZCA GELİŞTİRME!
 ```
 
 ---
 
-## Joule Deployment Issues
+## Joule Dağıtım Sorunları
 
-### Skill not appearing after deploy
+### Dağıtımdan sonra skill görünmüyor
 
 ```mermaid
 flowchart TD
-    PROB[Skill Not Visible] --> C1{Deployment complete?}
-    C1 --> |"Still running"| F1[Wait 2-3 minutes]
-    C1 --> |"Complete"| C2{Check logs}
-    C2 --> |"Errors"| F2[Fix deployment errors]
-    C2 --> |"No errors"| C3{Right subaccount?}
-    C3 --> |"No"| F3[Switch subaccount]
-    C3 --> |"Yes"| F4[Check skill enablement]
+    PROB[Skill Görünmüyor] --> C1{Dağıtım tamamlandı mı?}
+    C1 --> |"Hala çalışıyor"| F1[2-3 dakika bekleyin]
+    C1 --> |"Tamamlandı"| C2{Günlükleri kontrol et}
+    C2 --> |"Hatalar"| F2[Dağıtım hatalarını düzeltin]
+    C2 --> |"Hata yok"| C3{Doğru subaccount mı?}
+    C3 --> |"Hayır"| F3[Subaccount değiştirin]
+    C3 --> |"Evet"| F4[Skill etkinleştirmesini kontrol edin]
 
     style PROB fill:#f44336,color:white
     style F1 fill:#4CAF50,color:white
 ```
 
-**Diagnostic steps:**
-1. Check deployment status in Joule Studio
-2. Review deployment logs for errors
-3. Verify you're in the correct subaccount
-4. Confirm skill is enabled for Joule
+**Tanılama adımları:**
+1. Joule Studio'da dağıtım durumunu kontrol edin
+2. Hatalar için dağıtım günlüklerini inceleyin
+3. Doğru subaccount'ta olduğunuzu doğrulayın
+4. Skill'in Joule için etkinleştirildiğini onaylayın
 
-**Fix:**
+**Çözüm:**
 ```yaml
-1. Open Joule Studio
-2. Navigate to your skill/agent
-3. Check status indicator
-4. If stuck, try redeploy
-5. Clear browser cache and refresh
+1. Joule Studio'yu açın
+2. Skill/agent'ınıza gidin
+3. Durum göstergesini kontrol edin
+4. Takılı kaldıysa, yeniden dağıtmayı deneyin
+5. Tarayıcı önbelleğini temizleyin ve yenileyin
 ```
 
 ---
 
-### "Action not found" error
+### "Action not found" hatası
 
-**Cause**: Action Project not linked properly
+**Neden**: Action Project düzgün bağlanmamış
 
 ```mermaid
 sequenceDiagram
-    participant USER as User
+    participant USER as Kullanıcı
     participant JOULE as Joule
     participant SKILL as Skill
     participant ACTION as Action Project
     participant DEST as Destination
     participant API as Backend API
 
-    USER->>JOULE: Request
-    JOULE->>SKILL: Trigger skill
-    SKILL->>ACTION: Call action
-    Note over SKILL,ACTION: ERROR: Action not found!
+    USER->>JOULE: İstek
+    JOULE->>SKILL: Skill'i tetikle
+    SKILL->>ACTION: Action'ı çağır
+    Note over SKILL,ACTION: HATA: Action bulunamadı!
 
-    ACTION->>DEST: Should lookup
-    DEST->>API: Should call
+    ACTION->>DEST: Aramalı
+    DEST->>API: Çağırmalı
 ```
 
-**Fix:**
-1. Verify Action Project is deployed successfully
-2. Check destination exists and is correctly named
-3. Re-link action in skill configuration
-4. Ensure action operationId matches skill config
+**Çözüm:**
+1. Action Project'in başarıyla dağıtıldığını doğrulayın
+2. Destination'ın mevcut ve doğru adlandırıldığını kontrol edin
+3. Skill yapılandırmasında action'ı yeniden bağlayın
+4. Action operationId'nin skill yapılandırmasıyla eşleştiğinden emin olun
 
 ---
 
-### Agent doesn't use the skill
+### Agent skill'i kullanmıyor
 
-**Cause**: Skill not assigned or instructions unclear
+**Neden**: Skill atanmamış veya talimatlar belirsiz
 
-**Diagnostic:**
+**Tanılama:**
 ```yaml
-Test sequence:
-1. Test skill individually first (does it work alone?)
-2. Check skill is in agent's skill list
-3. Review agent instructions - does it mention when to use the skill?
-4. Check for conflicting skills with similar triggers
+Test sırası:
+1. Önce skill'i tek başına test edin (tek başına çalışıyor mu?)
+2. Skill'in agent'ın skill listesinde olup olmadığını kontrol edin
+3. Agent talimatlarını inceleyin - skill'in ne zaman kullanılacağından bahsediyor mu?
+4. Benzer tetikleyicilere sahip çakışan skill'leri kontrol edin
 ```
 
-**Fix:**
+**Çözüm:**
 ```yaml
-# Improve agent instructions
-Bad:  "Help users with sales"
-Good: "When a user asks about sales order status,
-       use the GetSalesOrderStatus skill with the order number"
+# Agent talimatlarını iyileştirin
+Kötü:  "Kullanıcılara satışlarla ilgili yardım et"
+İyi:   "Bir kullanıcı satış siparişi durumunu sorduğunda,
+        sipariş numarasıyla GetSalesOrderStatus skill'ini kullan"
 ```
 
 ---
 
-## Authentication Problems
+## Kimlik Doğrulama Problemleri
 
-### OAuth token not working
+### OAuth token çalışmıyor
 
 ```mermaid
 flowchart TD
-    PROB[Token Not Working] --> C1{Get token response?}
-    C1 --> |"No"| F1[Check Token Service URL]
-    C1 --> |"Error response"| F2[Check Client ID/Secret]
-    C1 --> |"Token received"| C2{Token expired?}
-    C2 --> |"Yes"| F3[Check clock sync]
-    C2 --> |"No"| F4[Check scope/permissions]
+    PROB[Token Çalışmıyor] --> C1{Token yanıtı alındı mı?}
+    C1 --> |"Hayır"| F1[Token Servis URL'sini Kontrol Et]
+    C1 --> |"Hata yanıtı"| F2[Client ID/Secret Kontrol Et]
+    C1 --> |"Token alındı"| C2{Token süresi doldu mu?}
+    C2 --> |"Evet"| F3[Saat senkronizasyonunu kontrol et]
+    C2 --> |"Hayır"| F4[Kapsam/izinleri kontrol et]
 
     style PROB fill:#f44336,color:white
 ```
 
-**Common OAuth2 issues:**
+**Yaygın OAuth2 sorunları:**
 
-| Symptom | Cause | Fix |
-|---------|-------|-----|
-| "invalid_client" | Wrong Client ID/Secret | Verify credentials |
-| "unauthorized_client" | Wrong grant type | Check grant_type parameter |
-| Token works then fails | Token expired | Check token lifetime |
-| "insufficient_scope" | Missing permissions | Add required scope |
+| Belirti | Neden | Çözüm |
+|---------|-------|-------|
+| "invalid_client" | Yanlış Client ID/Secret | Kimlik bilgilerini doğrulayın |
+| "unauthorized_client" | Yanlış grant türü | grant_type parametresini kontrol edin |
+| Token çalışıyor sonra başarısız | Token süresi doldu | Token ömrünü kontrol edin |
+| "insufficient_scope" | Eksik izinler | Gerekli kapsamı ekleyin |
 
 ---
 
-### SSO not working
+### SSO çalışmıyor
 
-**Cause**: Trust configuration issue
+**Neden**: Güven yapılandırma sorunu
 
-**Fix:**
-1. Check IAS/IdP configuration in BTP
-2. Verify trust relationship established
-3. Check user exists in both systems
-4. Review attribute mapping
+**Çözüm:**
+1. BTP'de IAS/IdP yapılandırmasını kontrol edin
+2. Güven ilişkisinin kurulduğunu doğrulayın
+3. Kullanıcının her iki sistemde de mevcut olup olmadığını kontrol edin
+4. Öznitelik eşlemesini inceleyin
 
 ```yaml
-Trust Setup Checklist:
-☐ IAS tenant configured in BTP subaccount
-☐ Application registered in IAS
-☐ User groups mapped correctly
-☐ SAML metadata exchanged (if applicable)
-☐ Test user exists in IdP
+Güven Kurulum Kontrol Listesi:
+☐ IAS kiracısı BTP subaccount'ta yapılandırıldı
+☐ Uygulama IAS'ta kayıtlı
+☐ Kullanıcı grupları doğru eşlendi
+☐ SAML metadata değişimi yapıldı (gerekiyorsa)
+☐ Test kullanıcısı IdP'de mevcut
 ```
 
 ---
 
-## Cloud Connector Issues
+## Cloud Connector Sorunları
 
-### Connection shows "unreachable"
+### Bağlantı "unreachable" gösteriyor
 
 ```mermaid
 flowchart TD
-    PROB[CC Unreachable] --> C1{CC Service running?}
-    C1 --> |"No"| F1[Start CC service]
-    C1 --> |"Yes"| C2{Connected to BTP?}
-    C2 --> |"No"| F2[Check BTP credentials]
-    C2 --> |"Yes"| C3{Subaccount correct?}
-    C3 --> |"No"| F3[Reconnect to right subaccount]
-    C3 --> |"Yes"| F4[Check firewall rules]
+    PROB[CC Erişilemez] --> C1{CC Servisi çalışıyor mu?}
+    C1 --> |"Hayır"| F1[CC servisini başlat]
+    C1 --> |"Evet"| C2{BTP'ye bağlı mı?}
+    C2 --> |"Hayır"| F2[BTP kimlik bilgilerini kontrol et]
+    C2 --> |"Evet"| C3{Subaccount doğru mu?}
+    C3 --> |"Hayır"| F3[Doğru subaccount'a yeniden bağlan]
+    C3 --> |"Evet"| F4[Güvenlik duvarı kurallarını kontrol et]
 
     style PROB fill:#f44336,color:white
 ```
 
-**Fix:**
+**Çözüm:**
 ```bash
-# Check CC service status (Windows)
-services.msc → Find "SAP Cloud Connector" → Check status
+# CC servis durumunu kontrol edin (Windows)
+services.msc → "SAP Cloud Connector" bulun → Durumu kontrol edin
 
-# Check CC service status (Linux)
+# CC servis durumunu kontrol edin (Linux)
 systemctl status scc_daemon
 
-# Access CC Admin
+# CC Admin'e erişin
 https://localhost:8443
 ```
 
-**Verify in CC Admin:**
-1. Main connection shows "Connected"
-2. Correct subaccount connected
-3. No certificate errors
+**CC Admin'de doğrulayın:**
+1. Ana bağlantı "Connected" gösteriyor
+2. Doğru subaccount bağlı
+3. Sertifika hatası yok
 
 ---
 
-### "No route to host" for on-prem
+### On-prem için "No route to host"
 
-**Cause**: Virtual mapping issue
+**Neden**: Sanal eşleme sorunu
 
-**Fix:**
-1. Verify virtual host mapping in CC
-2. Check path exposure in resources
-3. Test internal connectivity from CC server
+**Çözüm:**
+1. CC'de sanal host eşlemesini doğrulayın
+2. Kaynaklarda yol açığa çıkarmasını kontrol edin
+3. CC sunucusundan dahili bağlantıyı test edin
 
 ```yaml
-Cloud Connector Checklist:
-☐ Virtual host configured (e.g., "s4-virtual")
-☐ Internal host reachable from CC server
-☐ Paths exposed in Resources
-☐ Access policy correct (Path and All Sub-Paths)
-☐ No firewall blocking CC → internal system
+Cloud Connector Kontrol Listesi:
+☐ Sanal host yapılandırıldı (örn. "s4-virtual")
+☐ Dahili host CC sunucusundan erişilebilir
+☐ Yollar Kaynaklarda açığa çıkarıldı
+☐ Erişim politikası doğru (Path and All Sub-Paths)
+☐ CC → dahili sistem arasında güvenlik duvarı engellemesi yok
 ```
 
 ---
 
-## Performance Issues
+## Performans Sorunları
 
-### Slow Joule responses
+### Yavaş Joule yanıtları
 
 ```mermaid
 flowchart TD
-    PROB[Slow Responses] --> C1{Which phase slow?}
-    C1 --> |"AI Processing"| F1[Simplify grounding]
-    C1 --> |"Backend Call"| F2[Optimize API]
-    C1 --> |"Token Fetch"| F3[Check auth service]
+    PROB[Yavaş Yanıtlar] --> C1{Hangi aşama yavaş?}
+    C1 --> |"AI İşleme"| F1[Grounding'i basitleştirin]
+    C1 --> |"Backend Çağrısı"| F2[API'yi optimize edin]
+    C1 --> |"Token Alma"| F3[Kimlik doğrulama servisini kontrol edin]
 
     style PROB fill:#f44336,color:white
 ```
 
-**Common causes and fixes:**
+**Yaygın nedenler ve çözümler:**
 
-| Cause | Symptom | Fix |
-|-------|---------|-----|
-| Large grounding docs | Initial response slow | Split/optimize documents |
-| Slow backend API | Consistent delays | Add caching, optimize query |
-| AI overload | Intermittent slowness | Wait, try again later |
-| Network latency | Region mismatch | Use same region for all services |
+| Neden | Belirti | Çözüm |
+|-------|---------|-------|
+| Büyük grounding dokümanları | İlk yanıt yavaş | Dokümanları bölün/optimize edin |
+| Yavaş backend API | Tutarlı gecikmeler | Önbellekleme ekleyin, sorguyu optimize edin |
+| AI aşırı yükü | Aralıklı yavaşlık | Bekleyin, daha sonra tekrar deneyin |
+| Ağ gecikmesi | Bölge uyumsuzluğu | Tüm servisler için aynı bölgeyi kullanın |
 
 ---
 
-### Destination timeout
+### Destination zaman aşımı
 
-**Cause**: Target system too slow
+**Neden**: Hedef sistem çok yavaş
 
-**Fix:**
+**Çözüm:**
 ```yaml
-# Increase timeout in destination
+# Destination'da zaman aşımını artırın
 Additional Properties:
-  timeout: 60000  # milliseconds (60 seconds)
+  timeout: 60000  # milisaniye (60 saniye)
 
-# Or optimize the backend:
-1. Add indexes to frequently queried fields
-2. Limit result set with $top or $filter
-3. Use $select to retrieve only needed fields
+# Veya backend'i optimize edin:
+1. Sık sorgulanan alanlara indeks ekleyin
+2. Sonuç kümesini $top veya $filter ile sınırlayın
+3. Yalnızca gerekli alanları almak için $select kullanın
 ```
 
 ---
 
-## Deployment Issues
+## Dağıtım Sorunları
 
-### MTA deployment fails
+### MTA dağıtımı başarısız
 
 ```mermaid
 flowchart TD
-    PROB[MTA Deploy Failed] --> C1{Build succeeded?}
-    C1 --> |"No"| F1[Fix build errors]
-    C1 --> |"Yes"| C2{Quota available?}
-    C2 --> |"No"| F2[Check entitlements]
-    C2 --> |"Yes"| C3{Permissions?}
-    C3 --> |"No"| F3[Check user roles]
-    C3 --> |"Yes"| F4[Check deployment logs]
+    PROB[MTA Dağıtım Başarısız] --> C1{Build başarılı mı?}
+    C1 --> |"Hayır"| F1[Build hatalarını düzeltin]
+    C1 --> |"Evet"| C2{Kota mevcut mu?}
+    C2 --> |"Hayır"| F2[Entitlement'ları kontrol edin]
+    C2 --> |"Evet"| C3{İzinler?}
+    C3 --> |"Hayır"| F3[Kullanıcı rollerini kontrol edin]
+    C3 --> |"Evet"| F4[Dağıtım günlüklerini kontrol edin]
 
     style PROB fill:#f44336,color:white
 ```
 
-**Common MTA errors:**
+**Yaygın MTA hataları:**
 
-| Error | Cause | Fix |
-|-------|-------|-----|
-| "Insufficient quota" | No entitlements | Assign entitlements in cockpit |
-| "Service broker error" | Service not available | Check service availability |
-| "Route already exists" | URL conflict | Change route in manifest |
-| "Authorization failed" | Missing deploy rights | Add SpaceDeveloper role |
+| Hata | Neden | Çözüm |
+|------|-------|-------|
+| "Insufficient quota" | Entitlement yok | Cockpit'te entitlement'ları atayın |
+| "Service broker error" | Servis mevcut değil | Servis kullanılabilirliğini kontrol edin |
+| "Route already exists" | URL çakışması | Manifest'te route'u değiştirin |
+| "Authorization failed" | Dağıtım hakları eksik | SpaceDeveloper rolü ekleyin |
 
 ---
 
-## General Debugging Tips
+## Genel Hata Ayıklama İpuçları
 
-### Where to find logs
+### Günlükler nerede bulunur
 
-| Component | Log Location |
-|-----------|--------------|
-| **BTP Apps** | BTP Cockpit → Subaccount → Spaces → App → Logs |
+| Bileşen | Günlük Konumu |
+|---------|---------------|
+| **BTP Uygulamaları** | BTP Cockpit → Subaccount → Spaces → App → Logs |
 | **Cloud Connector** | `<CC_Install>/log/ljs_trace.log` |
 | **Destinations** | BTP Cockpit → Connectivity → Destinations → Check Connection |
 | **Joule** | Joule Studio → Deployment → Logs |
 | **ABAP Environment** | ADT → ABAP Console |
 
-### Useful Commands
+### Yararlı Komutlar
 
 ```bash
-# Cloud Foundry CLI - view app logs
+# Cloud Foundry CLI - uygulama günlüklerini görüntüle
 cf logs APP_NAME --recent
 
-# Cloud Foundry CLI - stream logs
+# Cloud Foundry CLI - günlükleri canlı izle
 cf logs APP_NAME
 
-# Check app status
+# Uygulama durumunu kontrol et
 cf apps
 
-# Check services
+# Servisleri kontrol et
 cf services
 ```
 
-### General Checklist
+### Genel Kontrol Listesi
 
 ```yaml
-Before asking for help, verify:
-☐ Correct subaccount/space selected
-☐ User has required permissions
-☐ All dependencies deployed
-☐ Destination accessible (Check Connection)
-☐ Recent changes that might have broken it
-☐ Error message read completely
-☐ Logs reviewed
+Yardım istemeden önce doğrulayın:
+☐ Doğru subaccount/space seçili
+☐ Kullanıcı gerekli izinlere sahip
+☐ Tüm bağımlılıklar dağıtıldı
+☐ Destination erişilebilir (Check Connection)
+☐ Bozmuş olabilecek son değişiklikler
+☐ Hata mesajı tamamen okundu
+☐ Günlükler incelendi
 ```
 
 ---
 
-## Getting Help
+## Yardım Alma
 
-1. **Check SAP Notes** — [launchpad.support.sap.com](https://launchpad.support.sap.com)
-2. **Search SAP Community** — [community.sap.com](https://community.sap.com)
-3. **Stack Overflow** — Tag: `sap`, `sap-cloud-platform`, `sapui5`
-4. **SAP Support** — Open incident if licensed
+1. **SAP Notlarını Kontrol Edin** — [launchpad.support.sap.com](https://launchpad.support.sap.com)
+2. **SAP Topluluğunu Arayın** — [community.sap.com](https://community.sap.com)
+3. **Stack Overflow** — Etiket: `sap`, `sap-cloud-platform`, `sapui5`
+4. **SAP Desteği** — Lisanslıysanız incident açın
 
 ---
 
@@ -460,6 +460,6 @@ Before asking for help, verify:
 
 ---
 
-**Yazar:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Storyteller & Digital Transformation Advocate
+**Yazar:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Hikaye Anlatıcısı & Dijital Dönüşüm Savunucusu
 
-*Oluşturuldu ❤️ dünya genelindeki SAP öğrencileri için*
+*Dünya genelindeki SAP öğrencileri için ❤️ ile oluşturuldu*

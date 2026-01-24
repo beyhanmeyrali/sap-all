@@ -1,51 +1,51 @@
-# Ek C: Useful Links & Resources
+# Ek C: Faydalı Bağlantılar & Kaynaklar
 
-> *Official Documentation and Community*
+> *Resmi Dokümantasyon ve Topluluk*
 
 ---
 
-## Resource Map
+## Kaynak Haritası
 
 ```mermaid
 mindmap
-  root((Learning Resources))
-    Official SAP
-      SAP Help Portal
-      SAP Developers
-      SAP Community
-      SAP Learning Hub
-    Development
+  root((Öğrenme Kaynakları))
+    Resmi SAP
+      SAP Yardım Portalı
+      SAP Geliştiriciler
+      SAP Topluluğu
+      SAP Öğrenme Merkezi
+    Geliştirme
       SAP Business Accelerator Hub
       GitHub SAP-samples
-      CAP Documentation
+      CAP Dokümantasyonu
       SAPUI5 SDK
-    Tools
+    Araçlar
       BTP Cockpit
       Business Application Studio
       Joule Studio
       Cloud Connector
-    Community
-      SAP Blogs
-      YouTube Channels
+    Topluluk
+      SAP Blogları
+      YouTube Kanalları
       Stack Overflow
-      LinkedIn Groups
+      LinkedIn Grupları
 ```
 
 ---
 
-## SAP Help Documentation
+## SAP Yardım Dokümantasyonu
 
-| Topic | Link | Description |
-|-------|------|-------------|
-| **SAP BTP Documentation** | [help.sap.com/btp](https://help.sap.com/docs/btp) | Main BTP documentation |
-| **SAP BTP Cockpit (Production)** | [cockpit.btp.cloud.sap](https://cockpit.btp.cloud.sap) | Production BTP access |
-| **SAP BTP Cockpit (Trial)** | [cockpit.hanatrial.ondemand.com](https://cockpit.hanatrial.ondemand.com) | Free trial access |
-| **Joule Documentation** | [help.sap.com/joule](https://help.sap.com/docs/joule) | Joule AI documentation |
-| **SAP Build** | [help.sap.com/build](https://help.sap.com/docs/build) | Low-code platform docs |
-| **Cloud Connector** | [help.sap.com/connectivity](https://help.sap.com/docs/connectivity) | Cloud Connector guide |
-| **ABAP Environment** | [help.sap.com/abap-environment](https://help.sap.com/docs/btp/sap-business-technology-platform/abap-environment) | BTP ABAP docs |
-| **Integration Suite** | [help.sap.com/integration-suite](https://help.sap.com/docs/integration-suite) | Integration documentation |
-| **RISE with SAP** | [sap.com/rise](https://www.sap.com/products/rise.html) | RISE overview |
+| Konu | Bağlantı | Açıklama |
+|------|----------|----------|
+| **SAP BTP Dokümantasyonu** | [help.sap.com/btp](https://help.sap.com/docs/btp) | Ana BTP dokümantasyonu |
+| **SAP BTP Cockpit (Üretim)** | [cockpit.btp.cloud.sap](https://cockpit.btp.cloud.sap) | Üretim BTP erişimi |
+| **SAP BTP Cockpit (Deneme)** | [cockpit.hanatrial.ondemand.com](https://cockpit.hanatrial.ondemand.com) | Ücretsiz deneme erişimi |
+| **Joule Dokümantasyonu** | [help.sap.com/joule](https://help.sap.com/docs/joule) | Joule AI dokümantasyonu |
+| **SAP Build** | [help.sap.com/build](https://help.sap.com/docs/build) | Düşük kod platformu dokümantasyonu |
+| **Cloud Connector** | [help.sap.com/connectivity](https://help.sap.com/docs/connectivity) | Cloud Connector kılavuzu |
+| **ABAP Environment** | [help.sap.com/abap-environment](https://help.sap.com/docs/btp/sap-business-technology-platform/abap-environment) | BTP ABAP dokümantasyonu |
+| **Integration Suite** | [help.sap.com/integration-suite](https://help.sap.com/docs/integration-suite) | Entegrasyon dokümantasyonu |
+| **RISE with SAP** | [sap.com/rise](https://www.sap.com/products/rise.html) | RISE genel bakış |
 
 ---
 
@@ -58,56 +58,56 @@ flowchart LR
     HUB[SAP API Hub] --> S4[S/4HANA Cloud APIs]
     HUB --> SF[SuccessFactors APIs]
     HUB --> ARIBA[Ariba APIs]
-    HUB --> BTP[BTP Services APIs]
+    HUB --> BTP[BTP Hizmet APIs]
 
     S4 --> ODATA[OData V2/V4]
-    S4 --> SOAP[SOAP Services]
+    S4 --> SOAP[SOAP Servisleri]
     S4 --> REST[REST APIs]
 
     style HUB fill:#2196F3,color:white
 ```
 
-### Key API Collections
+### Temel API Koleksiyonları
 
-| Product | API Path | Common Use |
-|---------|----------|------------|
-| **S/4HANA Cloud** | Business Accelerator Hub → S/4HANA | Sales, Procurement, Finance |
-| **SuccessFactors** | Business Accelerator Hub → SuccessFactors | HR, Recruiting, Learning |
-| **SAP Ariba** | Business Accelerator Hub → Ariba | Procurement Network |
-| **SAP Analytics Cloud** | Business Accelerator Hub → SAC | Analytics APIs |
+| Ürün | API Yolu | Yaygın Kullanım |
+|------|----------|-----------------|
+| **S/4HANA Cloud** | Business Accelerator Hub → S/4HANA | Satış, Satınalma, Finans |
+| **SuccessFactors** | Business Accelerator Hub → SuccessFactors | İK, İşe Alım, Öğrenme |
+| **SAP Ariba** | Business Accelerator Hub → Ariba | Satınalma Ağı |
+| **SAP Analytics Cloud** | Business Accelerator Hub → SAC | Analitik APIs |
 
-### How to Use API Hub
+### API Hub Nasıl Kullanılır
 
-1. **Browse APIs:** Search for your domain (Sales, HR, etc.)
-2. **Try it out:** Use sandbox environment
-3. **Get spec:** Download OpenAPI/EDMX file
-4. **Implement:** Use spec in your app or Joule skill
-
----
-
-## SAP Developer Resources
-
-| Resource | Link | Description |
-|----------|------|-------------|
-| **SAP Developers Portal** | [developers.sap.com](https://developers.sap.com) | Main developer site |
-| **Tutorial Navigator** | [developers.sap.com/tutorial-navigator](https://developers.sap.com/tutorial-navigator.html) | Step-by-step tutorials |
-| **Mission Navigator** | [developers.sap.com/mission](https://developers.sap.com/mission.html) | Learning missions |
-| **CAP Documentation** | [cap.cloud.sap](https://cap.cloud.sap/docs/) | Cloud Application Programming |
-| **SAPUI5 SDK** | [sapui5.hana.ondemand.com](https://sapui5.hana.ondemand.com) | UI5 documentation |
-| **Fiori Design Guidelines** | [experience.sap.com/fiori-design](https://experience.sap.com/fiori-design-web/) | UX guidelines |
+1. **APIs'e Göz Atın:** Alanınızı arayın (Satış, İK, vb.)
+2. **Deneyin:** Sandbox ortamını kullanın
+3. **Şartname Alın:** OpenAPI/EDMX dosyasını indirin
+4. **Uygulayın:** Şartnameyi uygulamanızda veya Joule becerisinde kullanın
 
 ---
 
-## SAP Community
+## SAP Geliştirici Kaynakları
 
-| Resource | Link | Description |
-|----------|------|-------------|
-| **SAP Community** | [community.sap.com](https://community.sap.com) | Main community |
-| **SAP Blogs** | [blogs.sap.com](https://blogs.sap.com) | Technical articles |
-| **Q&A Section** | [answers.sap.com](https://answers.sap.com) | Ask questions |
-| **Events** | [events.sap.com](https://events.sap.com) | Webinars, TechEd |
+| Kaynak | Bağlantı | Açıklama |
+|--------|----------|----------|
+| **SAP Geliştiriciler Portalı** | [developers.sap.com](https://developers.sap.com) | Ana geliştirici sitesi |
+| **Öğretici Gezgini** | [developers.sap.com/tutorial-navigator](https://developers.sap.com/tutorial-navigator.html) | Adım adım öğreticiler |
+| **Görev Gezgini** | [developers.sap.com/mission](https://developers.sap.com/mission.html) | Öğrenme görevleri |
+| **CAP Dokümantasyonu** | [cap.cloud.sap](https://cap.cloud.sap/docs/) | Cloud Application Programming |
+| **SAPUI5 SDK** | [sapui5.hana.ondemand.com](https://sapui5.hana.ondemand.com) | UI5 dokümantasyonu |
+| **Fiori Tasarım Kılavuzları** | [experience.sap.com/fiori-design](https://experience.sap.com/fiori-design-web/) | UX kılavuzları |
 
-### Popular Blog Tags
+---
+
+## SAP Topluluğu
+
+| Kaynak | Bağlantı | Açıklama |
+|--------|----------|----------|
+| **SAP Topluluğu** | [community.sap.com](https://community.sap.com) | Ana topluluk |
+| **SAP Blogları** | [blogs.sap.com](https://blogs.sap.com) | Teknik makaleler |
+| **Soru-Cevap Bölümü** | [answers.sap.com](https://answers.sap.com) | Soru sorun |
+| **Etkinlikler** | [events.sap.com](https://events.sap.com) | Webinarlar, TechEd |
+
+### Popüler Blog Etiketleri
 
 - `#SAP BTP`
 - `#SAP Joule`
@@ -118,109 +118,109 @@ flowchart LR
 
 ---
 
-## GitHub Samples
+## GitHub Örnekleri
 
-| Repository | Link | Content |
-|------------|------|---------|
-| **SAP-samples** | [github.com/SAP-samples](https://github.com/SAP-samples) | Official samples |
-| **cloud-cap-samples** | [github.com/SAP-samples/cloud-cap-samples](https://github.com/SAP-samples/cloud-cap-samples) | CAP examples |
-| **abap-platform-rap-workshops** | [github.com/SAP-samples/abap-platform-rap-workshops](https://github.com/SAP-samples/abap-platform-rap-workshops) | RAP workshops |
-| **btp-setup-automator** | [github.com/SAP-samples/btp-setup-automator](https://github.com/SAP-samples/btp-setup-automator) | Automate BTP setup |
+| Depo | Bağlantı | İçerik |
+|------|----------|--------|
+| **SAP-samples** | [github.com/SAP-samples](https://github.com/SAP-samples) | Resmi örnekler |
+| **cloud-cap-samples** | [github.com/SAP-samples/cloud-cap-samples](https://github.com/SAP-samples/cloud-cap-samples) | CAP örnekleri |
+| **abap-platform-rap-workshops** | [github.com/SAP-samples/abap-platform-rap-workshops](https://github.com/SAP-samples/abap-platform-rap-workshops) | RAP atölyeleri |
+| **btp-setup-automator** | [github.com/SAP-samples/btp-setup-automator](https://github.com/SAP-samples/btp-setup-automator) | BTP kurulumunu otomatikleştirin |
 | **cloud-sdk** | [github.com/SAP/cloud-sdk](https://github.com/SAP/cloud-sdk) | Cloud SDK |
 
 ---
 
-## Learning Paths
+## Öğrenme Yolları
 
 ```mermaid
 flowchart TD
-    START[Start Learning] --> LEVEL{Your Level?}
+    START[Öğrenmeye Başla] --> LEVEL{Seviyeniz?}
 
-    LEVEL --> |"Beginner"| BEG[SAP Learning Journey]
-    LEVEL --> |"Intermediate"| INT[Tutorial Navigator]
-    LEVEL --> |"Advanced"| ADV[GitHub Samples + Docs]
+    LEVEL --> |"Başlangıç"| BEG[SAP Öğrenme Yolculuğu]
+    LEVEL --> |"Orta"| INT[Öğretici Gezgini]
+    LEVEL --> |"İleri"| ADV[GitHub Örnekleri + Dokümantasyon]
 
-    BEG --> OPENSAP[openSAP Courses]
-    INT --> MISSIONS[Developer Missions]
-    ADV --> CERT[Certification Prep]
+    BEG --> OPENSAP[openSAP Kursları]
+    INT --> MISSIONS[Geliştirici Görevleri]
+    ADV --> CERT[Sertifikasyon Hazırlığı]
 
     style START fill:#2196F3,color:white
     style OPENSAP fill:#4CAF50,color:white
 ```
 
-| Platform | Link | Description | Cost |
-|----------|------|-------------|------|
-| **SAP Learning Hub** | [learning.sap.com](https://learning.sap.com) | Official training | Subscription |
-| **openSAP** | [open.sap.com](https://open.sap.com) | Free online courses | Free |
-| **SAP Tutorials** | [developers.sap.com/tutorials](https://developers.sap.com/tutorial-navigator.html) | Hands-on tutorials | Free |
-| **Coursera** | SAP courses on Coursera | Partner courses | Varies |
+| Platform | Bağlantı | Açıklama | Maliyet |
+|----------|----------|----------|---------|
+| **SAP Learning Hub** | [learning.sap.com](https://learning.sap.com) | Resmi eğitim | Abonelik |
+| **openSAP** | [open.sap.com](https://open.sap.com) | Ücretsiz çevrimiçi kurslar | Ücretsiz |
+| **SAP Öğreticiler** | [developers.sap.com/tutorials](https://developers.sap.com/tutorial-navigator.html) | Uygulamalı öğreticiler | Ücretsiz |
+| **Coursera** | Coursera'da SAP kursları | Partner kursları | Değişken |
 
-### Recommended Learning Order for ABAPers
+### ABAP Geliştiricileri için Önerilen Öğrenme Sırası
 
 1. **openSAP:** "Discover SAP Business Technology Platform"
-2. **Tutorial:** Set up BTP Trial Account
-3. **Tutorial:** Create your first RAP application
-4. **Mission:** Build a Side-by-Side Extension
+2. **Öğretici:** BTP Deneme Hesabı Oluşturma
+3. **Öğretici:** İlk RAP Uygulamanızı Oluşturun
+4. **Görev:** Yan Yana Uzantı Oluşturma
 5. **openSAP:** "Building Applications with the ABAP RESTful Application Programming Model"
 
 ---
 
-## YouTube Channels
+## YouTube Kanalları
 
-| Channel | Content | Link |
-|---------|---------|------|
-| **SAP Developers** | Technical tutorials | [youtube.com/@SAPDevs](https://www.youtube.com/@SAPDevs) |
-| **SAP Learning** | Training videos | [youtube.com/@SAPLearning](https://www.youtube.com/@SAPLearning) |
-| **SAP TechEd** | Conference sessions | [youtube.com/SAP](https://www.youtube.com/SAP) |
-| **Thomas Jung** | ABAP/CAP deep dives | Search "Thomas Jung SAP" |
-
----
-
-## Useful Tools
-
-| Tool | Purpose | Link |
-|------|---------|------|
-| **Postman** | API testing | [postman.com](https://www.postman.com) |
-| **Bruno** | Open-source API client | [usebruno.com](https://www.usebruno.com) |
-| **Git** | Version control | [git-scm.com](https://git-scm.com) |
-| **VS Code** | Local development | [code.visualstudio.com](https://code.visualstudio.com) |
-| **Eclipse ADT** | ABAP development | [tools.hana.ondemand.com](https://tools.hana.ondemand.com) |
-| **draw.io** | Diagrams | [draw.io](https://app.diagrams.net) |
-| **Mermaid Live** | Mermaid diagrams | [mermaid.live](https://mermaid.live) |
+| Kanal | İçerik | Bağlantı |
+|-------|--------|----------|
+| **SAP Developers** | Teknik öğreticiler | [youtube.com/@SAPDevs](https://www.youtube.com/@SAPDevs) |
+| **SAP Learning** | Eğitim videoları | [youtube.com/@SAPLearning](https://www.youtube.com/@SAPLearning) |
+| **SAP TechEd** | Konferans oturumları | [youtube.com/SAP](https://www.youtube.com/SAP) |
+| **Thomas Jung** | ABAP/CAP derinlemesine incelemeler | "Thomas Jung SAP" arayın |
 
 ---
 
-## Certification Paths
+## Faydalı Araçlar
 
-| Certification | Code | Focus |
-|---------------|------|-------|
-| **SAP Certified Development Associate - SAP BTP** | C_BTP_2308 | BTP fundamentals |
-| **SAP Certified Development Associate - ABAP with SAP NetWeaver** | C_TAW12_750 | Classic ABAP |
-| **SAP Certified Development Associate - SAP Fiori Application Developer** | C_FIORDEV_22 | Fiori development |
-| **SAP Certified Application Associate - SAP S/4HANA Cloud** | Various | S/4 functional |
+| Araç | Amaç | Bağlantı |
+|------|------|----------|
+| **Postman** | API testi | [postman.com](https://www.postman.com) |
+| **Bruno** | Açık kaynak API istemcisi | [usebruno.com](https://www.usebruno.com) |
+| **Git** | Sürüm kontrolü | [git-scm.com](https://git-scm.com) |
+| **VS Code** | Yerel geliştirme | [code.visualstudio.com](https://code.visualstudio.com) |
+| **Eclipse ADT** | ABAP geliştirme | [tools.hana.ondemand.com](https://tools.hana.ondemand.com) |
+| **draw.io** | Diyagramlar | [draw.io](https://app.diagrams.net) |
+| **Mermaid Live** | Mermaid diyagramları | [mermaid.live](https://mermaid.live) |
 
 ---
 
-## Quick Links Bookmark Collection
+## Sertifikasyon Yolları
+
+| Sertifikasyon | Kod | Odak |
+|---------------|-----|------|
+| **SAP Certified Development Associate - SAP BTP** | C_BTP_2308 | BTP temelleri |
+| **SAP Certified Development Associate - ABAP with SAP NetWeaver** | C_TAW12_750 | Klasik ABAP |
+| **SAP Certified Development Associate - SAP Fiori Application Developer** | C_FIORDEV_22 | Fiori geliştirme |
+| **SAP Certified Application Associate - SAP S/4HANA Cloud** | Çeşitli | S/4 fonksiyonel |
+
+---
+
+## Hızlı Bağlantılar Yer İmi Koleksiyonu
 
 ```markdown
-# BTP Quick Links (copy to bookmarks)
+# BTP Hızlı Bağlantılar (yer imlerine kopyalayın)
 
-## Daily Use
+## Günlük Kullanım
 - BTP Cockpit: https://cockpit.btp.cloud.sap
 - BAS: https://eu10.applicationstudio.cloud.sap
 - API Hub: https://api.sap.com
-- SAP Help: https://help.sap.com
+- SAP Yardım: https://help.sap.com
 
-## Development
+## Geliştirme
 - SAPUI5: https://sapui5.hana.ondemand.com
-- CAP Docs: https://cap.cloud.sap
-- Fiori Design: https://experience.sap.com/fiori-design-web
+- CAP Dokümantasyon: https://cap.cloud.sap
+- Fiori Tasarım: https://experience.sap.com/fiori-design-web
 
-## Learning
-- Tutorials: https://developers.sap.com/tutorial-navigator.html
+## Öğrenme
+- Öğreticiler: https://developers.sap.com/tutorial-navigator.html
 - openSAP: https://open.sap.com
-- Community: https://community.sap.com
+- Topluluk: https://community.sap.com
 ```
 
 ---
@@ -229,6 +229,6 @@ flowchart TD
 
 ---
 
-**Yazar:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Storyteller & Digital Transformation Advocate
+**Yazar:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Hikaye Anlatıcısı & Dijital Dönüşüm Savunucusu
 
-*Oluşturuldu ❤️ dünya genelindeki SAP öğrencileri için*
+*Dünya genelindeki SAP öğrencileri için ❤️ ile oluşturuldu*

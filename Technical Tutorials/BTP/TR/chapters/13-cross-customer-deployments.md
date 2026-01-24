@@ -1,160 +1,160 @@
-# Kısım 13: Cross-Customer Deployments
+# Kısım 13: Müşteriler Arası Deployment'lar
 
-> *Same Solution, Different Clients*
-
----
-
-You've built a great solution. Now you want to deploy it to multiple clients without reinventing the wheel each time. This chapter covers the patterns and trade-offs.
+> *Aynı Çözüm, Farklı Müşteriler*
 
 ---
 
-## 13.1 Deployment Patterns Overview
+Harika bir çözüm geliştirdiniz. Şimdi bunu her seferinde sıfırdan başlamadan birden fazla müşteriye dağıtmak istiyorsunuz. Bu bölüm, bu süreçteki kalıpları ve ödünleşimleri ele alır.
+
+---
+
+## 13.1 Deployment Kalıplarına Genel Bakış
 
 ```mermaid
 graph TD
-    subgraph "Pattern 1: Template + Recreation"
-        T1[Golden Template]
-        T1 --> C1[Client A Instance]
-        T1 --> C2[Client B Instance]
-        T1 --> C3[Client C Instance]
+    subgraph "Kalıp 1: Şablon + Yeniden Oluşturma"
+        T1[Altın Şablon]
+        T1 --> C1[Müşteri A Örneği]
+        T1 --> C2[Müşteri B Örneği]
+        T1 --> C3[Müşteri C Örneği]
     end
 
-    subgraph "Pattern 2: Multi-Tenant SaaS"
-        MT[Single Deployment]
-        MT --> T1A[Tenant A Data]
-        MT --> T1B[Tenant B Data]
-        MT --> T1C[Tenant C Data]
+    subgraph "Kalıp 2: Multi-Tenant SaaS"
+        MT[Tek Deployment]
+        MT --> T1A[Kiracı A Verisi]
+        MT --> T1B[Kiracı B Verisi]
+        MT --> T1C[Kiracı C Verisi]
     end
 ```
 
-| Pattern | Best For | Effort per Client | Initial Setup |
-|---------|----------|------------------|---------------|
-| **Template + Recreation** | Consulting projects | Medium | Low |
-| **Multi-Tenant SaaS** | Productized solutions | Low | High |
+| Kalıp | En Uygun Olduğu Durum | Müşteri Başına Efor | Başlangıç Kurulumu |
+|-------|----------------------|--------------------|--------------------|
+| **Şablon + Yeniden Oluşturma** | Danışmanlık projeleri | Orta | Düşük |
+| **Multi-Tenant SaaS** | Ürünleştirilmiş çözümler | Düşük | Yüksek |
 
 ---
 
-## 13.2 Pattern 1: Template + Per-Client Recreation
+## 13.2 Kalıp 1: Şablon + Müşteri Başına Yeniden Oluşturma
 
 ### Nasıl Çalışır
 
 ```mermaid
 sequenceDiagram
-    participant T as Template Subaccount
-    participant N as New Client Subaccount
-    participant C as Customization
+    participant T as Şablon Subaccount
+    participant N as Yeni Müşteri Subaccount
+    participant C as Özelleştirme
 
-    Note over T: Build golden template<br/>once, maintain centrally
+    Note over T: Altın şablonu bir kez oluştur,<br/>merkezi olarak yönet
 
-    T->>N: Export agents/skills
-    T->>N: Export Fiori apps
-    T->>N: Copy configurations
+    T->>N: Agent'ları/becerileri dışa aktar
+    T->>N: Fiori uygulamalarını dışa aktar
+    T->>N: Konfigürasyonları kopyala
 
-    N->>C: Add client destinations
-    N->>C: Upload grounding docs
-    N->>C: Customize branding
-    N->>C: Deploy
+    N->>C: Müşteri destination'larını ekle
+    N->>C: Grounding dokümanlarını yükle
+    N->>C: Markalamayı özelleştir
+    N->>C: Deploy et
 
-    Note over N: Client owns their instance
+    Note over N: Müşteri kendi örneğine sahiptir
 ```
 
-### Step-by-Step Process
+### Adım Adım Süreç
 
-**1. Build the Template:**
+**1. Şablonu Oluşturun:**
 ```yaml
-Template Subaccount Contents:
-  Agents:
-    - Customer Service Agent (generic)
-    - Finance Assistant (generic)
+Şablon Subaccount İçeriği:
+  Agent'lar:
+    - Müşteri Hizmetleri Agent'ı (genel)
+    - Finans Asistanı (genel)
 
-  Skills:
-    - Get Order Status
-    - Create Return
-    - Check Inventory
+  Beceriler:
+    - Sipariş Durumu Getir
+    - İade Oluştur
+    - Stok Kontrol Et
 
-  Fiori Apps:
-    - Sales Dashboard
-    - Order Management
+  Fiori Uygulamaları:
+    - Satış Dashboard'u
+    - Sipariş Yönetimi
 
-  Documentation:
-    - Setup guide
-    - Customization guide
-    - Destination configuration template
+  Dokümantasyon:
+    - Kurulum kılavuzu
+    - Özelleştirme kılavuzu
+    - Destination konfigürasyon şablonu
 ```
 
-**2. For Each New Client:**
+**2. Her Yeni Müşteri İçin:**
 
 ```mermaid
 flowchart TD
-    A[Create client subaccount] --> B[Import from template]
-    B --> C[Create client-specific destinations]
-    C --> D[Upload client grounding docs]
-    D --> E[Update agent instructions if needed]
-    E --> F[Test with client data]
-    F --> G[Deploy to production]
-    G --> H[Handover to client]
+    A[Müşteri subaccount'u oluştur] --> B[Şablondan içe aktar]
+    B --> C[Müşteriye özel destination'lar oluştur]
+    C --> D[Müşteri grounding dokümanlarını yükle]
+    D --> E[Gerekirse agent talimatlarını güncelle]
+    E --> F[Müşteri verisiyle test et]
+    F --> G[Prodüksiyona deploy et]
+    G --> H[Müşteriye devret]
 ```
 
-### Örnek: Customer Service Agent Deployment
+### Örnek: Müşteri Hizmetleri Agent'ı Deployment'ı
 
-**Template Agent Instructions:**
+**Şablon Agent Talimatları:**
 ```markdown
-You are a customer service assistant for {COMPANY_NAME}.
-Help customers with order inquiries, returns, and shipping questions.
+{COMPANY_NAME} için bir müşteri hizmetleri asistanısınız.
+Müşterilere sipariş sorguları, iadeler ve kargo sorularında yardımcı olun.
 
-When looking up orders, use the GetOrderStatus skill.
-When creating returns, check the return policy document first.
+Siparişleri sorgularken GetOrderStatus becerisini kullanın.
+İade oluştururken önce iade politikası dokümanını kontrol edin.
 ```
 
-**Client A Customization:**
+**Müşteri A Özelleştirmesi:**
 ```markdown
-You are a customer service assistant for ACME Electronics.
-Help customers with order inquiries, returns, and shipping questions.
-ACME offers a 45-day return policy (extended from standard 30 days).
+ACME Electronics için bir müşteri hizmetleri asistanısınız.
+Müşterilere sipariş sorguları, iadeler ve kargo sorularında yardımcı olun.
+ACME, standart 30 günden uzatılmış 45 günlük iade politikası sunar.
 ```
 
-**Client B Customization:**
+**Müşteri B Özelleştirmesi:**
 ```markdown
-You are a customer service assistant for Global Widgets Inc.
-Help customers with order inquiries, returns, and shipping questions.
-Global Widgets requires RMA numbers for all returns.
+Global Widgets Inc. için bir müşteri hizmetleri asistanısınız.
+Müşterilere sipariş sorguları, iadeler ve kargo sorularında yardımcı olun.
+Global Widgets, tüm iadeler için RMA numarası gerektirir.
 ```
 
-### Pros and Cons
+### Artılar ve Eksiler
 
-| Aspect | Pros | Cons |
-|--------|------|------|
-| **Isolation** | ✅ Complete client separation | |
-| **Customization** | ✅ Full flexibility per client | |
-| **Handover** | ✅ Client owns everything | |
-| **Updates** | | ❌ Manual propagation of changes |
-| **Effort** | | ❌ Setup work per client |
+| Boyut | Artılar | Eksiler |
+|-------|---------|---------|
+| **İzolasyon** | ✅ Tam müşteri ayrımı | |
+| **Özelleştirme** | ✅ Müşteri başına tam esneklik | |
+| **Devir** | ✅ Müşteri her şeyin sahibi | |
+| **Güncellemeler** | | ❌ Değişikliklerin manuel yayılması |
+| **Efor** | | ❌ Müşteri başına kurulum işi |
 
 ---
 
-## 13.3 Pattern 2: Multi-Tenant SaaS Mode
+## 13.3 Kalıp 2: Multi-Tenant SaaS Modu
 
-### Architecture Overview
+### Mimari Genel Bakış
 
 ```mermaid
 graph TD
-    subgraph "Provider Subaccount"
-        APP[Your Application]
-        APP --> |"Tenant Header"| ROUTE{Router}
-        ROUTE --> |"tenant=acme"| DB_A[(ACME Data)]
-        ROUTE --> |"tenant=globex"| DB_B[(GLOBEX Data)]
+    subgraph "Sağlayıcı Subaccount"
+        APP[Uygulamanız]
+        APP --> |"Tenant Header"| ROUTE{Yönlendirici}
+        ROUTE --> |"tenant=acme"| DB_A[(ACME Verisi)]
+        ROUTE --> |"tenant=globex"| DB_B[(GLOBEX Verisi)]
     end
 
-    subgraph "Consumer Subaccounts"
-        C1[ACME subscribes]
-        C2[GLOBEX subscribes]
+    subgraph "Tüketici Subaccount'ları"
+        C1[ACME abone olur]
+        C2[GLOBEX abone olur]
     end
 
     C1 --> APP
     C2 --> APP
 ```
 
-### How Multi-Tenancy Works in BTP
+### BTP'de Multi-Tenancy Nasıl Çalışır
 
 **CAP (Cloud Application Programming) Multi-Tenant:**
 
@@ -162,9 +162,9 @@ graph TD
 // srv/service.js
 module.exports = cds.service.impl(async function() {
   this.on('READ', 'Orders', async (req) => {
-    // CDS automatically filters by tenant
-    const tenant = req.tenant;  // Comes from subscription
-    // Each tenant sees only their data
+    // CDS otomatik olarak tenant'a göre filtreler
+    const tenant = req.tenant;  // Abonelikten gelir
+    // Her tenant sadece kendi verisini görür
     return SELECT.from('Orders').where({ tenant });
   });
 });
@@ -173,92 +173,92 @@ module.exports = cds.service.impl(async function() {
 **BTP ABAP Environment Multi-Tenant:**
 
 ```abap
-" ABAP multi-tenant access
+" ABAP multi-tenant erişimi
 DATA: lv_tenant TYPE /iwxbe/cl_runtime_context=>ty_tenant.
 lv_tenant = cl_rap_xco_auth_runtime=>get_tenant_id( ).
 
-" Data is automatically filtered by tenant
+" Veri otomatik olarak tenant'a göre filtrelenir
 SELECT * FROM zorders WHERE tenant = @lv_tenant INTO TABLE @lt_orders.
 ```
 
-### Subscription Model
+### Abonelik Modeli
 
 ```mermaid
 sequenceDiagram
-    participant P as Provider (Your Company)
+    participant P as Sağlayıcı (Şirketiniz)
     participant M as Marketplace/BTP
-    participant C as Consumer (Client)
+    participant C as Tüketici (Müşteri)
 
-    P->>M: Publish SaaS Application
-    C->>M: Subscribe to Application
-    M->>P: Notify: New tenant "acme"
-    P->>P: Provision tenant "acme"
-    M->>C: Application URL for "acme"
-    C->>P: Access application as tenant
+    P->>M: SaaS Uygulamasını Yayınla
+    C->>M: Uygulamaya Abone Ol
+    M->>P: Bildirim: Yeni tenant "acme"
+    P->>P: "acme" tenant'ını hazırla
+    M->>C: "acme" için Uygulama URL'si
+    C->>P: Tenant olarak uygulamaya eriş
 ```
 
-### Ne Zaman Kullanılır Multi-Tenant
+### Ne Zaman Multi-Tenant Kullanılır
 
-| Scenario | Recommendation |
-|----------|----------------|
-| Selling a packaged product | ✅ Multi-tenant |
-| Many small clients, same solution | ✅ Multi-tenant |
-| Consulting project, full customization | ❌ Use template |
-| Client requires data isolation (compliance) | ❌ Use template |
-| Quick POC | ❌ Use template |
+| Senaryo | Öneri |
+|---------|-------|
+| Paketlenmiş bir ürün satışı | ✅ Multi-tenant |
+| Çok sayıda küçük müşteri, aynı çözüm | ✅ Multi-tenant |
+| Danışmanlık projesi, tam özelleştirme | ❌ Şablon kullanın |
+| Müşteri veri izolasyonu gerektiriyor (uyumluluk) | ❌ Şablon kullanın |
+| Hızlı POC | ❌ Şablon kullanın |
 
 ---
 
-## 13.4 Comparison Table
+## 13.4 Karşılaştırma Tablosu
 
 ```mermaid
 graph TD
-    subgraph "Decision Factors"
-        F1[Number of clients?]
-        F2[Customization needs?]
-        F3[Data isolation requirements?]
-        F4[Maintenance capacity?]
+    subgraph "Karar Faktörleri"
+        F1[Müşteri sayısı?]
+        F2[Özelleştirme ihtiyaçları?]
+        F3[Veri izolasyonu gereksinimleri?]
+        F4[Bakım kapasitesi?]
     end
 
-    F1 --> |"Few"| R1[Template]
-    F1 --> |"Many"| R2[Multi-tenant]
+    F1 --> |"Az"| R1[Şablon]
+    F1 --> |"Çok"| R2[Multi-tenant]
 
-    F2 --> |"High"| R1
-    F2 --> |"Low"| R2
+    F2 --> |"Yüksek"| R1
+    F2 --> |"Düşük"| R2
 
-    F3 --> |"Strict"| R1
-    F3 --> |"Standard"| R2
+    F3 --> |"Katı"| R1
+    F3 --> |"Standart"| R2
 
-    F4 --> |"Limited"| R2
-    F4 --> |"Available"| R1
+    F4 --> |"Sınırlı"| R2
+    F4 --> |"Mevcut"| R1
 ```
 
-| Aspect | Template + Recreation | Multi-Tenant SaaS |
-|--------|----------------------|-------------------|
-| **Initial setup effort** | Low | High |
-| **Per-client effort** | Medium | Low |
-| **Customization flexibility** | Very High | Limited |
-| **Data isolation** | Complete | Logical |
-| **Code maintenance** | Per instance | Single codebase |
-| **Update propagation** | Manual | Automatic |
-| **Client handover** | Easy | Complex |
-| **Scaling to 100+ clients** | Difficult | Easy |
+| Boyut | Şablon + Yeniden Oluşturma | Multi-Tenant SaaS |
+|-------|---------------------------|-------------------|
+| **Başlangıç kurulum eforu** | Düşük | Yüksek |
+| **Müşteri başına efor** | Orta | Düşük |
+| **Özelleştirme esnekliği** | Çok Yüksek | Sınırlı |
+| **Veri izolasyonu** | Tam | Mantıksal |
+| **Kod bakımı** | Örnek başına | Tek kod tabanı |
+| **Güncelleme yayılımı** | Manuel | Otomatik |
+| **Müşteri devri** | Kolay | Karmaşık |
+| **100+ müşteriye ölçekleme** | Zor | Kolay |
 
 ---
 
-## 13.5 Hybrid Approach
+## 13.5 Hibrit Yaklaşım
 
-For many situations, a hybrid works best:
+Birçok durumda, hibrit yaklaşım en iyi sonucu verir:
 
 ```mermaid
 graph TD
-    subgraph "Hybrid Model"
-        CORE[Core Platform<br/>Multi-tenant]
+    subgraph "Hibrit Model"
+        CORE[Çekirdek Platform<br/>Multi-tenant]
 
-        subgraph "Client Extensions"
-            EXT1[ACME<br/>Custom Agent]
-            EXT2[GLOBEX<br/>Custom Report]
-            EXT3[INITECH<br/>Standard only]
+        subgraph "Müşteri Uzantıları"
+            EXT1[ACME<br/>Özel Agent]
+            EXT2[GLOBEX<br/>Özel Rapor]
+            EXT3[INITECH<br/>Sadece Standart]
         end
 
         CORE --> EXT1
@@ -267,63 +267,63 @@ graph TD
     end
 ```
 
-**How it works:**
-- Core application is multi-tenant
-- Client-specific extensions deployed separately
-- Best of both worlds
+**Nasıl Çalışır:**
+- Çekirdek uygulama multi-tenant
+- Müşteriye özel uzantılar ayrı olarak deploy edilir
+- Her iki dünyanın en iyisi
 
 ---
 
-## 13.6 Version Management Across Clients
+## 13.6 Müşteriler Arasında Versiyon Yönetimi
 
-### Template Pattern Version Strategy
+### Şablon Kalıbı Versiyon Stratejisi
 
 ```mermaid
 gitGraph
-    commit id: "Template v1.0"
+    commit id: "Şablon v1.0"
     branch client-acme
-    commit id: "ACME customizations"
+    commit id: "ACME özelleştirmeleri"
     checkout main
-    commit id: "Template v1.1 - Bug fix"
+    commit id: "Şablon v1.1 - Hata düzeltme"
     branch client-globex
-    commit id: "GLOBEX customizations"
+    commit id: "GLOBEX özelleştirmeleri"
     checkout client-acme
-    merge main id: "Merge v1.1 to ACME"
+    merge main id: "v1.1'i ACME'ye birleştir"
     checkout main
-    commit id: "Template v2.0 - New feature"
+    commit id: "Şablon v2.0 - Yeni özellik"
 ```
 
-### Tracking What's Deployed Where
+### Nerede Neyin Deploy Edildiğini Takip Etme
 
 ```yaml
-Deployment Registry:
-  Template Version: 2.1.0
+Deployment Kaydı:
+  Şablon Versiyonu: 2.1.0
 
-  Clients:
+  Müşteriler:
     ACME:
-      Base Version: 2.1.0
-      Customizations: ACME-specific return policy
-      Deployed: 2026-01-20
-      Status: Current
+      Temel Versiyon: 2.1.0
+      Özelleştirmeler: ACME'ye özel iade politikası
+      Deploy Tarihi: 2026-01-20
+      Durum: Güncel
 
     GLOBEX:
-      Base Version: 2.0.0  # Behind!
-      Customizations: RMA workflow
-      Deployed: 2026-01-10
-      Status: Update available
+      Temel Versiyon: 2.0.0  # Geride!
+      Özelleştirmeler: RMA iş akışı
+      Deploy Tarihi: 2026-01-10
+      Durum: Güncelleme mevcut
 
     INITECH:
-      Base Version: 2.1.0
-      Customizations: None
-      Deployed: 2026-01-22
-      Status: Current
+      Temel Versiyon: 2.1.0
+      Özelleştirmeler: Yok
+      Deploy Tarihi: 2026-01-22
+      Durum: Güncel
 ```
 
 ---
 
-## 13.7 Client Onboarding Automation
+## 13.7 Müşteri Onboarding Otomasyonu
 
-### Automated Setup Script
+### Otomatik Kurulum Scripti
 
 ```bash
 #!/bin/bash
@@ -333,70 +333,70 @@ CLIENT_NAME=$1
 REGION=$2
 ENV=$3
 
-# Create subaccount
+# Subaccount oluştur
 btp create account/subaccount \
   --display-name "${REGION}_${CLIENT_NAME}_${ENV}" \
   --region eu10
 
-# Assign entitlements
+# Yetkilendirmeleri ata
 btp assign account/entitlement \
   --to-subaccount "${REGION}_${CLIENT_NAME}_${ENV}" \
   --plan free --amount 1 --service aicore
 
-# Import template agents
+# Şablon agent'ları içe aktar
 joule import --file template_agents.json \
   --subaccount "${REGION}_${CLIENT_NAME}_${ENV}"
 
-# Deploy standard apps
+# Standart uygulamaları deploy et
 cf push -f manifest.yml \
   --var client=${CLIENT_NAME} \
   --var env=${ENV}
 
-echo "Setup complete for ${CLIENT_NAME}"
+echo "${CLIENT_NAME} için kurulum tamamlandı"
 ```
 
-### Checklist Automation
+### Kontrol Listesi Otomasyonu
 
 ```yaml
-Automated Steps:
-  - [x] Create subaccount
-  - [x] Assign entitlements
-  - [x] Enable Cloud Foundry
-  - [x] Import template agents
-  - [x] Deploy standard apps
+Otomatik Adımlar:
+  - [x] Subaccount oluştur
+  - [x] Yetkilendirmeleri ata
+  - [x] Cloud Foundry'yi etkinleştir
+  - [x] Şablon agent'ları içe aktar
+  - [x] Standart uygulamaları deploy et
 
-Manual Steps Required:
-  - [ ] Create client-specific destinations
-  - [ ] Upload grounding documents
-  - [ ] Configure IdP trust
-  - [ ] Client acceptance testing
+Gereken Manuel Adımlar:
+  - [ ] Müşteriye özel destination'lar oluştur
+  - [ ] Grounding dokümanlarını yükle
+  - [ ] IdP güvenini yapılandır
+  - [ ] Müşteri kabul testi
 ```
 
 ---
 
 ## Temel Çıkarımlar
 
-1. **Two main patterns** — Template recreation vs. Multi-tenant
-2. **Template for consulting** — Full customization, easy handover
-3. **Multi-tenant for products** — Scale efficiently, single codebase
-4. **Hybrid often best** — Core platform + client extensions
-5. **Track versions** — Know what's deployed where
-6. **Automate onboarding** — Reduce manual errors
+1. **İki ana kalıp** — Şablon yeniden oluşturma vs. Multi-tenant
+2. **Danışmanlık için şablon** — Tam özelleştirme, kolay devir
+3. **Ürünler için multi-tenant** — Verimli ölçekleme, tek kod tabanı
+4. **Hibrit genellikle en iyisi** — Çekirdek platform + müşteri uzantıları
+5. **Versiyonları takip edin** — Nerede neyin deploy edildiğini bilin
+6. **Onboarding'i otomatikleştirin** — Manuel hataları azaltın
 
 ---
 
 ## Sırada Ne Var?
 
-Now let's explore a special use case: building agents for executives—C-level agents that provide strategic insights.
+Şimdi özel bir kullanım senaryosunu inceleyelim: yöneticiler için agent'lar oluşturma—stratejik içgörüler sağlayan C-seviyesi agent'lar.
 
 ---
 
-*[Önceki: Kısım 12 – Managing Multiple Clients](12-multi-client-management.md) | [Sonraki: Kısım 14 – C-Level Agents](14-c-level-agents.md)*
+*[Önceki: Kısım 12 – Çoklu Müşteri Yönetimi](12-multi-client-management.md) | [Sonraki: Kısım 14 – C-Seviyesi Agent'lar](14-c-level-agents.md)*
 
 *[İçindekilere Dön](../content.md)*
 
 ---
 
-**Yazar:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Storyteller & Digital Transformation Advocate
+**Yazar:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Hikaye Anlatıcısı & Dijital Dönüşüm Savunucusu
 
-*Oluşturuldu ❤️ dünya genelindeki SAP öğrencileri için*
+*Dünya genelindeki SAP öğrencileri için ❤️ ile oluşturuldu*

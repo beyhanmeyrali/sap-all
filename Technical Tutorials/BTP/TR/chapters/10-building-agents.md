@@ -1,74 +1,74 @@
-# Kısım 10: Building Joule Agents
+# Kısım 10: Joule Agent'ları Oluşturma
 
-> *The Smart Boss That Chains Skills*
-
----
-
-You've built skills. Now let's build an agent that orchestrates them—making intelligent decisions about which skills to use and when.
+> *Skill'leri Zincirleyen Akıllı Şef*
 
 ---
 
-## 10.1 What Makes an Agent "Smart"
+Skill'lerinizi oluşturdunuz. Şimdi bunları orkestra eden bir agent oluşturalım—hangi skill'lerin ne zaman kullanılacağı konusunda akıllı kararlar veren bir yapı.
 
-An agent is more than a collection of skills. It can:
+---
+
+## 10.1 Bir Agent'ı "Akıllı" Yapan Nedir
+
+Bir agent, skill koleksiyonundan fazlasıdır. Şunları yapabilir:
 
 ```mermaid
 mindmap
-  root((Agent Capabilities))
-    Reason
-      Understand user intent
-      Break down complex requests
-      Handle ambiguity
-    Chain
-      Use multiple skills in sequence
-      Pass data between skills
-      Handle dependencies
-    Ground
-      Use company documents
-      Access knowledge bases
-      Provide contextual answers
-    Adapt
-      Handle errors gracefully
-      Ask clarifying questions
-      Learn from feedback
+  root((Agent Yetenekleri))
+    Muhakeme
+      Kullanıcı niyetini anlama
+      Karmaşık istekleri parçalama
+      Belirsizlikle başa çıkma
+    Zincirleme
+      Birden fazla skill'i sırayla kullanma
+      Skill'ler arasında veri aktarma
+      Bağımlılıkları yönetme
+    Temellenme
+      Şirket belgelerini kullanma
+      Bilgi tabanlarına erişme
+      Bağlamsal cevaplar sağlama
+    Uyum
+      Hataları zarif biçimde yönetme
+      Açıklayıcı sorular sorma
+      Geri bildirimlerden öğrenme
 ```
 
-### Agent vs. Simple Chatbot
+### Agent vs. Basit Chatbot
 
-| Feature | Simple Chatbot | Joule Agent |
-|---------|----------------|-------------|
-| **Understanding** | Keyword matching | Semantic understanding |
-| **Actions** | Pre-defined flows | Dynamic skill selection |
-| **Multi-step** | Hard-coded sequences | Reasoning-based chaining |
-| **Context** | Session only | Grounded in documents |
-| **Errors** | Generic messages | Intelligent recovery |
+| Özellik | Basit Chatbot | Joule Agent |
+|---------|---------------|-------------|
+| **Anlama** | Anahtar kelime eşleştirme | Semantik anlama |
+| **Eylemler** | Önceden tanımlanmış akışlar | Dinamik skill seçimi |
+| **Çok Adımlı** | Sabit kodlanmış diziler | Muhakeme tabanlı zincirleme |
+| **Bağlam** | Yalnızca oturum | Belgelere dayalı |
+| **Hatalar** | Genel mesajlar | Akıllı kurtarma |
 
 ---
 
-## 10.2 Building Your First Agent
+## 10.2 İlk Agent'ınızı Oluşturma
 
-### Scenario: Customer Service Agent
+### Senaryo: Müşteri Hizmetleri Agent'ı
 
-We'll build an agent that handles customer inquiries about orders:
+Siparişler hakkındaki müşteri sorularını yanıtlayan bir agent oluşturacağız:
 
 ```mermaid
 graph TD
-    subgraph "Customer Service Agent"
-        AG[Agent: Customer Service]
+    subgraph "Müşteri Hizmetleri Agent'ı"
+        AG[Agent: Müşteri Hizmetleri]
     end
 
-    subgraph "Available Skills"
-        S1[Get Sales Order Status]
-        S2[Get Customer Info]
-        S3[Create Return Request]
-        S4[Send Email Notification]
-        S5[Check Inventory]
+    subgraph "Mevcut Skill'ler"
+        S1[Satış Siparişi Durumu Al]
+        S2[Müşteri Bilgisi Al]
+        S3[İade Talebi Oluştur]
+        S4[E-posta Bildirimi Gönder]
+        S5[Stok Kontrol]
     end
 
-    subgraph "Grounding"
-        G1[Return Policy PDF]
-        G2[Shipping FAQ]
-        G3[Product Catalog]
+    subgraph "Temellenme"
+        G1[İade Politikası PDF]
+        G2[Kargo SSS]
+        G3[Ürün Kataloğu]
     end
 
     AG --> S1
@@ -81,495 +81,495 @@ graph TD
     AG --> G3
 ```
 
-### Step 1: Create Agent in Joule Studio
+### Adım 1: Joule Studio'da Agent Oluşturma
 
-1. Open **Joule Studio**
-2. Click **Create Agent**
-3. Fill in details:
+1. **Joule Studio**'yu açın
+2. **Create Agent** (Agent Oluştur) tıklayın
+3. Detayları doldurun:
 
 ```yaml
-Agent Name: Customer Service Assistant
-Description: Handles customer inquiries about orders, returns, and shipping
+Agent Name: Müşteri Hizmetleri Asistanı
+Description: Siparişler, iadeler ve kargo hakkındaki müşteri sorularını yanıtlar
 
 Agent Purpose: |
-  You are a customer service assistant for ACME Corp.
-  Help customers with:
-  - Order status inquiries
-  - Return and exchange requests
-  - Shipping questions
-  - Product availability
+  Siz ACME Corp için bir müşteri hizmetleri asistanısınız.
+  Müşterilere şu konularda yardımcı olun:
+  - Sipariş durumu sorguları
+  - İade ve değişim talepleri
+  - Kargo soruları
+  - Ürün mevcudiyeti
 
-Tone: Friendly, professional, helpful
+Tone: Samimi, profesyonel, yardımsever
 ```
 
-### Step 2: Assign Skills to Agent
+### Adım 2: Agent'a Skill Atama
 
-1. Go to **Skills** tab
-2. Click **Add Skill**
-3. Add these skills:
+1. **Skills** sekmesine gidin
+2. **Add Skill** (Skill Ekle) tıklayın
+3. Bu skill'leri ekleyin:
 
 | Skill | Ne Zaman Kullanılır |
-|-------|-------------|
-| Get Sales Order Status | Customer asks about order status |
-| Get Customer Info | Need customer details for context |
-| Create Return Request | Customer wants to return/exchange |
-| Send Email Notification | Need to send confirmation |
-| Check Inventory | Customer asks about availability |
+|-------|---------------------|
+| Satış Siparişi Durumu Al | Müşteri sipariş durumunu sorduğunda |
+| Müşteri Bilgisi Al | Bağlam için müşteri detayları gerektiğinde |
+| İade Talebi Oluştur | Müşteri iade/değişim istediğinde |
+| E-posta Bildirimi Gönder | Onay göndermek gerektiğinde |
+| Stok Kontrol | Müşteri mevcudiyet sorduğunda |
 
-### Step 3: Write Agent Instructions
+### Adım 3: Agent Talimatlarını Yazma
 
-This is the most important part—teaching the agent HOW to behave:
+Bu en önemli kısım—agent'a NASIL davranacağını öğretmek:
 
 ```markdown
-# Customer Service Agent Instructions
+# Müşteri Hizmetleri Agent Talimatları
 
-## Your Role
-You are a customer service representative for ACME Corp.
-Always be helpful, polite, and solution-oriented.
+## Rolünüz
+Siz ACME Corp için bir müşteri hizmetleri temsilcisisiniz.
+Her zaman yardımsever, nazik ve çözüm odaklı olun.
 
-## Decision Making
+## Karar Verme
 
-### When customer asks about an order:
-1. Ask for order number if not provided
-2. Use "Get Sales Order Status" skill
-3. Present status in friendly language:
-   - "A" (Not delivered) → "Your order is being prepared for shipment"
-   - "B" (Partial) → "Part of your order has shipped"
-   - "C" (Complete) → "Your order has been delivered"
+### Müşteri sipariş hakkında sorduğunda:
+1. Sipariş numarası verilmediyse isteyin
+2. "Satış Siparişi Durumu Al" skill'ini kullanın
+3. Durumu samimi bir dille sunun:
+   - "A" (Teslim edilmedi) → "Siparişiniz kargoya hazırlanıyor"
+   - "B" (Kısmi) → "Siparişinizin bir kısmı gönderildi"
+   - "C" (Tamamlandı) → "Siparişiniz teslim edildi"
 
-### When customer wants to return:
-1. Look up the order first
-2. Check return policy grounding document
-3. If eligible, use "Create Return Request" skill
-4. Send confirmation email with "Send Email Notification"
+### Müşteri iade istediğinde:
+1. Önce siparişi arayın
+2. İade politikası temellenme belgesini kontrol edin
+3. Uygunsa, "İade Talebi Oluştur" skill'ini kullanın
+4. "E-posta Bildirimi Gönder" ile onay e-postası gönderin
 
-### When customer asks about availability:
-1. Use "Check Inventory" skill
-2. If in stock, confirm availability
-3. If out of stock, provide estimated restock date
+### Müşteri mevcudiyet sorduğunda:
+1. "Stok Kontrol" skill'ini kullanın
+2. Stokta varsa, mevcudiyeti onaylayın
+3. Stokta yoksa, tahmini yeniden stoklama tarihini bildirin
 
-## Response Guidelines
+## Yanıt Kuralları
 
-### Always:
-- Start with acknowledging the customer's concern
-- Be specific with dates, numbers, tracking info
-- Offer next steps or alternatives
-- End with "Is there anything else I can help with?"
+### Her zaman:
+- Müşterinin endişesini kabul ederek başlayın
+- Tarihler, numaralar, takip bilgileri konusunda spesifik olun
+- Sonraki adımlar veya alternatifler sunun
+- "Yardımcı olabileceğim başka bir konu var mı?" ile bitirin
 
-### Never:
-- Make promises you can't keep
-- Share other customers' information
-- Guess if you don't know—ask for clarification
+### Asla:
+- Tutamayacağınız sözler vermeyin
+- Diğer müşterilerin bilgilerini paylaşmayın
+- Bilmiyorsanız tahmin etmeyin—açıklama isteyin
 
-## Örnek Conversations
+## Örnek Konuşmalar
 
-### Örnek 1: Order Status
-Customer: "Where's my order?"
-You: "I'd be happy to help you track your order. Could you please provide your order number?"
-Customer: "It's 12345"
-[Use Get Sales Order Status skill]
-You: "I found your order #12345. Great news—it was delivered on January 20th to 123 Main St. The tracking shows it was signed for by J. Smith. Is there anything else I can help with?"
+### Örnek 1: Sipariş Durumu
+Müşteri: "Siparişim nerede?"
+Siz: "Siparişinizi takip etmenize yardımcı olmaktan memnuniyet duyarım. Sipariş numaranızı paylaşır mısınız?"
+Müşteri: "12345"
+[Satış Siparişi Durumu Al skill'ini kullan]
+Siz: "#12345 numaralı siparişinizi buldum. İyi haberler—20 Ocak'ta 123 Ana Cadde adresine teslim edildi. Takip bilgisi J. Smith tarafından imzalandığını gösteriyor. Yardımcı olabileceğim başka bir konu var mı?"
 
-### Örnek 2: Return Request
-Customer: "I want to return order 67890"
-[Use Get Sales Order Status skill first]
-You: "I see order #67890 was for a Blue Widget, delivered 5 days ago. Our return policy allows returns within 30 days, so you're all set! Let me start that return for you."
-[Use Create Return Request skill]
-You: "Done! I've created return request RR-456. You'll receive an email with a prepaid shipping label within the hour. Just drop it off at any UPS location. Anything else?"
+### Örnek 2: İade Talebi
+Müşteri: "67890 numaralı siparişimi iade etmek istiyorum"
+[Önce Satış Siparişi Durumu Al skill'ini kullan]
+Siz: "#67890 siparişinin 5 gün önce teslim edilen bir Mavi Widget olduğunu görüyorum. İade politikamız 30 gün içinde iadelere izin veriyor, yani uygunsunuz! İade işleminizi başlatayım."
+[İade Talebi Oluştur skill'ini kullan]
+Siz: "Tamam! RR-456 numaralı iade talebini oluşturdum. Bir saat içinde ön ödemeli kargo etiketi içeren bir e-posta alacaksınız. Herhangi bir UPS noktasına bırakmanız yeterli. Başka bir şey var mı?"
 ```
 
 ---
 
-## 10.3 Multi-Step Reasoning and Chaining
+## 10.3 Çok Adımlı Muhakeme ve Zincirleme
 
-Here's how the agent chains skills for complex requests:
+Agent'ın karmaşık istekler için skill'leri nasıl zincirlediği:
 
-### Örnek: "Handle complaint for order 12345"
+### Örnek: "12345 numaralı sipariş için şikayeti ele al"
 
 ```mermaid
 sequenceDiagram
-    participant U as User
+    participant U as Kullanıcı
     participant AG as Agent
-    participant S1 as GetOrderStatus
-    participant S2 as CheckInventory
-    participant S3 as CreateReturn
-    participant S4 as SendEmail
-    participant G as Grounding
+    participant S1 as SiparişDurumuAl
+    participant S2 as StokKontrol
+    participant S3 as İadeOluştur
+    participant S4 as EpostaGönder
+    participant G as Temellenme
 
-    U->>AG: "I want to complain about order 12345, it arrived damaged"
+    U->>AG: "12345 numaralı sipariş hakkında şikayet etmek istiyorum, hasarlı geldi"
 
-    Note over AG: Step 1: Understand the situation
-    AG->>S1: GetOrderStatus(12345)
-    S1-->>AG: Order delivered, Blue Widget, $150
+    Note over AG: Adım 1: Durumu anla
+    AG->>S1: SiparişDurumuAl(12345)
+    S1-->>AG: Sipariş teslim edildi, Mavi Widget, 150$
 
-    Note over AG: Step 2: Check policy
-    AG->>G: Query return policy for damaged items
-    G-->>AG: Damaged items: immediate replacement or refund
+    Note over AG: Adım 2: Politikayı kontrol et
+    AG->>G: Hasarlı ürünler için iade politikasını sorgula
+    G-->>AG: Hasarlı ürünler: anında değişim veya iade
 
-    Note over AG: Step 3: Check if replacement available
-    AG->>S2: CheckInventory(Blue Widget)
-    S2-->>AG: 25 in stock
+    Note over AG: Adım 3: Değişim mevcut mu kontrol et
+    AG->>S2: StokKontrol(Mavi Widget)
+    S2-->>AG: 25 adet stokta
 
-    Note over AG: Step 4: Create resolution
-    AG->>S3: CreateReturn(12345, reason: damaged, action: replacement)
-    S3-->>AG: Return RR-789 created
+    Note over AG: Adım 4: Çözüm oluştur
+    AG->>S3: İadeOluştur(12345, sebep: hasarlı, işlem: değişim)
+    S3-->>AG: RR-789 iadesi oluşturuldu
 
-    Note over AG: Step 5: Notify customer
-    AG->>S4: SendEmail(customer, return_confirmation)
-    S4-->>AG: Email sent
+    Note over AG: Adım 5: Müşteriyi bilgilendir
+    AG->>S4: EpostaGönder(müşteri, iade_onayı)
+    S4-->>AG: E-posta gönderildi
 
-    AG->>U: "I'm so sorry your Blue Widget arrived damaged..."
+    AG->>U: "Mavi Widget'ınızın hasarlı gelmesine çok üzüldüm..."
 ```
 
-### The Agent's Internal Reasoning
+### Agent'ın İç Muhakemesi
 
 ```
-User: "I want to complain about order 12345, it arrived damaged"
+Kullanıcı: "12345 numaralı sipariş hakkında şikayet etmek istiyorum, hasarlı geldi"
 
-ANALYSIS:
-- Intent: Complaint about damaged item
-- Order number: 12345
-- Issue: Damaged in transit
+ANALİZ:
+- Niyet: Hasarlı ürün şikayeti
+- Sipariş numarası: 12345
+- Sorun: Taşıma sırasında hasar
 
 PLAN:
-1. Look up order details to understand what was ordered
-2. Check our policy on damaged items
-3. Determine resolution options
-4. Execute the best resolution
-5. Confirm with customer
+1. Ne sipariş edildiğini anlamak için sipariş detaylarına bak
+2. Hasarlı ürünlerle ilgili politikamızı kontrol et
+3. Çözüm seçeneklerini belirle
+4. En iyi çözümü uygula
+5. Müşteriyle onaylat
 
-EXECUTION:
-Step 1: GetOrderStatus(12345)
-  Result: Blue Widget, $150, delivered Jan 20
+UYGULAMA:
+Adım 1: SiparişDurumuAl(12345)
+  Sonuç: Mavi Widget, 150$, 20 Ocak teslim
 
-Step 2: Check grounding - damaged items policy
-  Result: "Damaged items eligible for immediate replacement or full refund"
+Adım 2: Temellenme kontrol - hasarlı ürün politikası
+  Sonuç: "Hasarlı ürünler anında değişim veya tam iade için uygundur"
 
-Step 3: CheckInventory(Blue Widget)
-  Result: 25 in stock - replacement available
+Adım 3: StokKontrol(Mavi Widget)
+  Sonuç: 25 adet stokta - değişim mevcut
 
-Step 4: CreateReturn(order: 12345, reason: "damaged", action: "replacement")
-  Result: Return RR-789 created, replacement shipping today
+Adım 4: İadeOluştur(sipariş: 12345, sebep: "hasarlı", işlem: "değişim")
+  Sonuç: RR-789 iadesi oluşturuldu, değişim bugün kargolanıyor
 
-Step 5: SendEmail(type: "damage_resolution", to: customer)
-  Result: Email sent
+Adım 5: EpostaGönder(tip: "hasar_çözümü", alıcı: müşteri)
+  Sonuç: E-posta gönderildi
 
-RESPONSE:
-"I'm so sorry your Blue Widget arrived damaged. I've taken care of this for you:
-- Created return RR-789 for the damaged item
-- A replacement Blue Widget is shipping today
-- You'll receive a prepaid label to return the damaged one
+YANIT:
+"Mavi Widget'ınızın hasarlı gelmesine çok üzüldüm. Sizin için bunu hallettim:
+- Hasarlı ürün için RR-789 iadesi oluşturuldu
+- Yeni bir Mavi Widget bugün kargolanıyor
+- Hasarlı ürünü geri göndermek için ön ödemeli etiket alacaksınız
 
-You should receive your replacement within 2-3 business days.
-Is there anything else I can help with?"
+Yeni ürününüzü 2-3 iş günü içinde almanız gerekiyor.
+Yardımcı olabileceğim başka bir konu var mı?"
 ```
 
 ---
 
-## 10.4 Grounding Agents on Company Documents
+## 10.4 Agent'ları Şirket Belgelerine Dayandırma
 
-### What Is Grounding?
+### Temellenme Nedir?
 
-Grounding gives the agent specific knowledge about your company:
+Temellenme, agent'a şirketiniz hakkında özel bilgi verir:
 
 ```mermaid
 graph TD
-    subgraph "Without Grounding"
-        Q1[User: What's our return policy?]
-        A1[Agent: I don't know your specific policy...]
+    subgraph "Temellenme Olmadan"
+        Q1[Kullanıcı: İade politikamız nedir?]
+        A1[Agent: Sizin özel politikanızı bilmiyorum...]
     end
 
-    subgraph "With Grounding"
-        Q2[User: What's our return policy?]
-        G[Grounding: Return_Policy.pdf]
-        A2[Agent: Our policy is 30 days, receipt required...]
+    subgraph "Temellenme İle"
+        Q2[Kullanıcı: İade politikamız nedir?]
+        G[Temellenme: Iade_Politikasi.pdf]
+        A2[Agent: Politikamız 30 gün, fiş gerekli...]
     end
 
     G --> A2
 ```
 
-### Setting Up Grounding
+### Temellenme Kurulumu
 
-1. In Joule Studio, go to your agent
-2. Click **Grounding** tab
-3. Click **Add Document**
+1. Joule Studio'da agent'ınıza gidin
+2. **Grounding** sekmesine tıklayın
+3. **Add Document** (Belge Ekle) tıklayın
 
-**Supported formats:**
-- PDF files
-- Word documents
-- Text files
-- Web URLs
+**Desteklenen formatlar:**
+- PDF dosyaları
+- Word belgeleri
+- Metin dosyaları
+- Web URL'leri
 
-### Örnek Grounding Documents
+### Örnek Temellenme Belgeleri
 
-**Return Policy (Return_Policy.pdf):**
+**İade Politikası (Iade_Politikasi.pdf):**
 ```markdown
-# ACME Corp Return Policy
+# ACME Corp İade Politikası
 
-## Standard Returns
-- Returns accepted within 30 days of delivery
-- Original receipt or order confirmation required
-- Items must be unused and in original packaging
-- Refund to original payment method within 5-7 business days
+## Standart İadeler
+- Teslimattan itibaren 30 gün içinde iadeler kabul edilir
+- Orijinal fiş veya sipariş onayı gereklidir
+- Ürünler kullanılmamış ve orijinal ambalajında olmalıdır
+- 5-7 iş günü içinde orijinal ödeme yöntemine iade
 
-## Damaged Items
-- Report within 48 hours of delivery
-- Photo evidence helpful but not required
-- Immediate replacement or full refund offered
-- No return shipping cost to customer
+## Hasarlı Ürünler
+- Teslimattan sonra 48 saat içinde bildirin
+- Fotoğraf kanıtı yardımcı olur ama zorunlu değil
+- Anında değişim veya tam iade sunulur
+- Müşteriye iade kargo ücreti yok
 
-## Non-Returnable Items
-- Custom or personalized items
-- Clearance items marked "Final Sale"
-- Items used or missing original packaging
+## İade Edilemeyen Ürünler
+- Özel veya kişiselleştirilmiş ürünler
+- "Son Satış" olarak işaretlenmiş indirimli ürünler
+- Kullanılmış veya orijinal ambalajı eksik ürünler
 
-## Process
-1. Customer contacts support
-2. Return authorization created
-3. Prepaid shipping label provided
-4. Refund processed within 48 hours of receiving item
+## Süreç
+1. Müşteri destekle iletişime geçer
+2. İade yetkisi oluşturulur
+3. Ön ödemeli kargo etiketi sağlanır
+4. Ürün alındıktan sonra 48 saat içinde iade işlenir
 ```
 
-**Shipping FAQ (Shipping_FAQ.pdf):**
+**Kargo SSS (Kargo_SSS.pdf):**
 ```markdown
-# Shipping Information
+# Kargo Bilgileri
 
-## Delivery Times
-- Standard: 5-7 business days
-- Express: 2-3 business days
-- Next Day: Order by 2 PM for next business day
+## Teslimat Süreleri
+- Standart: 5-7 iş günü
+- Ekspres: 2-3 iş günü
+- Ertesi Gün: Ertesi iş günü için saat 14:00'a kadar sipariş verin
 
-## Shipping Costs
-- Free standard shipping on orders over $50
-- Express: $9.99
-- Next Day: $19.99
+## Kargo Ücretleri
+- 50$ üzeri siparişlerde ücretsiz standart kargo
+- Ekspres: 9.99$
+- Ertesi Gün: 19.99$
 
-## Tracking
-- All orders include tracking
-- Tracking email sent when order ships
-- Track at: tracking.acme.com
+## Takip
+- Tüm siparişler takip içerir
+- Sipariş kargoya verildiğinde takip e-postası gönderilir
+- Takip: tracking.acme.com
 
-## International
-- We ship to US and Canada only
-- International orders: 10-14 business days
-- Customs fees are customer responsibility
+## Uluslararası
+- Yalnızca ABD ve Kanada'ya gönderim yapıyoruz
+- Uluslararası siparişler: 10-14 iş günü
+- Gümrük ücretleri müşteri sorumluluğundadır
 ```
 
-### Using Grounding in Agent Instructions
+### Temellenmeyi Agent Talimatlarında Kullanma
 
 ```markdown
-## Using Your Knowledge Base
+## Bilgi Tabanınızı Kullanma
 
-When answering policy questions:
-1. ALWAYS check the grounding documents first
-2. Quote specific policies when relevant
-3. If information isn't in documents, say "Let me check on that" rather than guessing
+Politika sorularını yanıtlarken:
+1. HER ZAMAN önce temellenme belgelerini kontrol edin
+2. İlgili olduğunda belirli politikaları alıntılayın
+3. Bilgi belgelerde yoksa, tahmin etmek yerine "Bunu kontrol edeyim" deyin
 
 Örnek:
-User: "How long do I have to return something?"
-[Check Return_Policy.pdf]
-You: "You have 30 days from delivery to return items. They need to be unused and in original packaging. Would you like to start a return?"
+Kullanıcı: "Bir şeyi iade etmek için ne kadar sürem var?"
+[Iade_Politikasi.pdf kontrol et]
+Siz: "Ürünleri iade etmek için teslimattan itibaren 30 gününüz var. Kullanılmamış ve orijinal ambalajında olmaları gerekiyor. İade başlatmak ister misiniz?"
 ```
 
 ---
 
-## 10.5 Agent Design Patterns
+## 10.5 Agent Tasarım Kalıpları
 
-### Pattern 1: The Specialist
+### Kalıp 1: Uzman
 
-One agent, one domain:
+Bir agent, bir alan:
 
 ```mermaid
 graph TD
-    subgraph "HR Agent"
-        A1[HR Assistant]
-        S1[Get Employee Info]
-        S2[Submit Leave Request]
-        S3[Check Benefits]
+    subgraph "İK Agent'ı"
+        A1[İK Asistanı]
+        S1[Çalışan Bilgisi Al]
+        S2[İzin Talebi Gönder]
+        S3[Yan Hakları Kontrol Et]
     end
 
-    subgraph "Finance Agent"
-        A2[Finance Assistant]
-        S4[Get Invoice Status]
-        S5[Submit Expense]
-        S6[Check Budget]
+    subgraph "Finans Agent'ı"
+        A2[Finans Asistanı]
+        S4[Fatura Durumu Al]
+        S5[Masraf Gönder]
+        S6[Bütçe Kontrol Et]
     end
 ```
 
-**Pros:** Focused, easier to train, clearer boundaries
-**Cons:** Users need to know which agent to use
+**Artıları:** Odaklı, eğitmesi kolay, sınırlar net
+**Eksileri:** Kullanıcıların hangi agent'ı kullanacağını bilmesi gerekiyor
 
-### Pattern 2: The Generalist
+### Kalıp 2: Genelci
 
-One agent, multiple domains:
+Bir agent, birden fazla alan:
 
 ```mermaid
 graph TD
-    A[Universal Assistant]
-    A --> S1[HR Skills]
-    A --> S2[Finance Skills]
-    A --> S3[IT Skills]
-    A --> S4[Facilities Skills]
+    A[Evrensel Asistan]
+    A --> S1[İK Skill'leri]
+    A --> S2[Finans Skill'leri]
+    A --> S3[BT Skill'leri]
+    A --> S4[Tesis Skill'leri]
 ```
 
-**Pros:** Single entry point, handles routing
-**Cons:** More complex instructions, potential confusion
+**Artıları:** Tek giriş noktası, yönlendirmeyi yönetir
+**Eksileri:** Daha karmaşık talimatlar, potansiyel karışıklık
 
-### Pattern 3: The Coordinator
+### Kalıp 3: Koordinatör
 
-Master agent routes to specialists:
+Ana agent uzman agent'lara yönlendirir:
 
 ```mermaid
 graph TD
-    U[User] --> M[Coordinator Agent]
-    M --> |HR Question| A1[HR Agent]
-    M --> |Finance Question| A2[Finance Agent]
-    M --> |IT Question| A3[IT Agent]
+    U[Kullanıcı] --> M[Koordinatör Agent]
+    M --> |İK Sorusu| A1[İK Agent'ı]
+    M --> |Finans Sorusu| A2[Finans Agent'ı]
+    M --> |BT Sorusu| A3[BT Agent'ı]
 
     style M fill:#FF9800,color:white
 ```
 
-**Pros:** Clean separation, specialized handling
-**Cons:** More complex setup
+**Artıları:** Temiz ayrım, uzmanlaşmış işleme
+**Eksileri:** Daha karmaşık kurulum
 
 ---
 
-## 10.6 Testing Your Agent
+## 10.6 Agent'ınızı Test Etme
 
-### Test Scenarios Checklist
+### Test Senaryoları Kontrol Listesi
 
-Create test scenarios covering:
+Şunları kapsayan test senaryoları oluşturun:
 
 ```yaml
-Test Scenarios:
-  Happy Path:
-    - Simple order status inquiry
-    - Straightforward return request
-    - Product availability check
+Test Senaryoları:
+  Mutlu Yol:
+    - Basit sipariş durumu sorgusu
+    - Düz iade talebi
+    - Ürün mevcudiyet kontrolü
 
-  Edge Cases:
-    - Order number doesn't exist
-    - Return policy exception (final sale item)
-    - Out of stock situation
+  Uç Durumlar:
+    - Sipariş numarası mevcut değil
+    - İade politikası istisnası (son satış ürünü)
+    - Stokta yok durumu
 
-  Ambiguous Requests:
-    - "I have a problem with my order"
-    - "Help"
-    - "I'm not happy"
+  Belirsiz İstekler:
+    - "Siparişimle ilgili bir sorunum var"
+    - "Yardım"
+    - "Memnun değilim"
 
-  Multi-Step:
-    - Complex complaint handling
-    - Order + return + question about shipping
-    - Multiple orders for same customer
+  Çok Adımlı:
+    - Karmaşık şikayet yönetimi
+    - Sipariş + iade + kargo sorusu
+    - Aynı müşteri için birden fazla sipariş
 
-  Error Handling:
-    - Backend API down
-    - Missing required information
-    - User provides invalid input
+  Hata Yönetimi:
+    - Backend API çalışmıyor
+    - Gerekli bilgi eksik
+    - Kullanıcı geçersiz girdi sağlıyor
 ```
 
-### Test Script Örnek
+### Test Betiği Örneği
 
 ```markdown
-## Test Case: TC-001 Order Status Happy Path
+## Test Vakası: TC-001 Sipariş Durumu Mutlu Yol
 
-**Input:** "What's the status of order 12345?"
+**Girdi:** "12345 numaralı siparişin durumu nedir?"
 
-**Expected Behavior:**
-1. Agent recognizes order status intent
-2. Calls GetOrderStatus skill with "12345"
-3. Formats response with delivery status
-4. Offers further assistance
+**Beklenen Davranış:**
+1. Agent sipariş durumu niyetini tanır
+2. "12345" ile SiparişDurumuAl skill'ini çağırır
+3. Yanıtı teslimat durumuyla formatlar
+4. Ek yardım önerir
 
-**Expected Response Pattern:**
-"Order #12345... [status details]... Is there anything else?"
+**Beklenen Yanıt Kalıbı:**
+"#12345 numaralı sipariş... [durum detayları]... Başka bir şey var mı?"
 
-**Pass Criteria:**
-- ✅ Correct skill invoked
-- ✅ Order details accurate
-- ✅ Friendly tone
-- ✅ Offers further help
+**Geçme Kriterleri:**
+- Doğru skill çağrıldı
+- Sipariş detayları doğru
+- Samimi ton
+- Ek yardım önerisi
 ```
 
 ---
 
-## 10.7 Agent En İyi Uygulamalar
+## 10.7 Agent En İyi Uygulamaları
 
-### 1. Start Simple, Expand Gradually
+### 1. Basit Başlayın, Kademeli Genişletin
 
 ```mermaid
 graph LR
-    V1[V1: 2-3 Skills] --> V2[V2: Add Grounding]
-    V2 --> V3[V3: More Skills]
-    V3 --> V4[V4: Advanced Scenarios]
+    V1[V1: 2-3 Skill] --> V2[V2: Temellenme Ekle]
+    V2 --> V3[V3: Daha Fazla Skill]
+    V3 --> V4[V4: Gelişmiş Senaryolar]
 ```
 
-### 2. Clear Skill Boundaries
+### 2. Net Skill Sınırları
 
-Make each skill's purpose distinct:
+Her skill'in amacını belirgin yapın:
 
-| Skill | Clear Purpose | NOT Overlapping |
-|-------|--------------|-----------------|
-| GetOrderStatus | Fetch order info | Don't also create returns |
-| CreateReturn | Create return | Don't also send emails |
-| SendEmail | Send notifications | Don't also lookup data |
+| Skill | Net Amaç | Örtüşmeyen |
+|-------|----------|------------|
+| SiparişDurumuAl | Sipariş bilgisi getir | İade de oluşturma |
+| İadeOluştur | İade oluştur | E-posta da gönderme |
+| EpostaGönder | Bildirim gönder | Veri de arama |
 
-### 3. Explicit Instructions
+### 3. Açık Talimatlar
 
 ```markdown
-# Good ✅
-When the customer asks about an order:
-1. Ask for order number if not provided
-2. Call GetOrderStatus with the order number
-3. If status is "C", say "delivered"
-4. If status is "A", say "being prepared"
+# İyi
+Müşteri sipariş hakkında sorduğunda:
+1. Sipariş numarası verilmediyse isteyin
+2. Sipariş numarasıyla SiparişDurumuAl çağırın
+3. Durum "C" ise, "teslim edildi" deyin
+4. Durum "A" ise, "hazırlanıyor" deyin
 
-# Bad ❌
-Handle order questions appropriately.
+# Kötü
+Sipariş sorularını uygun şekilde ele alın.
 ```
 
-### 4. Handle Failures Gracefully
+### 4. Hataları Zarif Biçimde Yönetin
 
 ```markdown
-## Error Handling
+## Hata Yönetimi
 
-If GetOrderStatus fails:
-- Say: "I'm having trouble looking up that order right now.
-       Let me try again in a moment."
-- Retry once
-- If still failing: "I apologize, our order system is experiencing
-       issues. Please try again in a few minutes or call 1-800-ACME."
+SiparişDurumuAl başarısız olursa:
+- Söyleyin: "Şu anda o siparişi aramakta sorun yaşıyorum.
+       Bir dakika içinde tekrar deneyeyim."
+- Bir kez yeniden deneyin
+- Hala başarısızsa: "Özür dilerim, sipariş sistemimiz sorun yaşıyor.
+       Lütfen birkaç dakika içinde tekrar deneyin veya 1-800-ACME'yi arayın."
 
-If order not found:
-- Say: "I couldn't find order #[number]. Could you double-check
-       the number? It should be 5-10 digits."
+Sipariş bulunamazsa:
+- Söyleyin: "#[numara] siparişini bulamadım. Numarayı tekrar kontrol eder misiniz?
+       5-10 haneli olmalı."
 ```
 
 ---
 
 ## Temel Çıkarımlar
 
-1. **Agents orchestrate skills** — They decide what to do and when
-2. **Instructions are critical** — Detailed instructions = better behavior
-3. **Grounding adds knowledge** — Company-specific context matters
-4. **Test thoroughly** — Happy path + edge cases + errors
-5. **Start simple** — Add complexity gradually
-6. **Clear boundaries** — Each skill should do one thing well
+1. **Agent'lar skill'leri orkestra eder** — Ne yapılacağına ve ne zaman yapılacağına karar verirler
+2. **Talimatlar kritiktir** — Detaylı talimatlar = daha iyi davranış
+3. **Temellenme bilgi ekler** — Şirkete özel bağlam önemlidir
+4. **Kapsamlı test edin** — Mutlu yol + uç durumlar + hatalar
+5. **Basit başlayın** — Karmaşıklığı kademeli ekleyin
+6. **Net sınırlar** — Her skill bir şeyi iyi yapmalı
 
 ---
 
 ## Sırada Ne Var?
 
-Your agent is built. Now let's deploy it across environments—from development to production—and manage its lifecycle.
+Agent'ınız hazır. Şimdi onu geliştirmeden üretime kadar ortamlar arasında dağıtalım ve yaşam döngüsünü yönetelim.
 
 ---
 
-*[Önceki: Kısım 9 – Building Your First Joule Skill](09-first-joule-skill.md) | [Sonraki: Kısım 11 – Agent Lifecycle & Deployment](11-agent-lifecycle.md)*
+*[Önceki: Kısım 9 - İlk Joule Skill'inizi Oluşturma](09-first-joule-skill.md) | [Sonraki: Kısım 11 - Agent Yaşam Döngüsü ve Dağıtım](11-agent-lifecycle.md)*
 
 *[İçindekilere Dön](../content.md)*
 
 ---
 
-**Yazar:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Storyteller & Digital Transformation Advocate
+**Yazar:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Hikaye Anlatıcısı & Dijital Dönüşüm Savunucusu
 
-*Oluşturuldu ❤️ dünya genelindeki SAP öğrencileri için*
+*Dünya genelindeki SAP öğrencileri için ❤️ ile oluşturuldu*

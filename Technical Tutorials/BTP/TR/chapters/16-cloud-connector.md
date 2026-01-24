@@ -1,16 +1,16 @@
-# Kısım 16: Cloud Connector for On-Premise Access
+# Kısım 16: On-Premise Erişim için Cloud Connector
 
-> *The Secure Tunnel to Your Data Center*
-
----
-
-Most enterprises still have on-premise systems. Cloud Connector bridges the gap—securely connecting BTP to systems behind your firewall.
+> *Veri Merkezinize Güvenli Tünel*
 
 ---
 
-## 16.1 What Is Cloud Connector?
+Kurumsal firmalarin cogu hala on-premise sistemler kullaniyor. Cloud Connector bu bosluğu kapatir — BTP'yi guvenlik duvarinizin arkasindaki sistemlere guvenli bir sekilde bağlar.
 
-Cloud Connector is a lightweight software agent installed in your network that creates a **secure, outbound-only tunnel** to BTP.
+---
+
+## 16.1 Cloud Connector Nedir?
+
+Cloud Connector, ağiniza kurulan ve BTP'ye **guvenli, yalnizca giden bir tunel** olusturan hafif bir yazilim ajanidir.
 
 ```mermaid
 graph LR
@@ -23,116 +23,116 @@ graph LR
         TLS[TLS Tunnel]
     end
 
-    subgraph "Corporate Network"
+    subgraph "Kurumsal Ag"
         CC[Cloud Connector]
-        FW[Firewall]
+        FW[Guvenlik Duvari]
         S4[S/4HANA On-Prem]
         ECC[SAP ECC]
-        LEGACY[Legacy System]
+        LEGACY[Eski Sistem]
     end
 
     BTP --> DEST
-    DEST --> |"Request"| TLS
-    TLS --> |"Outbound Only"| CC
-    CC --> |"Internal"| S4
-    CC --> |"Internal"| ECC
-    CC --> |"Internal"| LEGACY
+    DEST --> |"Istek"| TLS
+    TLS --> |"Yalnizca Giden"| CC
+    CC --> |"Dahili"| S4
+    CC --> |"Dahili"| ECC
+    CC --> |"Dahili"| LEGACY
 
     style CC fill:#FF9800,color:white
 ```
 
-### Key Benefits
+### Temel Faydalar
 
-| Feature | Benefit |
-|---------|---------|
-| **Outbound-only** | No inbound firewall rules needed |
-| **Virtual hosts** | Hide real internal addresses |
-| **Path control** | Expose only what you need |
-| **Audit logging** | Track all access |
-| **High availability** | Master-shadow setup |
+| Ozellik | Fayda |
+|---------|-------|
+| **Yalnizca giden** | Gelen guvenlik duvari kurallarina gerek yok |
+| **Virtual Host'lar** | Gercek dahili adresleri gizler |
+| **Yol kontrolu** | Yalnizca ihtiyaciniz olani aciga cikarir |
+| **Denetim gunlugu** | Tum erisimleri takip eder |
+| **Yuksek erisilebilirlik** | Master-shadow kurulumu |
 
 ---
 
-## 16.2 Installation and Setup
+## 16.2 Kurulum ve Yapilandirma
 
-### System Requirements
+### Sistem Gereksinimleri
 
 ```yaml
-Operating System: Windows Server 2016+ or Linux (SLES, RHEL, Ubuntu)
-Memory: 4 GB minimum (8 GB recommended)
-Disk: 20 GB minimum
-Network: Outbound HTTPS (443) to BTP
-Java: SAP JVM bundled with installer
+Isletim Sistemi: Windows Server 2016+ veya Linux (SLES, RHEL, Ubuntu)
+Bellek: Minimum 4 GB (8 GB onerilen)
+Disk: Minimum 20 GB
+Ag: BTP'ye giden HTTPS (443)
+Java: Kurulum paketine dahil SAP JVM
 ```
 
-### Step-by-Step Installation
+### Adim Adim Kurulum
 
-**1. Download**
+**1. Indirme**
 - SAP Support Portal → Software Downloads
-- Search: "Cloud Connector"
-- Download portable version or installer
+- Arama: "Cloud Connector"
+- Tasinabilir surum veya kurulum programini indirin
 
-**2. Install (Windows)**
+**2. Kurulum (Windows)**
 ```bash
-# Unzip to C:\SAP\CloudConnector
-# Run as administrator:
+# C:\SAP\CloudConnector dizinine cikartin
+# Yonetici olarak calistirin:
 C:\SAP\CloudConnector\go.bat
 
-# Service installation:
+# Servis kurulumu:
 C:\SAP\CloudConnector\sccservice.bat install
 ```
 
-**3. Access Admin UI**
+**3. Yonetim Arayuzune Erisim**
 ```
 URL: https://localhost:8443
-Default user: Administrator
-Default password: manage
+Varsayilan kullanici: Administrator
+Varsayilan sifre: manage
 
-(Change immediately!)
+(Hemen degistirin!)
 ```
 
-**4. Connect to BTP Subaccount**
+**4. BTP Subaccount'a Baglanti**
 
 ```mermaid
 sequenceDiagram
     participant CC as Cloud Connector
     participant BTP as BTP Cockpit
 
-    CC->>BTP: Enter subaccount details
-    Note over CC: Region: eu10<br/>Subaccount ID: abc-123-def
-    CC->>BTP: Authenticate (user/password or cert)
-    BTP-->>CC: Connection established
-    Note over CC: Status: Connected
+    CC->>BTP: Subaccount bilgilerini girin
+    Note over CC: Bolge: eu10<br/>Subaccount ID: abc-123-def
+    CC->>BTP: Kimlik dogrulama (kullanici/sifre veya sertifika)
+    BTP-->>CC: Baglanti kuruldu
+    Note over CC: Durum: Bagli
 ```
 
-**Fill in:**
+**Doldurulacaklar:**
 ```yaml
 Region Host: cf.eu10.hana.ondemand.com
-Subaccount: abc123-def456-...  # From BTP Cockpit
-Display Name: ACME Production CC
-User: your.email@acme.com
+Subaccount: abc123-def456-...  # BTP Cockpit'ten
+Display Name: ACME Uretim CC
+User: sizin.email@acme.com
 Password: ********
 ```
 
 ---
 
-## 16.3 Virtual Host Mapping
+## 16.3 Virtual Host Eslemesi
 
-The most important concept! Virtual hosts hide your real internal addresses.
+En onemli kavram! Virtual Host'lar gercek dahili adreslerinizi gizler.
 
-### Nasıl Çalışır
+### Nasil Calisir
 
 ```mermaid
 graph LR
-    subgraph "What BTP Sees"
+    subgraph "BTP'nin Gordugu"
         V[s4-virtual:443]
     end
 
-    subgraph "Cloud Connector Mapping"
-        CC[Virtual → Internal]
+    subgraph "Cloud Connector Eslemesi"
+        CC[Virtual → Dahili]
     end
 
-    subgraph "What's Real"
+    subgraph "Gercek Olan"
         R[10.0.0.50:8000]
     end
 
@@ -140,42 +140,42 @@ graph LR
     CC --> R
 ```
 
-### Creating a Virtual Host
+### Virtual Host Olusturma
 
-**In Cloud Connector Admin UI:**
+**Cloud Connector Yonetim Arayuzunde:**
 
 1. Cloud To On-Premise → Access Control
-2. Add System Mapping (+)
+2. Sistem Eslemesi Ekle (+)
 
 ```yaml
-Back-end Type: ABAP System (or HTTP)
-Protocol: HTTPS (recommended) or HTTP
+Back-end Type: ABAP System (veya HTTP)
+Protocol: HTTPS (onerilen) veya HTTP
 Internal Host: 10.0.0.50
 Internal Port: 44300
 Virtual Host: s4-prod
 Virtual Port: 443
-Principal Type: X.509 Certificate (or None)
+Principal Type: X.509 Certificate (veya None)
 ```
 
-### Why Virtual Hosts Matter
+### Virtual Host'lar Neden Onemli
 
-| Real Internal | Virtual External | Benefit |
-|--------------|------------------|---------|
-| `10.0.0.50:8000` | `s4-prod:443` | Hide internal IPs |
-| `SAP-ECC-PRD:44300` | `ecc-legacy:443` | Standardize ports |
-| `server1.acme.local` | `erp:443` | Simple names |
+| Gercek Dahili | Virtual Harici | Fayda |
+|---------------|----------------|-------|
+| `10.0.0.50:8000` | `s4-prod:443` | Dahili IP'leri gizler |
+| `SAP-ECC-PRD:44300` | `ecc-legacy:443` | Portlari standartlastirir |
+| `server1.acme.local` | `erp:443` | Basit isimler |
 
 ---
 
-## 16.4 Path Exposure (Security!)
+## 16.4 Yol Acma (Guvenlik!)
 
-**Critical:** Only expose the paths you actually need.
+**Kritik:** Yalnizca gercekten ihtiyaciniz olan yollari aciga cikarin.
 
-### Good vs. Bad
+### Iyi ve Kotu Ornekler
 
 ```mermaid
 graph TD
-    subgraph "❌ BAD: Everything Exposed"
+    subgraph "❌ KOTU: Her Sey Acik"
         BAD["/"]
         BAD --> B1[/sap/bc/gui/*]
         BAD --> B2[/sap/bc/adt/*]
@@ -183,8 +183,8 @@ graph TD
         BAD --> B4[/irj/*]
     end
 
-    subgraph "✅ GOOD: Only What's Needed"
-        GOOD[Specific Paths]
+    subgraph "✅ IYI: Yalnizca Gerekenler"
+        GOOD[Belirli Yollar]
         GOOD --> G1[/sap/opu/odata/sap/API_SALES_ORDER_SRV]
         GOOD --> G2[/sap/opu/odata/sap/API_MATERIAL_SRV]
     end
@@ -193,44 +193,44 @@ graph TD
     style GOOD fill:#4CAF50,color:white
 ```
 
-### Adding Path Resources
+### Yol Kaynaklari Ekleme
 
-1. Select your system mapping
-2. Click "Resources" (+)
-3. Add specific paths:
+1. Sistem eslemenizi secin
+2. "Resources" (+) tiklayin
+3. Belirli yollari ekleyin:
 
 ```yaml
-# For Joule skills calling OData
+# OData cagiran Joule yetenekleri icin
 Path: /sap/opu/odata/sap/API_SALES_ORDER_SRV
 Access Policy: Path And All Sub-Paths
 Enabled: Yes
 
-# For ABAP Development Tools
+# ABAP Development Tools icin
 Path: /sap/bc/adt
 Access Policy: Path And All Sub-Paths
-Enabled: Yes (only if needed)
+Enabled: Yes (yalnizca gerekirse)
 ```
 
-### Access Policy Options
+### Erisim Politikasi Secenekleri
 
-| Option | Meaning |
-|--------|---------|
-| **Path Only** | Exact path only |
-| **Path And All Sub-Paths** | Path and everything under it |
+| Secenek | Anlami |
+|---------|--------|
+| **Path Only** | Yalnizca tam yol |
+| **Path And All Sub-Paths** | Yol ve altindaki her sey |
 
 ---
 
-## 16.5 Destination Configuration for On-Premise
+## 16.5 On-Premise icin Destination Yapilandirmasi
 
-### Creating the Destination in BTP
+### BTP'de Destination Olusturma
 
 ```yaml
 Name: ACME_S4_ONPREM_ORDERS
 Type: HTTP
-Description: ACME S/4HANA On-Premise - Sales Orders
+Description: ACME S/4HANA On-Premise - Satis Siparisleri
 URL: http://s4-prod:443/sap/opu/odata/sap/API_SALES_ORDER_SRV
-Proxy Type: OnPremise   # <-- Key difference!
-Authentication: BasicAuthentication  # or PrincipalPropagation
+Proxy Type: OnPremise   # <-- Temel fark!
+Authentication: BasicAuthentication  # veya PrincipalPropagation
 User: BTPUSER
 Password: ********
 
@@ -240,63 +240,63 @@ Additional Properties:
   WebIDEUsage: odata_abap
 ```
 
-### The Complete Flow
+### Tam Akis
 
 ```mermaid
 sequenceDiagram
-    participant APP as BTP App
+    participant APP as BTP Uygulamasi
     participant DEST as Destination Service
     participant CC as Cloud Connector
     participant S4 as On-Prem S/4
 
-    APP->>DEST: Request with destination "ACME_S4_ONPREM_ORDERS"
+    APP->>DEST: "ACME_S4_ONPREM_ORDERS" destination ile istek
     DEST->>DEST: ProxyType = OnPremise
-    DEST->>CC: Route through Cloud Connector tunnel
-    CC->>CC: Map s4-prod:443 → 10.0.0.50:44300
-    CC->>S4: Forward request to internal system
-    S4-->>CC: Response
-    CC-->>DEST: Return through tunnel
-    DEST-->>APP: Response to app
+    DEST->>CC: Cloud Connector tuneli uzerinden yonlendir
+    CC->>CC: s4-prod:443 → 10.0.0.50:44300 esle
+    CC->>S4: Istegi dahili sisteme ilet
+    S4-->>CC: Yanit
+    CC-->>DEST: Tunel uzerinden geri don
+    DEST-->>APP: Uygulamaya yanit
 ```
 
 ---
 
 ## 16.6 Principal Propagation (SSO)
 
-For scenarios where the logged-in user's identity should flow to the on-premise system.
+Oturum acmis kullanicinin kimliginin on-premise sisteme aktarilmasi gereken senaryolar icin.
 
-### Without Principal Propagation
-
-```
-BTP User: john.doe@acme.com
-On-Prem Call: Technical user "BTPUSER"
-On-Prem sees: BTPUSER (no user context)
-```
-
-### With Principal Propagation
+### Principal Propagation Olmadan
 
 ```
-BTP User: john.doe@acme.com
-On-Prem Call: john.doe@acme.com certificate
-On-Prem sees: JDOE (actual user)
+BTP Kullanicisi: john.doe@acme.com
+On-Prem Cagrisi: Teknik kullanici "BTPUSER"
+On-Prem'in gordugu: BTPUSER (kullanici baglami yok)
 ```
 
-### Setup Requirements
+### Principal Propagation ile
+
+```
+BTP Kullanicisi: john.doe@acme.com
+On-Prem Cagrisi: john.doe@acme.com sertifikasi
+On-Prem'in gordugu: JDOE (gercek kullanici)
+```
+
+### Kurulum Gereksinimleri
 
 ```mermaid
 graph TD
-    subgraph "BTP Side"
+    subgraph "BTP Tarafi"
         IAS[SAP IAS/IDP]
         XSUAA[XSUAA]
     end
 
     subgraph "Cloud Connector"
-        CC[Certificate Mapping]
+        CC[Sertifika Eslemesi]
     end
 
     subgraph "On-Premise"
-        TRUST[Trust Configuration]
-        USER[User Mapping]
+        TRUST[Guven Yapilandirmasi]
+        USER[Kullanici Eslemesi]
     end
 
     IAS --> XSUAA
@@ -305,27 +305,27 @@ graph TD
     TRUST --> USER
 ```
 
-### Configuration Steps
+### Yapilandirma Adimlari
 
-**1. Configure Cloud Connector SNC**
-- Principal Propagation → Enable
-- Upload CA certificate
+**1. Cloud Connector SNC Yapilandirmasi**
+- Principal Propagation → Etkinlestir
+- CA sertifikasini yukleyin
 
-**2. Configure On-Premise Trust**
-- STRUST: Import Cloud Connector CA cert
-- SICF: Enable client certificate authentication
+**2. On-Premise Guven Yapilandirmasi**
+- STRUST: Cloud Connector CA sertifikasini iceri aktarin
+- SICF: Istemci sertifikasi kimlik dogrulamasini etkinlestirin
 
-**3. Configure Destination**
+**3. Destination Yapilandirmasi**
 ```yaml
 Authentication: PrincipalPropagation
-# No user/password needed
+# Kullanici/sifre gerekmez
 ```
 
 ---
 
-## 16.7 High Availability Setup
+## 16.7 Yuksek Erisilebilirlik Kurulumu
 
-For production, use master-shadow configuration.
+Uretim ortami icin master-shadow yapilandirmasi kullanin.
 
 ```mermaid
 graph TD
@@ -333,20 +333,20 @@ graph TD
         BTP[BTP Subaccount]
     end
 
-    subgraph "Corporate Network"
-        subgraph "Primary Site"
+    subgraph "Kurumsal Ag"
+        subgraph "Birincil Site"
             CC1[Cloud Connector<br/>MASTER]
         end
 
-        subgraph "DR Site"
+        subgraph "DR Sitesi"
             CC2[Cloud Connector<br/>SHADOW]
         end
 
-        S4[On-Prem Systems]
+        S4[On-Prem Sistemler]
     end
 
-    BTP --> |"Active"| CC1
-    BTP --> |"Standby"| CC2
+    BTP --> |"Aktif"| CC1
+    BTP --> |"Beklemede"| CC2
     CC1 --> S4
     CC2 --> S4
 
@@ -354,7 +354,7 @@ graph TD
     style CC2 fill:#FF9800,color:white
 ```
 
-### Setting Up HA
+### HA Kurulumu
 
 **Master:**
 ```yaml
@@ -374,64 +374,64 @@ Master Port: 8443
 
 ## 16.8 Sorun Giderme
 
-### Yaygın Sorunlar
+### Yaygin Sorunlar
 
-| Symptom | Cause | Fix |
-|---------|-------|-----|
-| "Connection refused" | CC not connected | Check CC admin UI status |
-| "Host not found" | Wrong virtual host | Verify virtual host mapping |
-| "403 Forbidden" | Path not exposed | Add path to resources |
-| "401 Unauthorized" | Bad credentials | Check destination auth |
-| Timeout | Internal firewall | Check CC → backend connectivity |
+| Belirti | Neden | Cozum |
+|---------|-------|-------|
+| "Connection refused" | CC bagli degil | CC yonetim arayuzunde durumu kontrol edin |
+| "Host not found" | Yanlis Virtual Host | Virtual Host eslemesini dogrulayin |
+| "403 Forbidden" | Yol acilmamis | Yolu kaynaklara ekleyin |
+| "401 Unauthorized" | Hatali kimlik bilgileri | Destination kimlik dogrulamasini kontrol edin |
+| Zaman asimi | Dahili guvenlik duvari | CC → backend baglantiligini kontrol edin |
 
-### Diagnostic Steps
+### Tani Adimlari
 
 ```mermaid
 flowchart TD
-    E[Connection Error] --> C1{CC Status?}
-    C1 --> |"Disconnected"| F1[Check BTP credentials]
-    C1 --> |"Connected"| C2{Path Exposed?}
-    C2 --> |"No"| F2[Add path to resources]
-    C2 --> |"Yes"| C3{Internal Reachable?}
-    C3 --> |"No"| F3[Check internal network]
-    C3 --> |"Yes"| C4{Auth Working?}
-    C4 --> |"No"| F4[Check destination credentials]
-    C4 --> |"Yes"| F5[Check backend logs]
+    E[Baglanti Hatasi] --> C1{CC Durumu?}
+    C1 --> |"Bagli Degil"| F1[BTP kimlik bilgilerini kontrol edin]
+    C1 --> |"Bagli"| C2{Yol Acik mi?}
+    C2 --> |"Hayir"| F2[Yolu kaynaklara ekleyin]
+    C2 --> |"Evet"| C3{Dahili Erisim Var mi?}
+    C3 --> |"Hayir"| F3[Dahili agi kontrol edin]
+    C3 --> |"Evet"| C4{Kimlik Dogrulama Calisiyor mu?}
+    C4 --> |"Hayir"| F4[Destination kimlik bilgilerini kontrol edin]
+    C4 --> |"Evet"| F5[Backend gunluklerini kontrol edin]
 ```
 
-### Useful Logs
+### Faydali Gunlukler
 
 **Cloud Connector:**
 ```
-Location: <CC_Install>/log/
-Files: ljs_trace.log, ljs_audit.log
+Konum: <CC_Install>/log/
+Dosyalar: ljs_trace.log, ljs_audit.log
 ```
 
-**Check connectivity:**
+**Baglanti kontrolu:**
 ```bash
-# From CC server
+# CC sunucusundan
 curl -v https://internal-host:port/sap/opu/odata/sap/API_SALES_ORDER_SRV
 ```
 
 ---
 
-## Temel Çıkarımlar
+## Temel Cikarimlar
 
-1. **Outbound-only** — No inbound firewall changes needed
-2. **Virtual hosts** — Hide real internal addresses
-3. **Expose minimally** — Only paths you actually use
-4. **Principal propagation** — User identity flows through
-5. **HA for production** — Master-shadow setup
-6. **Test the chain** — CC connectivity → Path exposure → Auth
-
----
-
-*[Önceki: Kısım 15 – SAP Integration Suite](15-integration-suite.md) | [Sonraki: Kısım 17 – Clean Core Rules](17-clean-core.md)*
-
-*[İçindekilere Dön](../content.md)*
+1. **Yalnizca giden** — Gelen guvenlik duvari degisikliklerine gerek yok
+2. **Virtual Host'lar** — Gercek dahili adresleri gizler
+3. **Minimum acim** — Yalnizca gercekten kullandiginiz yollar
+4. **Principal Propagation** — Kullanici kimligi aktarilir
+5. **Uretim icin HA** — Master-shadow kurulumu
+6. **Zinciri test edin** — CC baglantisi → Yol acimi → Kimlik dogrulama
 
 ---
 
-**Yazar:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Storyteller & Digital Transformation Advocate
+*[Onceki: Kısım 15 – SAP Integration Suite](15-integration-suite.md) | [Sonraki: Kısım 17 – Clean Core Kurallari](17-clean-core.md)*
 
-*Oluşturuldu ❤️ dünya genelindeki SAP öğrencileri için*
+*[Icindekiler'e Don](../content.md)*
+
+---
+
+**Yazar:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Hikaye Anlaticisi & Dijital Donusum Savunucusu
+
+*Dunya genelindeki SAP ogrencileri icin ❤️ ile olusturuldu*

@@ -1,46 +1,46 @@
-# Kısım 9: Building Your First Joule Skill
+# Kısım 9: İlk Joule Skill'inizi Oluşturma
 
-> *Step-by-Step Walkthrough*
-
----
-
-This chapter is a complete hands-on guide. By the end, you'll have a working Joule skill that calls a real API. No theory—just doing.
+> *Adım Adım Kılavuz*
 
 ---
 
-## 9.1 The End-to-End Flow Overview
+Bu bölüm tam bir uygulamalı rehberdir. Sonunda, gerçek bir API'yi çağıran çalışan bir Joule skill'iniz olacak. Teori yok—sadece uygulama.
 
-Before we start, here's the complete picture of what we're building:
+---
+
+## 9.1 Uçtan Uca Akış Genel Bakış
+
+Başlamadan önce, ne oluşturacağımızın tam resmi:
 
 ```mermaid
 flowchart TD
-    subgraph "Step 1: Create Destination"
+    subgraph "Adım 1: Destination Oluştur"
         D1[BTP Cockpit]
         D2[Connectivity → Destinations]
-        D3[New Destination]
+        D3[Yeni Destination]
         D1 --> D2 --> D3
     end
 
-    subgraph "Step 2: Create Action Project"
+    subgraph "Adım 2: Action Project Oluştur"
         A1[SAP Build Lobby]
-        A2[Create Action Project]
-        A3[Import OpenAPI / Define Actions]
-        A4[Link to Destination]
+        A2[Action Project Oluştur]
+        A3[OpenAPI İçe Aktar / Action'ları Tanımla]
+        A4[Destination'a Bağla]
         A1 --> A2 --> A3 --> A4
     end
 
-    subgraph "Step 3: Create Skill"
+    subgraph "Adım 3: Skill Oluştur"
         S1[Joule Studio]
-        S2[New Skill]
-        S3[Add Action from Action Project]
-        S4[Configure Inputs/Outputs]
+        S2[Yeni Skill]
+        S3[Action Project'ten Action Ekle]
+        S4[Girdi/Çıktıları Yapılandır]
         S1 --> S2 --> S3 --> S4
     end
 
-    subgraph "Step 4: Test & Deploy"
-        T1[Test Skill]
-        T2[Deploy to Joule]
-        T3[Assign to Agent]
+    subgraph "Adım 4: Test Et & Deploy Et"
+        T1[Skill'i Test Et]
+        T2[Joule'a Deploy Et]
+        T3[Agent'a Ata]
         T1 --> T2 --> T3
     end
 
@@ -49,125 +49,125 @@ flowchart TD
     S4 --> T1
 ```
 
-**Our Örnek Scenario:**
-> Build a skill that looks up sales order status from S/4HANA Cloud.
-> Users will say: "What's the status of order 12345?"
+**Örnek Senaryomuz:**
+> S/4HANA Cloud'dan satış siparişi durumunu sorgulayan bir skill oluşturun.
+> Kullanıcılar şöyle soracak: "12345 numaralı siparişin durumu nedir?"
 
 ---
 
-## 9.2 Step 1: Create a Destination
+## 9.2 Adım 1: Destination Oluşturma
 
-### Navigate to Destinations
+### Destination'lara Gitme
 
-1. Open BTP Cockpit: `https://cockpit.eu10.hana.ondemand.com`
-2. Select your **Global Account**
-3. Select your **Subaccount** (e.g., `ACME-DEV`)
-4. Left menu: **Connectivity → Destinations**
-5. Click **New Destination**
+1. BTP Cockpit'i açın: `https://cockpit.eu10.hana.ondemand.com`
+2. **Global Account**'unuzu seçin
+3. **Subaccount**'unuzu seçin (örn., `ACME-DEV`)
+4. Sol menü: **Connectivity → Destinations**
+5. **New Destination**'a tıklayın
 
-### Fill in Destination Details
+### Destination Detaylarını Doldurma
 
-For S/4HANA Cloud connection:
+S/4HANA Cloud bağlantısı için:
 
 ```yaml
-# Destination Configuration
+# Destination Yapılandırması
 Name: ACME_S4_DEV_SALES
 Type: HTTP
-Description: ACME S/4HANA DEV - Sales Order APIs
+Description: ACME S/4HANA DEV - Satış Siparişi API'leri
 URL: https://my300001-api.s4hana.ondemand.com
 Proxy Type: Internet
 Authentication: OAuth2ClientCredentials
 
-# OAuth2 Settings
+# OAuth2 Ayarları
 Client ID: sb-xsuaa-sales-api!t54321
 Client Secret: aBcDeFgHiJkLmNoPqRsTuVwXyZ123456=
 Token Service URL Type: Dedicated
 Token Service URL: https://my300001.authentication.eu10.hana.ondemand.com/oauth/token
 
-# Additional Properties (click "New Property")
+# Ek Özellikler ("New Property"ye tıklayın)
 sap-client: 100
 URL.headers.Content-Type: application/json
 ```
 
-### How to Get These Values
+### Bu Değerleri Nasıl Alırsınız
 
-**From S/4HANA Cloud:**
+**S/4HANA Cloud'dan:**
 
 ```mermaid
 flowchart LR
     subgraph "S/4HANA Cloud"
-        A[Communication Systems]
-        B[Communication Arrangements]
-        C[Communication User]
+        A[İletişim Sistemleri]
+        B[İletişim Düzenlemeleri]
+        C[İletişim Kullanıcısı]
     end
 
-    A --> |"Create for BTP"| B
-    B --> |"Assign Scenario SAP_COM_0109"| C
-    C --> |"Generate OAuth Credentials"| D[Client ID + Secret]
-    D --> E[Use in Destination]
+    A --> |"BTP için oluştur"| B
+    B --> |"SAP_COM_0109 Senaryosu Ata"| C
+    C --> |"OAuth Kimlik Bilgileri Oluştur"| D[Client ID + Secret]
+    D --> E[Destination'da Kullan]
 ```
 
-1. In S/4HANA Cloud: **Communication Management → Communication Arrangements**
-2. Find or create arrangement for `SAP_COM_0109` (Sales Order Integration)
-3. Create **Communication User** with OAuth 2.0 credentials
-4. Copy the Client ID, Secret, and Token URL
+1. S/4HANA Cloud'da: **İletişim Yönetimi → İletişim Düzenlemeleri**
+2. `SAP_COM_0109` (Satış Siparişi Entegrasyonu) için düzenleme bulun veya oluşturun
+3. OAuth 2.0 kimlik bilgileriyle **İletişim Kullanıcısı** oluşturun
+4. Client ID, Secret ve Token URL'yi kopyalayın
 
-### Test the Destination
+### Destination'ı Test Etme
 
-Click **Check Connection**
+**Check Connection**'a tıklayın
 
-Expected result:
+Beklenen sonuç:
 ```
-✅ Connection to "ACME_S4_DEV_SALES" established.
-Response: 200 OK
+✅ "ACME_S4_DEV_SALES" bağlantısı kuruldu.
+Yanıt: 200 OK
 ```
 
-If you get errors, see Ek D for troubleshooting.
+Hata alırsanız, sorun giderme için Ek D'ye bakın.
 
 ---
 
-## 9.3 Step 2: Create an Action Project in SAP Build
+## 9.3 Adım 2: SAP Build'de Action Project Oluşturma
 
-### Access SAP Build
+### SAP Build'e Erişim
 
 1. BTP Cockpit → **Instances and Subscriptions**
-2. Find **SAP Build** → Click **Go to Application**
-3. You're now in the SAP Build Lobby
+2. **SAP Build**'i bulun → **Go to Application**'a tıklayın
+3. Artık SAP Build Lobby'desiniz
 
-### Create New Action Project
+### Yeni Action Project Oluşturma
 
-1. Click **Create**
-2. Select **Build an Automated Process**
-3. Choose **Actions**
-4. Project name: `S4 Sales Order APIs`
-5. Click **Create**
+1. **Create**'e tıklayın
+2. **Build an Automated Process** seçin
+3. **Actions** seçin
+4. Proje adı: `S4 Satış Siparişi API'leri`
+5. **Create**'e tıklayın
 
 ```mermaid
 flowchart LR
     A[SAP Build Lobby] --> B[Create]
     B --> C[Build an Automated Process]
     C --> D[Actions]
-    D --> E[Project Created]
+    D --> E[Proje Oluşturuldu]
 ```
 
-### Add API to Action Project
+### Action Project'e API Ekleme
 
-**Option A: Import OpenAPI Specification (Recommended)**
+**Seçenek A: OpenAPI Spesifikasyonunu İçe Aktarma (Önerilen)**
 
-1. Click **Add API**
-2. Select **Upload API Specification**
-3. Upload the OpenAPI/Swagger file for Sales Order API
+1. **Add API**'ye tıklayın
+2. **Upload API Specification** seçin
+3. Satış Siparişi API'si için OpenAPI/Swagger dosyasını yükleyin
 
-Where to get the OpenAPI spec:
+OpenAPI spec'i nereden alabilirsiniz:
 - **SAP Business Accelerator Hub**: `https://api.sap.com`
-- Search for: `Sales Order (A2X)`
-- Download the OpenAPI 3.0 JSON/YAML
+- Arayın: `Sales Order (A2X)`
+- OpenAPI 3.0 JSON/YAML indirin
 
-**Sample OpenAPI Spec (simplified):**
+**Örnek OpenAPI Spec (basitleştirilmiş):**
 ```yaml
 openapi: 3.0.0
 info:
-  title: Sales Order API
+  title: Satış Siparişi API
   version: 1.0.0
 
 servers:
@@ -176,7 +176,7 @@ servers:
 paths:
   /sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrder('{SalesOrder}'):
     get:
-      summary: Get Sales Order by ID
+      summary: ID ile Satış Siparişi Al
       operationId: getSalesOrderById
       parameters:
         - name: SalesOrder
@@ -184,20 +184,20 @@ paths:
           required: true
           schema:
             type: string
-          description: Sales Order Number (e.g., "12345")
+          description: Satış Siparişi Numarası (örn., "12345")
         - name: $select
           in: query
           schema:
             type: string
-          description: Fields to return
+          description: Döndürülecek alanlar
         - name: $expand
           in: query
           schema:
             type: string
-          description: Related entities to include
+          description: Dahil edilecek ilişkili varlıklar
       responses:
         '200':
-          description: Sales Order Details
+          description: Satış Siparişi Detayları
           content:
             application/json:
               schema:
@@ -205,7 +205,7 @@ paths:
 
   /sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrder:
     get:
-      summary: Get Sales Orders List
+      summary: Satış Siparişleri Listesini Al
       operationId: getSalesOrders
       parameters:
         - name: $filter
@@ -218,7 +218,7 @@ paths:
             type: integer
       responses:
         '200':
-          description: List of Sales Orders
+          description: Satış Siparişleri Listesi
 
 components:
   schemas:
@@ -243,36 +243,36 @@ components:
           type: string
 ```
 
-**Option B: Define Actions Manually**
+**Seçenek B: Action'ları Manuel Tanımlama**
 
-1. Click **Add API**
-2. Select **Create from Scratch**
-3. Define the endpoint:
+1. **Add API**'ye tıklayın
+2. **Create from Scratch** seçin
+3. Endpoint'i tanımlayın:
 
 ```yaml
-Action Name: Get Sales Order Status
+Action Adı: Satış Siparişi Durumunu Al
 HTTP Method: GET
 Path: /sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrder('{SalesOrder}')
 ```
 
-4. Add parameter:
-   - Name: `SalesOrder`
-   - Type: String
-   - Required: Yes
+4. Parametre ekleyin:
+   - Ad: `SalesOrder`
+   - Tür: String
+   - Zorunlu: Evet
 
-5. Define response mapping
+5. Yanıt eşlemesini tanımlayın
 
-### Connect to Destination
+### Destination'a Bağlanma
 
-1. In Action Project, click **Settings** (gear icon)
-2. Select **Destinations**
-3. Choose **ACME_S4_DEV_SALES** from the list
-4. Click **Save**
+1. Action Project'te **Settings**'e (dişli simgesi) tıklayın
+2. **Destinations** seçin
+3. Listeden **ACME_S4_DEV_SALES**'ı seçin
+4. **Save**'e tıklayın
 
 ```mermaid
 flowchart TD
     subgraph "Action Project"
-        AP[S4 Sales Order APIs]
+        AP[S4 Satış Siparişi API'leri]
         ACT[Action: getSalesOrderById]
     end
 
@@ -285,21 +285,21 @@ flowchart TD
     end
 
     AP --> ACT
-    ACT --> |"Uses"| DEST
-    DEST --> |"Connects to"| API
+    ACT --> |"Kullanır"| DEST
+    DEST --> |"Bağlanır"| API
 ```
 
-### Test the Action
+### Action'ı Test Etme
 
-1. Click on the action `getSalesOrderById`
-2. Click **Test** tab
-3. Enter test data:
+1. `getSalesOrderById` action'ına tıklayın
+2. **Test** sekmesine tıklayın
+3. Test verisini girin:
    ```
    SalesOrder: 1
    ```
-4. Click **Execute**
+4. **Execute**'a tıklayın
 
-Expected response:
+Beklenen yanıt:
 ```json
 {
   "d": {
@@ -315,40 +315,40 @@ Expected response:
 }
 ```
 
-### Publish the Action Project
+### Action Project'i Yayınlama
 
-1. Click **Release**
-2. Add version note: "Initial release - Sales Order lookup"
-3. Click **Release**
-4. Click **Publish to Library**
+1. **Release**'e tıklayın
+2. Versiyon notu ekleyin: "İlk sürüm - Satış Siparişi sorgusu"
+3. **Release**'e tıklayın
+4. **Publish to Library**'ye tıklayın
 
 ---
 
-## 9.4 Step 3: Create a Skill in Joule Studio
+## 9.4 Adım 3: Joule Studio'da Skill Oluşturma
 
-### Access Joule Studio
+### Joule Studio'ya Erişim
 
-1. SAP Build Lobby → **Joule Studio** (left menu)
-2. Or: BTP Cockpit → Instances → Joule Studio
+1. SAP Build Lobby → **Joule Studio** (sol menü)
+2. Veya: BTP Cockpit → Instances → Joule Studio
 
-### Create New Skill
+### Yeni Skill Oluşturma
 
-1. Click **Create Skill**
-2. Fill in details:
+1. **Create Skill**'e tıklayın
+2. Detayları doldurun:
 
 ```yaml
-Skill Name: Get Sales Order Status
-Description: Retrieves the current status of a sales order by its number
-Category: Sales
+Skill Adı: Satış Siparişi Durumunu Al
+Açıklama: Sipariş numarasına göre satış siparişinin güncel durumunu alır
+Kategori: Satış
 ```
 
 ```mermaid
 flowchart TD
-    subgraph "Skill Configuration"
-        SK[Skill: Get Sales Order Status]
-        IN[Input: Sales Order Number]
-        OUT[Output: Order Details]
-        INS[Instructions for Joule]
+    subgraph "Skill Yapılandırması"
+        SK[Skill: Satış Siparişi Durumunu Al]
+        IN[Girdi: Satış Siparişi Numarası]
+        OUT[Çıktı: Sipariş Detayları]
+        INS[Joule için Talimatlar]
     end
 
     IN --> SK
@@ -356,105 +356,105 @@ flowchart TD
     INS --> SK
 ```
 
-### Add Action to Skill
+### Skill'e Action Ekleme
 
-1. In the skill editor, click **Add Action**
-2. Select **From Action Project**
-3. Find your project: `S4 Sales Order APIs`
-4. Select action: `getSalesOrderById`
-5. Click **Add**
+1. Skill editöründe **Add Action**'a tıklayın
+2. **From Action Project** seçin
+3. Projenizi bulun: `S4 Satış Siparişi API'leri`
+4. Action'ı seçin: `getSalesOrderById`
+5. **Add**'e tıklayın
 
-### Configure Input Parameters
+### Girdi Parametrelerini Yapılandırma
 
-Map user input to API parameters:
+Kullanıcı girdisini API parametrelerine eşleyin:
 
 ```yaml
-Skill Input:
-  - Name: salesOrderNumber
-    Type: String
-    Description: The sales order number to look up
-    Required: Yes
+Skill Girdisi:
+  - Ad: salesOrderNumber
+    Tür: String
+    Açıklama: Sorgulanacak satış siparişi numarası
+    Zorunlu: Evet
     Örnek: "12345"
 
-Action Mapping:
-  - Action Parameter: SalesOrder
-    Maps to: salesOrderNumber
+Action Eşlemesi:
+  - Action Parametresi: SalesOrder
+    Eşlenir: salesOrderNumber
 ```
 
-### Configure Output
+### Çıktıyı Yapılandırma
 
-Define what the skill returns:
+Skill'in ne döndüreceğini tanımlayın:
 
 ```yaml
-Output Fields:
-  - Field: orderNumber
-    Source: response.d.SalesOrder
-    Type: String
+Çıktı Alanları:
+  - Alan: orderNumber
+    Kaynak: response.d.SalesOrder
+    Tür: String
 
-  - Field: customer
-    Source: response.d.SoldToParty
-    Type: String
+  - Alan: customer
+    Kaynak: response.d.SoldToParty
+    Tür: String
 
-  - Field: amount
-    Source: response.d.TotalNetAmount
-    Type: Number
+  - Alan: amount
+    Kaynak: response.d.TotalNetAmount
+    Tür: Number
 
-  - Field: currency
-    Source: response.d.TransactionCurrency
-    Type: String
+  - Alan: currency
+    Kaynak: response.d.TransactionCurrency
+    Tür: String
 
-  - Field: deliveryStatus
-    Source: response.d.OverallDeliveryStatus
-    Type: String
+  - Alan: deliveryStatus
+    Kaynak: response.d.OverallDeliveryStatus
+    Tür: String
 
-  - Field: createdOn
-    Source: response.d.CreationDate
-    Type: Date
+  - Alan: createdOn
+    Kaynak: response.d.CreationDate
+    Tür: Date
 ```
 
-### Add Skill Instructions
+### Skill Talimatları Ekleme
 
-Tell Joule when and how to use this skill:
+Joule'a bu skill'i ne zaman ve nasıl kullanacağını söyleyin:
 
 ```markdown
 ## Ne Zaman Kullanılır
-Use this skill when the user asks about:
-- Sales order status
-- Order details
-- Delivery status of an order
-- Information about a specific order number
+Bu skill'i kullanıcı şunları sorduğunda kullanın:
+- Satış siparişi durumu
+- Sipariş detayları
+- Siparişin teslimat durumu
+- Belirli bir sipariş numarası hakkında bilgi
 
-## Örnek User Queries
-- "What's the status of order 12345?"
-- "Show me order number 67890"
-- "Has order 11111 been delivered?"
-- "Check sales order 54321"
+## Örnek Kullanıcı Sorguları
+- "12345 numaralı siparişin durumu nedir?"
+- "67890 numaralı siparişi göster"
+- "11111 numaralı sipariş teslim edildi mi?"
+- "54321 satış siparişini kontrol et"
 
-## Response Guidelines
-When presenting results:
-- Always mention the order number
-- Show the customer name if available
-- Include the total amount with currency
-- Explain the delivery status in plain language:
-  - "A" = Not yet delivered
-  - "B" = Partially delivered
-  - "C" = Completely delivered
+## Yanıt Kuralları
+Sonuçları sunarken:
+- Her zaman sipariş numarasını belirtin
+- Varsa müşteri adını gösterin
+- Para birimi ile toplam tutarı dahil edin
+- Teslimat durumunu anlaşılır dilde açıklayın:
+  - "A" = Henüz teslim edilmedi
+  - "B" = Kısmen teslim edildi
+  - "C" = Tamamen teslim edildi
 ```
 
 ---
 
-## 9.5 Step 4: Test and Deploy
+## 9.5 Adım 4: Test Etme ve Deploy Etme
 
-### Test the Skill
+### Skill'i Test Etme
 
-1. In Joule Studio, click **Test**
-2. Enter test input:
+1. Joule Studio'da **Test**'e tıklayın
+2. Test girdisi girin:
    ```
    salesOrderNumber: 1
    ```
-3. Click **Run Test**
+3. **Run Test**'e tıklayın
 
-**Expected Test Result:**
+**Beklenen Test Sonucu:**
 ```json
 {
   "orderNumber": "1",
@@ -466,54 +466,54 @@ When presenting results:
 }
 ```
 
-### Interactive Testing
+### Etkileşimli Test
 
-Click **Chat Test** to test natural language:
+Doğal dil testi için **Chat Test**'e tıklayın:
 
 ```
-You: What's the status of order 1?
+Siz: 1 numaralı siparişin durumu nedir?
 
-Joule: Sales Order 1:
-       - Customer: 17100001
-       - Total Amount: $52,750.00 USD
-       - Delivery Status: Completely delivered
-       - Created: January 1, 2024
+Joule: Satış Siparişi 1:
+       - Müşteri: 17100001
+       - Toplam Tutar: $52,750.00 USD
+       - Teslimat Durumu: Tamamen teslim edildi
+       - Oluşturulma: 1 Ocak 2024
 ```
 
-### Deploy the Skill
+### Skill'i Deploy Etme
 
-1. Click **Deploy**
-2. Select deployment target:
-   - **Development** for testing
-   - **Production** for live use
-3. Click **Deploy**
+1. **Deploy**'a tıklayın
+2. Deployment hedefini seçin:
+   - Test için **Development**
+   - Canlı kullanım için **Production**
+3. **Deploy**'a tıklayın
 
 ```mermaid
 flowchart LR
-    subgraph "Deployment Flow"
+    subgraph "Deployment Akışı"
         DEV[Development]
-        TEST[Testing]
+        TEST[Test]
         PROD[Production]
     end
 
-    DEV --> |"Test thoroughly"| TEST
-    TEST --> |"Approve"| PROD
+    DEV --> |"İyice test et"| TEST
+    TEST --> |"Onayla"| PROD
 
     style PROD fill:#4CAF50,color:white
 ```
 
 ---
 
-## 9.6 Complete Örnek: Weather-Enhanced Logistics Skill
+## 9.6 Tam Örnek: Hava Durumu Destekli Lojistik Skill
 
-Let's build a more complex example with an external API.
+Harici API ile daha karmaşık bir örnek oluşturalım.
 
-### Scenario
+### Senaryo
 
-> Logistics planners ask: "What's the weather at our Munich warehouse?"
-> The skill should check weather conditions to assess delivery risks.
+> Lojistik planlayıcıları soruyor: "Münih depomuzda hava durumu nasıl?"
+> Skill, teslimat risklerini değerlendirmek için hava koşullarını kontrol etmeli.
 
-### Step 1: Create Weather API Destination
+### Adım 1: Hava Durumu API Destination'ı Oluşturma
 
 ```yaml
 Name: EXTERNAL_OPENWEATHER
@@ -522,15 +522,15 @@ URL: https://api.openweathermap.org/data/2.5
 Proxy Type: Internet
 Authentication: NoAuthentication
 
-Additional Properties:
+Ek Özellikler:
 URL.headers.Accept: application/json
-URL.queries.appid: your_api_key_here
+URL.queries.appid: sizin_api_anahtariniz
 URL.queries.units: metric
 ```
 
-### Step 2: Create Action Project
+### Adım 2: Action Project Oluşturma
 
-**OpenAPI Spec for Weather:**
+**Hava Durumu için OpenAPI Spec:**
 ```yaml
 openapi: 3.0.0
 info:
@@ -543,7 +543,7 @@ servers:
 paths:
   /weather:
     get:
-      summary: Get Current Weather
+      summary: Güncel Hava Durumunu Al
       operationId: getCurrentWeather
       parameters:
         - name: q
@@ -551,10 +551,10 @@ paths:
           required: true
           schema:
             type: string
-          description: City name (e.g., "Munich,DE")
+          description: Şehir adı (örn., "Munich,DE")
       responses:
         '200':
-          description: Weather data
+          description: Hava durumu verisi
           content:
             application/json:
               schema:
@@ -590,22 +590,22 @@ components:
               type: number
 ```
 
-### Step 3: Create Skill with Warehouse Mapping
+### Adım 3: Depo Eşlemeli Skill Oluşturma
 
-**Skill: Get Warehouse Weather**
+**Skill: Depo Hava Durumunu Al**
 
 ```yaml
-Skill Name: Get Warehouse Weather
-Description: Checks weather conditions at company warehouses
+Skill Adı: Depo Hava Durumunu Al
+Açıklama: Şirket depolarındaki hava koşullarını kontrol eder
 
-Input Parameters:
-  - Name: warehouseCode
-    Type: String
-    Description: Warehouse code (e.g., MUC, FRA, BER)
-    Required: Yes
+Girdi Parametreleri:
+  - Ad: warehouseCode
+    Tür: String
+    Açıklama: Depo kodu (örn., MUC, FRA, BER)
+    Zorunlu: Evet
 
-Internal Logic:
-  # Map warehouse codes to cities
+Dahili Mantık:
+  # Depo kodlarını şehirlere eşle
   warehouseMapping:
     MUC: "Munich,DE"
     FRA: "Frankfurt,DE"
@@ -613,195 +613,195 @@ Internal Logic:
     HAM: "Hamburg,DE"
     VIE: "Vienna,AT"
 
-Output:
-  - location: City name
-  - temperature: Current temperature in Celsius
-  - condition: Weather condition (Clear, Rain, Snow, etc.)
-  - windSpeed: Wind speed in m/s
-  - deliveryRisk: Calculated risk level (Low, Medium, High)
+Çıktı:
+  - location: Şehir adı
+  - temperature: Celsius cinsinden güncel sıcaklık
+  - condition: Hava koşulu (Açık, Yağmur, Kar, vb.)
+  - windSpeed: m/s cinsinden rüzgar hızı
+  - deliveryRisk: Hesaplanan risk seviyesi (Düşük, Orta, Yüksek)
 ```
 
-**Skill Instructions:**
+**Skill Talimatları:**
 ```markdown
 ## Ne Zaman Kullanılır
-- User asks about weather at a warehouse
-- User asks about delivery conditions
-- User wants to know if weather will affect logistics
+- Kullanıcı bir depodaki hava durumunu sorar
+- Kullanıcı teslimat koşullarını sorar
+- Kullanıcı havanın lojistiği etkileyip etkilemeyeceğini bilmek ister
 
-## Warehouse Codes
-- MUC = Munich
+## Depo Kodları
+- MUC = Münih
 - FRA = Frankfurt
 - BER = Berlin
 - HAM = Hamburg
-- VIE = Vienna
+- VIE = Viyana
 
-## Risk Calculation
-- Snow or Ice: High risk
-- Rain + Wind > 10 m/s: Medium risk
-- Clear weather: Low risk
+## Risk Hesaplama
+- Kar veya Buz: Yüksek risk
+- Yağmur + Rüzgar > 10 m/s: Orta risk
+- Açık hava: Düşük risk
 
-## Örnek Responses
-"The weather at our Munich warehouse (MUC) is currently:
-- Temperature: 5°C
-- Condition: Light snow
-- Wind: 12 m/s
-- Delivery Risk: HIGH - Snow conditions may delay shipments"
+## Örnek Yanıtlar
+"Münih depomuzda (MUC) şu anki hava durumu:
+- Sıcaklık: 5°C
+- Koşul: Hafif kar
+- Rüzgar: 12 m/s
+- Teslimat Riski: YÜKSEK - Kar koşulları sevkiyatları geciktirebilir"
 ```
 
-### Step 4: Test Complete Flow
+### Adım 4: Tam Akışı Test Etme
 
 ```
-User: "What's the weather at warehouse MUC?"
+Kullanıcı: "MUC deposunda hava durumu nasıl?"
 
-Joule: I'll check the weather at our Munich warehouse.
+Joule: Münih depomuzun hava durumunu kontrol ediyorum.
 
-       Munich Warehouse (MUC) Weather:
-       🌡️ Temperature: 2°C
-       🌨️ Condition: Light Snow
-       💨 Wind: 8 m/s
+       Münih Deposu (MUC) Hava Durumu:
+       🌡️ Sıcaklık: 2°C
+       🌨️ Koşul: Hafif Kar
+       💨 Rüzgar: 8 m/s
 
-       ⚠️ Delivery Risk: HIGH
-       Snow conditions may cause delays.
-       Consider notifying customers of potential delays.
+       ⚠️ Teslimat Riski: YÜKSEK
+       Kar koşulları gecikmelere neden olabilir.
+       Müşterileri olası gecikmeler konusunda bilgilendirmeyi düşünün.
 ```
 
 ---
 
-## 9.7 Debugging Yaygın Sorunlar
+## 9.7 Yaygın Sorunları Ayıklama
 
-### Issue: Action Returns Empty Response
+### Sorun: Action Boş Yanıt Döndürüyor
 
 ```mermaid
 flowchart TD
-    A[Empty Response] --> B{Check Destination}
-    B --> |"Connection fails"| C[Verify URL and credentials]
-    B --> |"Connection works"| D{Check Action}
-    D --> |"Wrong path"| E[Verify API endpoint path]
-    D --> |"Path correct"| F{Check Parameters}
-    F --> |"Missing required param"| G[Add required parameters]
-    F --> |"Params correct"| H[Check API authorization]
+    A[Boş Yanıt] --> B{Destination Kontrol Et}
+    B --> |"Bağlantı başarısız"| C[URL ve kimlik bilgilerini doğrula]
+    B --> |"Bağlantı çalışıyor"| D{Action Kontrol Et}
+    D --> |"Yanlış path"| E[API endpoint path'ini doğrula]
+    D --> |"Path doğru"| F{Parametreleri Kontrol Et}
+    F --> |"Zorunlu parametre eksik"| G[Zorunlu parametreleri ekle]
+    F --> |"Parametreler doğru"| H[API yetkilendirmesini kontrol et]
 ```
 
-**Checklist:**
-1. ✅ Destination "Check Connection" succeeds
-2. ✅ Action Project linked to correct destination
-3. ✅ API path matches actual endpoint
-4. ✅ All required parameters mapped
-5. ✅ API user has correct authorizations
+**Kontrol Listesi:**
+1. ✅ Destination "Check Connection" başarılı
+2. ✅ Action Project doğru destination'a bağlı
+3. ✅ API path'i gerçek endpoint ile eşleşiyor
+4. ✅ Tüm zorunlu parametreler eşlenmiş
+5. ✅ API kullanıcısının doğru yetkileri var
 
-### Issue: Skill Not Appearing in Joule
+### Sorun: Skill Joule'da Görünmüyor
 
-**Possible causes:**
-- Skill not deployed
-- Deployment to wrong environment
-- User not assigned to skill
+**Olası nedenler:**
+- Skill deploy edilmemiş
+- Yanlış ortama deployment
+- Kullanıcı skill'e atanmamış
 
-**Fix:**
-1. Check deployment status in Joule Studio
-2. Verify subaccount is correct
-3. Check skill permissions
+**Çözüm:**
+1. Joule Studio'da deployment durumunu kontrol edin
+2. Subaccount'un doğru olduğunu doğrulayın
+3. Skill izinlerini kontrol edin
 
-### Issue: "Action Not Found" Error
+### Sorun: "Action Not Found" Hatası
 
 ```
-Error: The action "getSalesOrderById" could not be found
+Hata: "getSalesOrderById" action'ı bulunamadı
 ```
 
-**Causes:**
-1. Action Project not published
-2. Wrong action name reference
-3. Action Project in different subaccount
+**Nedenler:**
+1. Action Project yayınlanmamış
+2. Yanlış action adı referansı
+3. Action Project farklı subaccount'ta
 
-**Fix:**
-1. Publish the Action Project
-2. Re-link action in skill
-3. Verify you're in the correct subaccount
+**Çözüm:**
+1. Action Project'i yayınlayın
+2. Skill'de action'ı yeniden bağlayın
+3. Doğru subaccount'ta olduğunuzu doğrulayın
 
 ---
 
-## 9.8 En İyi Uygulamalar for Production Skills
+## 9.8 Prodüksiyon Skill'leri için En İyi Uygulamalar
 
-### 1. Error Handling
+### 1. Hata Yönetimi
 
-Define what happens when the API fails:
+API başarısız olduğunda ne olacağını tanımlayın:
 
 ```yaml
-Error Handling:
+Hata Yönetimi:
   onError:
     - type: API_ERROR
-      response: "I couldn't retrieve the order information. Please try again or contact support."
+      response: "Sipariş bilgilerini alamadım. Lütfen tekrar deneyin veya destekle iletişime geçin."
 
     - type: NOT_FOUND
-      response: "Order {orderNumber} was not found. Please check the order number and try again."
+      response: "{orderNumber} numaralı sipariş bulunamadı. Lütfen sipariş numarasını kontrol edip tekrar deneyin."
 
     - type: UNAUTHORIZED
-      response: "I don't have access to this order. Please contact your administrator."
+      response: "Bu siparişe erişim yetkim yok. Lütfen yöneticinizle iletişime geçin."
 ```
 
-### 2. Input Validation
+### 2. Girdi Doğrulama
 
-Validate inputs before calling APIs:
+API'leri çağırmadan önce girdileri doğrulayın:
 
 ```yaml
-Validation Rules:
+Doğrulama Kuralları:
   salesOrderNumber:
     - pattern: "^[0-9]{1,10}$"
-      message: "Order number must be 1-10 digits"
+      message: "Sipariş numarası 1-10 rakam olmalıdır"
     - required: true
-      message: "Please provide an order number"
+      message: "Lütfen bir sipariş numarası girin"
 ```
 
-### 3. Response Formatting
+### 3. Yanıt Formatlama
 
-Make responses user-friendly:
+Yanıtları kullanıcı dostu yapın:
 
 ```yaml
-Response Template: |
-  📦 **Sales Order {orderNumber}**
+Yanıt Şablonu: |
+  📦 **Satış Siparişi {orderNumber}**
 
-  | Field | Value |
-  |-------|-------|
-  | Customer | {customerName} |
-  | Amount | {amount} {currency} |
-  | Status | {deliveryStatusText} |
-  | Created | {createdDate} |
+  | Alan | Değer |
+  |------|-------|
+  | Müşteri | {customerName} |
+  | Tutar | {amount} {currency} |
+  | Durum | {deliveryStatusText} |
+  | Oluşturulma | {createdDate} |
 
   {additionalNotes}
 ```
 
-### 4. Logging and Monitoring
+### 4. Loglama ve İzleme
 
-Track skill usage:
-- Enable logging in Joule Studio
-- Monitor API call volumes
-- Track error rates
-- Review user feedback
+Skill kullanımını takip edin:
+- Joule Studio'da loglamayı etkinleştirin
+- API çağrı hacimlerini izleyin
+- Hata oranlarını takip edin
+- Kullanıcı geri bildirimlerini inceleyin
 
 ---
 
 ## Temel Çıkarımlar
 
-1. **Four-step process**: Destination → Action Project → Skill → Deploy
-2. **Destinations first**: Always create and test destination before anything else
-3. **OpenAPI specs help**: Import API specs instead of manual definition
-4. **Test at each step**: Verify each component works before moving on
-5. **Good instructions matter**: Clear skill instructions help Joule use skills correctly
-6. **Handle errors gracefully**: Users should get helpful messages when things fail
+1. **Dört adımlı süreç**: Destination → Action Project → Skill → Deploy
+2. **Önce destination'lar**: Her şeyden önce destination'ı oluşturup test edin
+3. **OpenAPI spec'leri yardımcı olur**: Manuel tanımlama yerine API spec'lerini içe aktarın
+4. **Her adımda test edin**: İlerlemeden önce her bileşenin çalıştığını doğrulayın
+5. **İyi talimatlar önemli**: Açık skill talimatları Joule'un skill'leri doğru kullanmasına yardımcı olur
+6. **Hataları zarif yönetin**: İşler başarısız olduğunda kullanıcılar faydalı mesajlar almalı
 
 ---
 
 ## Sırada Ne Var?
 
-You've built a skill. Now let's build an agent that can use multiple skills together and reason about complex requests.
+Bir skill oluşturdunuz. Şimdi birden fazla skill'i birlikte kullanabilen ve karmaşık istekler hakkında akıl yürütebilen bir agent oluşturalım.
 
 ---
 
-*[Önceki: Kısım 8 – Joule Fundamentals](08-joule-fundamentals.md) | [Sonraki: Kısım 10 – Building Joule Agents](10-building-agents.md)*
+*[Önceki: Kısım 8 – Joule Temelleri](08-joule-fundamentals.md) | [Sonraki: Kısım 10 – Joule Agent'ları Oluşturma](10-building-agents.md)*
 
 *[İçindekilere Dön](../content.md)*
 
 ---
 
-**Yazar:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Storyteller & Digital Transformation Advocate
+**Yazar:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Hikaye Anlatıcısı & Dijital Dönüşüm Savunucusu
 
-*Oluşturuldu ❤️ dünya genelindeki SAP öğrencileri için*
+*Dünya genelindeki SAP öğrencileri için ❤️ ile oluşturuldu*

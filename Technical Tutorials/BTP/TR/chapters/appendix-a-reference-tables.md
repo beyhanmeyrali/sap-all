@@ -1,10 +1,10 @@
-# Ek A: Hızlı Referans Tables
+# Ek A: Hızlı Referans Tabloları
 
-> *Cheat Sheets for Everyday Use*
+> *Günlük Kullanım için Kopya Kağıtları*
 
 ---
 
-## A.1 BTP Hierarchy Cheat Sheet
+## A.1 BTP Hiyerarşi Kopya Kağıdı
 
 ```mermaid
 graph TD
@@ -26,17 +26,17 @@ graph TD
     style SA4 fill:#4CAF50,color:white
 ```
 
-| Level | Nedir | Analogy | Örnek |
-|-------|------------|---------|---------|
-| **Global Account** | Your contract with SAP | Lease agreement | `ACME_Corp_GA` |
-| **Directory** | Optional grouping | Floor in building | `Production`, `Non-Prod` |
-| **Subaccount** | Where you work | Your apartment | `ACME_PROD_EU10` |
-| **Environment** | Runtime (CF, Kyma, ABAP) | Type of appliance | `Cloud Foundry` |
-| **Service Instance** | Enabled service | Installed appliance | `destination-service` |
+| Seviye | Nedir | Benzetme | Örnek |
+|--------|-------|----------|-------|
+| **Global Account** | SAP ile sözleşmeniz | Kira sözleşmesi | `ACME_Corp_GA` |
+| **Directory** | Opsiyonel gruplama | Binadaki kat | `Production`, `Non-Prod` |
+| **Subaccount** | Çalıştığınız yer | Daireniz | `ACME_PROD_EU10` |
+| **Environment** | Çalışma zamanı (CF, Kyma, ABAP) | Cihaz tipi | `Cloud Foundry` |
+| **Service Instance** | Etkinleştirilmiş servis | Kurulu cihaz | `destination-service` |
 
 ---
 
-## A.2 Destination Configuration Options
+## A.2 Destination Yapılandırma Seçenekleri
 
 ```mermaid
 flowchart TD
@@ -65,24 +65,24 @@ flowchart TD
     style CC fill:#FF9800,color:white
 ```
 
-| Property | Values | Ne Zaman Kullanılır |
-|----------|--------|-------------|
-| **Type** | HTTP, RFC, LDAP, MAIL | HTTP for most APIs |
-| **Proxy Type** | Internet, OnPremise, PrivateLink | OnPremise needs Cloud Connector |
-| **Authentication** | NoAuth, Basic, OAuth2*, ClientCert, SAML | OAuth2 for production |
+| Özellik | Değerler | Ne Zaman Kullanılır |
+|---------|----------|---------------------|
+| **Type** | HTTP, RFC, LDAP, MAIL | Çoğu API için HTTP |
+| **Proxy Type** | Internet, OnPremise, PrivateLink | OnPremise için Cloud Connector gerekir |
+| **Authentication** | NoAuth, Basic, OAuth2*, ClientCert, SAML | Üretim için OAuth2 |
 
-### Common Additional Properties
+### Yaygın Ek Özellikler
 
-| Property | Value | Purpose |
-|----------|-------|---------|
-| `sap-client` | 100, 200, etc. | SAP system client |
-| `HTML5.DynamicDestination` | true | Fiori apps |
-| `WebIDEEnabled` | true | BAS development |
-| `WebIDEUsage` | odata_abap, odata_gen | Service type |
-| `TrustAll` | true | Skip cert validation (dev only!) |
-| `URL.headers.x-api-key` | your-api-key | API key header |
+| Özellik | Değer | Amaç |
+|---------|-------|------|
+| `sap-client` | 100, 200, vb. | SAP sistem istemcisi |
+| `HTML5.DynamicDestination` | true | Fiori uygulamaları |
+| `WebIDEEnabled` | true | BAS geliştirme |
+| `WebIDEUsage` | odata_abap, odata_gen | Servis tipi |
+| `TrustAll` | true | Sertifika doğrulamasını atla (sadece geliştirme!) |
+| `URL.headers.x-api-key` | api-anahtariniz | API anahtar başlığı |
 
-### Complete Destination Örneks
+### Tam Destination Örnekleri
 
 **S/4HANA Cloud (OAuth2):**
 ```yaml
@@ -98,7 +98,7 @@ Additional Properties:
   sap-client: 100
 ```
 
-**On-Premise via Cloud Connector:**
+**Cloud Connector Üzerinden On-Premise:**
 ```yaml
 Name: ACME_ECC_ONPREM
 Type: HTTP
@@ -113,163 +113,163 @@ Additional Properties:
 
 ---
 
-## A.3 Joule Skill vs. Agent Comparison
+## A.3 Joule Skill ve Agent Karşılaştırması
 
 ```mermaid
 graph LR
-    subgraph "Skills = Tools"
+    subgraph "Skills = Araçlar"
         S1[Skill: Get Order]
         S2[Skill: Check Stock]
         S3[Skill: Create Return]
     end
 
-    subgraph "Agent = Brain"
-        A[Agent] --> |"Decides"| S1
-        A --> |"Chains"| S2
-        A --> |"Orchestrates"| S3
+    subgraph "Agent = Beyin"
+        A[Agent] --> |"Karar verir"| S1
+        A --> |"Zincirler"| S2
+        A --> |"Orkestra eder"| S3
     end
 
-    USER[User Request] --> A
+    USER[Kullanıcı İsteği] --> A
 
     style A fill:#2196F3,color:white
     style USER fill:#FF9800,color:white
 ```
 
-| Aspect | Skill | Agent |
-|--------|-------|-------|
-| **Purpose** | Single action | Orchestrate multiple |
-| **Complexity** | Simple | Can reason & chain |
-| **Contains** | One action | Multiple skills |
-| **Örnek** | "Get order status" | "Handle complaint" |
-| **Build order** | First | After skills exist |
-| **Instructions** | What this skill does | How to reason |
-| **Input** | Specific parameters | Natural language |
-| **Output** | Data | Formatted response |
+| Boyut | Skill | Agent |
+|-------|-------|-------|
+| **Amaç** | Tek işlem | Birden fazlasını orkestra etme |
+| **Karmaşıklık** | Basit | Akıl yürütebilir ve zincirleme yapabilir |
+| **İçerir** | Bir işlem | Birden fazla skill |
+| **Örnek** | "Sipariş durumunu al" | "Şikayeti ele al" |
+| **Oluşturma sırası** | İlk | Skill'ler oluşturulduktan sonra |
+| **Talimatlar** | Bu skill ne yapar | Nasıl akıl yürütülür |
+| **Girdi** | Belirli parametreler | Doğal dil |
+| **Çıktı** | Veri | Biçimlendirilmiş yanıt |
 
 ---
 
-## A.4 RISE vs. Classic Comparison
+## A.4 RISE ile Klasik Karşılaştırması
 
 ```mermaid
 graph TD
-    subgraph "Classic On-Prem"
-        C1[Your Hardware]
-        C2[Your Basis Team]
-        C3[You Control Everything]
-        C4[Modify SAP Code]
+    subgraph "Klasik On-Prem"
+        C1[Sizin Donanımınız]
+        C2[Sizin Basis Ekibiniz]
+        C3[Her Şeyi Siz Kontrol Edersiniz]
+        C4[SAP Kodunu Değiştirme]
     end
 
     subgraph "RISE with SAP"
-        R1[SAP Managed Cloud]
-        R2[SAP Handles Ops]
-        R3[SAP Controls Updates]
-        R4[Clean Core Only]
+        R1[SAP Yönetimli Bulut]
+        R2[SAP Operasyonları Yönetir]
+        R3[SAP Güncellemeleri Kontrol Eder]
+        R4[Sadece Clean Core]
     end
 
-    C1 --> |"Transform to"| R1
-    C2 --> |"Shifts to"| R2
+    C1 --> |"Dönüşüm"| R1
+    C2 --> |"Kayar"| R2
 
     style C4 fill:#f44336,color:white
     style R4 fill:#4CAF50,color:white
 ```
 
-| Aspect | Classic On-Prem | RISE with SAP |
-|--------|-----------------|---------------|
-| **Hosting** | Your data center | SAP managed (AWS/Azure/GCP) |
-| **Basis work** | Your team | SAP handles |
-| **Upgrades** | You control | SAP delivers |
-| **Custom ABAP** | Full freedom | Clean Core enforced |
-| **Extensions** | Inside S/4 | BTP (side-by-side) |
-| **Cost model** | CapEx + licenses | Subscription (OpEx) |
-| **BTP included** | Separate purchase | Credits included |
-| **Disaster Recovery** | Your responsibility | SAP managed |
-| **Security Patches** | You apply | SAP applies |
+| Boyut | Klasik On-Prem | RISE with SAP |
+|-------|----------------|---------------|
+| **Barındırma** | Sizin veri merkeziniz | SAP yönetimli (AWS/Azure/GCP) |
+| **Basis işi** | Sizin ekibiniz | SAP yönetir |
+| **Yükseltmeler** | Siz kontrol edersiniz | SAP sunar |
+| **Özel ABAP** | Tam özgürlük | Clean Core zorunlu |
+| **Uzantılar** | S/4 içinde | BTP (yan yana) |
+| **Maliyet modeli** | CapEx + lisanslar | Abonelik (OpEx) |
+| **BTP dahil** | Ayrı satın alma | Krediler dahil |
+| **Felaket Kurtarma** | Sizin sorumluluğunuz | SAP yönetimli |
+| **Güvenlik Yamaları** | Siz uygularsınız | SAP uygular |
 
 ---
 
-## A.5 Authentication Type Hızlı Referans
+## A.5 Kimlik Doğrulama Tipi Hızlı Referansı
 
 ```mermaid
 flowchart TD
-    Q1{Need user context?}
-    Q1 --> |"No"| Q2{Server-to-server?}
-    Q1 --> |"Yes"| Q3{SAP-to-SAP?}
+    Q1{Kullanıcı bağlamı gerekli mi?}
+    Q1 --> |"Hayır"| Q2{Sunucudan sunucuya?}
+    Q1 --> |"Evet"| Q3{SAP'tan SAP'a?}
 
-    Q2 --> |"Yes"| OAUTH[OAuth2ClientCredentials]
-    Q2 --> |"No, public API"| NOAUTH[NoAuthentication]
+    Q2 --> |"Evet"| OAUTH[OAuth2ClientCredentials]
+    Q2 --> |"Hayır, herkese açık API"| NOAUTH[NoAuthentication]
 
-    Q3 --> |"Yes"| SAML[OAuth2SAMLBearerAssertion]
-    Q3 --> |"No, on-prem"| PP[PrincipalPropagation]
+    Q3 --> |"Evet"| SAML[OAuth2SAMLBearerAssertion]
+    Q3 --> |"Hayır, on-prem"| PP[PrincipalPropagation]
 
     style OAUTH fill:#4CAF50,color:white
     style SAML fill:#2196F3,color:white
     style PP fill:#FF9800,color:white
 ```
 
-| Type | Use Case | Credentials Needed | User Context |
-|------|----------|-------------------|--------------|
-| **NoAuthentication** | Public APIs | None | No |
-| **BasicAuthentication** | Simple/legacy APIs | User + Password | No (technical) |
-| **OAuth2ClientCredentials** | Server-to-server | Client ID + Secret + Token URL | No |
-| **OAuth2SAMLBearerAssertion** | SAP-to-SAP with user | Client ID + Secret + Token URL | Yes |
-| **ClientCertificateAuthentication** | High security | Certificate + Key | No |
-| **PrincipalPropagation** | On-prem with user | Trust setup | Yes |
+| Tip | Kullanım Durumu | Gerekli Kimlik Bilgileri | Kullanıcı Bağlamı |
+|-----|-----------------|--------------------------|-------------------|
+| **NoAuthentication** | Herkese açık API'ler | Yok | Hayır |
+| **BasicAuthentication** | Basit/eski API'ler | Kullanıcı + Şifre | Hayır (teknik) |
+| **OAuth2ClientCredentials** | Sunucudan sunucuya | Client ID + Secret + Token URL | Hayır |
+| **OAuth2SAMLBearerAssertion** | Kullanıcı ile SAP'tan SAP'a | Client ID + Secret + Token URL | Evet |
+| **ClientCertificateAuthentication** | Yüksek güvenlik | Sertifika + Anahtar | Hayır |
+| **PrincipalPropagation** | Kullanıcı ile On-prem | Güven kurulumu | Evet |
 
 ---
 
-## A.6 Region Hızlı Referans
+## A.6 Bölge Hızlı Referansı
 
-| Region Code | Location | Hyperscaler | Common Use |
-|-------------|----------|-------------|------------|
-| `eu10` | Frankfurt, Germany | AWS | EU (GDPR), main region |
-| `eu20` | Netherlands | AWS | EU backup |
-| `eu11` | Frankfurt | Azure | EU Azure customers |
-| `us10` | US East (Virginia) | AWS | US customers |
-| `us20` | US West (Washington) | AWS | US West |
-| `ap10` | Sydney, Australia | AWS | APAC customers |
-| `ap11` | Singapore | AWS | Southeast Asia |
-| `jp10` | Tokyo, Japan | AWS | Japan |
+| Bölge Kodu | Konum | Hyperscaler | Yaygın Kullanım |
+|------------|-------|-------------|-----------------|
+| `eu10` | Frankfurt, Almanya | AWS | AB (GDPR), ana bölge |
+| `eu20` | Hollanda | AWS | AB yedek |
+| `eu11` | Frankfurt | Azure | AB Azure müşterileri |
+| `us10` | ABD Doğu (Virginia) | AWS | ABD müşterileri |
+| `us20` | ABD Batı (Washington) | AWS | ABD Batı |
+| `ap10` | Sidney, Avustralya | AWS | APAC müşterileri |
+| `ap11` | Singapur | AWS | Güneydoğu Asya |
+| `jp10` | Tokyo, Japonya | AWS | Japonya |
 
 ---
 
-## A.7 URL Pattern Hızlı Referans
+## A.7 URL Kalıbı Hızlı Referansı
 
-| System | URL Pattern | Örnek |
-|--------|-------------|---------|
+| Sistem | URL Kalıbı | Örnek |
+|--------|------------|-------|
 | **BTP Cockpit** | `cockpit.btp.cloud.sap` | `https://cockpit.btp.cloud.sap` |
 | **BTP Trial** | `cockpit.hanatrial.ondemand.com` | `https://cockpit.hanatrial.ondemand.com` |
-| **S/4HANA Cloud** | `my{number}.s4hana.ondemand.com` | `https://my300001.s4hana.ondemand.com` |
-| **BAS** | `{region}.applicationstudio.cloud.sap` | `https://eu10.applicationstudio.cloud.sap` |
-| **Joule Studio** | `joule-studio-{region}.cfapps.{region}.hana.ondemand.com` | `https://joule-studio-eu10.cfapps.eu10.hana.ondemand.com` |
+| **S/4HANA Cloud** | `my{numara}.s4hana.ondemand.com` | `https://my300001.s4hana.ondemand.com` |
+| **BAS** | `{bolge}.applicationstudio.cloud.sap` | `https://eu10.applicationstudio.cloud.sap` |
+| **Joule Studio** | `joule-studio-{bolge}.cfapps.{bolge}.hana.ondemand.com` | `https://joule-studio-eu10.cfapps.eu10.hana.ondemand.com` |
 | **SAP API Hub** | `api.sap.com` | `https://api.sap.com` |
 | **Cloud Connector Admin** | `localhost:8443` | `https://localhost:8443` |
 
 ---
 
-## A.8 Common OData Service Paths
+## A.8 Yaygın OData Servis Yolları
 
-| Service | Path |
-|---------|------|
-| **Sales Order** | `/sap/opu/odata/sap/API_SALES_ORDER_SRV` |
-| **Business Partner** | `/sap/opu/odata/sap/API_BUSINESS_PARTNER` |
-| **Material** | `/sap/opu/odata/sap/API_PRODUCT_SRV` |
-| **Purchase Order** | `/sap/opu/odata/sap/API_PURCHASEORDER_PROCESS_SRV` |
-| **Purchase Requisition** | `/sap/opu/odata/sap/API_PURCHASEREQ_PROCESS_SRV` |
-| **GL Account** | `/sap/opu/odata/sap/API_GLACCOUNTINCHARTOFACCOUNTS_SRV` |
-| **Cost Center** | `/sap/opu/odata/sap/API_COSTCENTER_SRV` |
+| Servis | Yol |
+|--------|-----|
+| **Satış Siparişi** | `/sap/opu/odata/sap/API_SALES_ORDER_SRV` |
+| **İş Ortağı** | `/sap/opu/odata/sap/API_BUSINESS_PARTNER` |
+| **Malzeme** | `/sap/opu/odata/sap/API_PRODUCT_SRV` |
+| **Satın Alma Siparişi** | `/sap/opu/odata/sap/API_PURCHASEORDER_PROCESS_SRV` |
+| **Satın Alma Talebi** | `/sap/opu/odata/sap/API_PURCHASEREQ_PROCESS_SRV` |
+| **Genel Muhasebe Hesabı** | `/sap/opu/odata/sap/API_GLACCOUNTINCHARTOFACCOUNTS_SRV` |
+| **Maliyet Merkezi** | `/sap/opu/odata/sap/API_COSTCENTER_SRV` |
 
 ---
 
-## A.9 Clean Core Hızlı Referans
+## A.9 Clean Core Hızlı Referansı
 
-| Allowed in Clean Core | Not Allowed |
-|-----------------------|-------------|
-| Using released APIs | Modifying SAP code |
-| Key User extensibility | Z-tables in S/4 core |
-| Side-by-side extensions (BTP) | User exits/enhancements |
-| Custom CDS views (released) | Unreleased function modules |
-| Released BADIs | Direct table modifications |
-| Extension fields via API | SMOD/CMOD |
+| Clean Core'da İzin Verilenler | İzin Verilmeyenler |
+|-------------------------------|-------------------|
+| Yayınlanmış API'leri kullanma | SAP kodunu değiştirme |
+| Anahtar Kullanıcı genişletilebilirliği | S/4 çekirdeğinde Z-tablolar |
+| Yan yana uzantılar (BTP) | User exit'ler/geliştirmeler |
+| Özel CDS görünümleri (yayınlanmış) | Yayınlanmamış fonksiyon modülleri |
+| Yayınlanmış BADI'ler | Doğrudan tablo değişiklikleri |
+| API üzerinden uzantı alanları | SMOD/CMOD |
 
 ---
 
@@ -277,6 +277,6 @@ flowchart TD
 
 ---
 
-**Yazar:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Storyteller & Digital Transformation Advocate
+**Yazar:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Hikaye Anlatıcısı & Dijital Dönüşüm Savunucusu
 
-*Oluşturuldu ❤️ dünya genelindeki SAP öğrencileri için*
+*Dünya genelindeki SAP öğrencileri için ❤️ ile oluşturuldu*

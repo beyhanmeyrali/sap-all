@@ -1,14 +1,14 @@
 # Kısım 15: SAP Integration Suite
 
-> *Connecting Everything to Everything*
+> *Her Şeyi Her Şeye Bağlamak*
 
 ---
 
-SAP Integration Suite is the integration backbone of BTP. When destinations aren't enough and you need complex transformations, routing, or B2B integration, this is your tool.
+SAP Integration Suite, BTP'nin entegrasyon omurgasıdır. Destination'lar yeterli olmadığında ve karmaşık dönüşümler, yönlendirme veya B2B entegrasyonuna ihtiyaç duyduğunuzda, kullanacağınız araç budur.
 
 ---
 
-## 15.1 What Is SAP Integration Suite?
+## 15.1 SAP Integration Suite Nedir?
 
 ```mermaid
 graph TD
@@ -20,64 +20,64 @@ graph TD
         IG[Integration Advisor]
     end
 
-    subgraph "Use Cases"
-        CPI --> U1[Complex transformations]
-        CPI --> U2[Process orchestration]
-        APIM --> U3[API governance]
-        APIM --> U4[Rate limiting]
-        EM --> U5[Event-driven architecture]
-        OD --> U6[Third-party connectors]
-        IG --> U7[EDI/B2B mapping]
+    subgraph "Kullanım Senaryoları"
+        CPI --> U1[Karmaşık dönüşümler]
+        CPI --> U2[Süreç orkestrasyonu]
+        APIM --> U3[API yönetişimi]
+        APIM --> U4[Hız sınırlama]
+        EM --> U5[Olay güdümlü mimari]
+        OD --> U6[Üçüncü taraf bağlayıcılar]
+        IG --> U7[EDI/B2B eşleme]
     end
 ```
 
-### Components at a Glance
+### Bileşenlere Genel Bakış
 
-| Component | Purpose | Ne Zaman Kullanılır |
-|-----------|---------|-------------|
-| **Cloud Integration** | Build integration flows | Complex transformations, orchestration |
-| **API Management** | Manage and govern APIs | API security, analytics, monetization |
-| **Event Mesh** | Event-driven integration | Async communication, decoupling |
-| **Open Connectors** | Pre-built 3rd party connectors | Salesforce, Workday, etc. |
-| **Integration Advisor** | B2B message mapping | EDI, IDoc, industry standards |
+| Bileşen | Amaç | Ne Zaman Kullanılır |
+|---------|------|---------------------|
+| **Cloud Integration** | Entegrasyon akışları oluşturma | Karmaşık dönüşümler, orkestrasyon |
+| **API Management** | API'leri yönetme ve yönetişim | API güvenliği, analitik, para kazanma |
+| **Event Mesh** | Olay güdümlü entegrasyon | Asenkron iletişim, bağımsızlaştırma |
+| **Open Connectors** | Hazır üçüncü taraf bağlayıcılar | Salesforce, Workday vb. |
+| **Integration Advisor** | B2B mesaj eşleme | EDI, IDoc, endüstri standartları |
 
 ---
 
-## 15.2 Cloud Integration (CPI) Basics
+## 15.2 Cloud Integration (CPI) Temelleri
 
-### Ne Zaman Kullanılır Cloud Integration vs. Destinations
+### Cloud Integration vs. Destination: Ne Zaman Kullanılır
 
 ```mermaid
 flowchart TD
-    Q[Integration Need] --> D{What do you need?}
+    Q[Entegrasyon İhtiyacı] --> D{Ne gerekiyor?}
 
-    D --> |"Direct API call"| DEST[Use Destination]
-    D --> |"Data transformation"| CPI[Use Cloud Integration]
-    D --> |"Multiple sources combined"| CPI
-    D --> |"Error handling + retry"| CPI
-    D --> |"Protocol conversion"| CPI
-    D --> |"Message mapping"| CPI
+    D --> |"Doğrudan API çağrısı"| DEST[Destination Kullan]
+    D --> |"Veri dönüşümü"| CPI[Cloud Integration Kullan]
+    D --> |"Birden fazla kaynak birleştirme"| CPI
+    D --> |"Hata yönetimi + yeniden deneme"| CPI
+    D --> |"Protokol dönüştürme"| CPI
+    D --> |"Mesaj eşleme"| CPI
 
     style DEST fill:#4CAF50,color:white
     style CPI fill:#2196F3,color:white
 ```
 
-### Integration Flow Architecture
+### Entegrasyon Akışı Mimarisi
 
 ```mermaid
 graph LR
-    subgraph "Integration Flow"
-        SENDER[Sender] --> |"HTTP/SFTP/etc"| START[Start]
-        START --> TRANS[Transformation]
-        TRANS --> ROUTE{Router}
-        ROUTE --> |"Condition A"| RCV1[Receiver 1]
-        ROUTE --> |"Condition B"| RCV2[Receiver 2]
+    subgraph "Entegrasyon Akışı"
+        SENDER[Gönderici] --> |"HTTP/SFTP/vb."| START[Başlangıç]
+        START --> TRANS[Dönüşüm]
+        TRANS --> ROUTE{Yönlendirici}
+        ROUTE --> |"Koşul A"| RCV1[Alıcı 1]
+        ROUTE --> |"Koşul B"| RCV2[Alıcı 2]
     end
 ```
 
-### Örnek: Order Replication S/4 to Third-Party CRM
+### Örnek: S/4'ten Üçüncü Taraf CRM'e Sipariş Replikasyonu
 
-**Scenario:** When a sales order is created in S/4HANA, replicate it to Salesforce CRM.
+**Senaryo:** S/4HANA'da bir satış siparişi oluşturulduğunda, bunu Salesforce CRM'e replike edin.
 
 ```mermaid
 sequenceDiagram
@@ -85,26 +85,26 @@ sequenceDiagram
     participant CPI as Cloud Integration
     participant SF as Salesforce
 
-    S4->>CPI: Sales Order Created (IDoc)
-    Note over CPI: Transform IDoc → Salesforce format
-    CPI->>SF: Create Opportunity
-    SF-->>CPI: Opportunity ID
-    Note over CPI: Log success
-    CPI-->>S4: Confirmation (optional)
+    S4->>CPI: Satış Siparişi Oluşturuldu (IDoc)
+    Note over CPI: IDoc'u Salesforce formatına dönüştür
+    CPI->>SF: Fırsat Oluştur
+    SF-->>CPI: Fırsat ID
+    Note over CPI: Başarıyı kaydet
+    CPI-->>S4: Onay (isteğe bağlı)
 ```
 
-### Building the Integration Flow
+### Entegrasyon Akışını Oluşturma
 
-**Step 1: Configure Sender Adapter**
+**Adım 1: Gönderici Adaptörünü Yapılandırma**
 ```yaml
 Adapter: IDoc
 System: S4_PROD
 IDoc Type: ORDERS05
 ```
 
-**Step 2: Add Message Mapping**
+**Adım 2: Mesaj Eşleme Ekleme**
 ```xml
-<!-- Source: IDoc ORDERS05 -->
+<!-- Kaynak: IDoc ORDERS05 -->
 <IDOC>
   <E1EDK01>
     <BELNR>0000012345</BELNR>
@@ -116,7 +116,7 @@ IDoc Type: ORDERS05
   </E1EDKA1>
 </IDOC>
 
-<!-- Target: Salesforce Opportunity -->
+<!-- Hedef: Salesforce Opportunity -->
 <Opportunity>
   <Name>Order 12345 - Acme Corp</Name>
   <Amount>50000</Amount>
@@ -125,7 +125,7 @@ IDoc Type: ORDERS05
 </Opportunity>
 ```
 
-**Step 3: Configure Receiver Adapter**
+**Adım 3: Alıcı Adaptörünü Yapılandırma**
 ```yaml
 Adapter: HTTP
 Endpoint: https://acme.my.salesforce.com/services/data/v54.0/sobjects/Opportunity
@@ -137,21 +137,21 @@ Method: POST
 
 ## 15.3 API Management
 
-### The API Proxy Pattern
+### API Proxy Deseni
 
 ```mermaid
 graph LR
-    subgraph "Consumers"
-        APP1[Fiori App]
-        APP2[Mobile App]
-        APP3[Partner System]
+    subgraph "Tüketiciler"
+        APP1[Fiori Uygulaması]
+        APP2[Mobil Uygulama]
+        APP3[Partner Sistemi]
     end
 
     subgraph "API Management"
         PROXY[API Proxy]
-        PROXY --> POLICY1[Rate Limiting]
-        PROXY --> POLICY2[Authentication]
-        PROXY --> POLICY3[Analytics]
+        PROXY --> POLICY1[Hız Sınırlama]
+        PROXY --> POLICY2[Kimlik Doğrulama]
+        PROXY --> POLICY3[Analitik]
     end
 
     subgraph "Backend"
@@ -164,35 +164,35 @@ graph LR
     PROXY --> S4
 ```
 
-### Why Use API Management?
+### Neden API Management Kullanılmalı?
 
-| Without API Management | With API Management |
-|----------------------|---------------------|
-| Direct API calls | Proxied through gateway |
-| No rate limiting | Configurable throttling |
-| Limited visibility | Full analytics |
-| Each app manages auth | Centralized security |
-| Hard to deprecate APIs | API versioning |
+| API Management Olmadan | API Management ile |
+|------------------------|-------------------|
+| Doğrudan API çağrıları | Gateway üzerinden proxy |
+| Hız sınırlama yok | Yapılandırılabilir kısıtlama |
+| Sınırlı görünürlük | Tam analitik |
+| Her uygulama kendi kimlik doğrulamasını yönetir | Merkezi güvenlik |
+| API'leri kullanımdan kaldırmak zor | API versiyonlama |
 
-### Creating an API Proxy
+### API Proxy Oluşturma
 
-**Step 1: Import API**
+**Adım 1: API'yi İçe Aktarma**
 ```yaml
 Name: Sales-Order-API
 Base Path: /sales/v1
 Target URL: https://s4.acme.com/sap/opu/odata/sap/API_SALES_ORDER_SRV
 ```
 
-**Step 2: Add Policies**
+**Adım 2: Politikalar Ekleme**
 
-**Rate Limiting Policy:**
+**Hız Sınırlama Politikası:**
 ```xml
 <SpikeArrest>
-  <Rate>100pm</Rate>  <!-- 100 per minute -->
+  <Rate>100pm</Rate>  <!-- Dakikada 100 istek -->
 </SpikeArrest>
 ```
 
-**OAuth Verification:**
+**OAuth Doğrulama:**
 ```xml
 <OAuthV2>
   <Operation>VerifyAccessToken</Operation>
@@ -201,13 +201,13 @@ Target URL: https://s4.acme.com/sap/opu/odata/sap/API_SALES_ORDER_SRV
 
 ---
 
-## 15.4 Event Mesh for Async Communication
+## 15.4 Asenkron İletişim için Event Mesh
 
-### Event-Driven Architecture
+### Olay Güdümlü Mimari
 
 ```mermaid
 graph TD
-    subgraph "Publishers"
+    subgraph "Yayıncılar"
         S4[S/4HANA]
         SF[SuccessFactors]
     end
@@ -218,15 +218,15 @@ graph TD
         Q3[procurement/po/approved]
     end
 
-    subgraph "Subscribers"
+    subgraph "Aboneler"
         CPI[Cloud Integration]
-        EXT[External System]
+        EXT[Harici Sistem]
         JOULE[Joule Agent]
     end
 
-    S4 --> |"Publish"| Q1
-    SF --> |"Publish"| Q2
-    S4 --> |"Publish"| Q3
+    S4 --> |"Yayınla"| Q1
+    SF --> |"Yayınla"| Q2
+    S4 --> |"Yayınla"| Q3
 
     Q1 --> CPI
     Q1 --> EXT
@@ -234,16 +234,16 @@ graph TD
     Q3 --> CPI
 ```
 
-### Ne Zaman Kullanılır Event Mesh
+### Event Mesh Ne Zaman Kullanılır
 
-| Scenario | Use Event Mesh? |
-|----------|-----------------|
-| Real-time sync needed | Yes |
-| Fire-and-forget pattern | Yes |
-| Decouple systems | Yes |
-| Request-response needed | Use REST |
+| Senaryo | Event Mesh Kullanılsın mı? |
+|---------|---------------------------|
+| Gerçek zamanlı senkronizasyon gerekli | Evet |
+| Gönder-ve-unut deseni | Evet |
+| Sistemleri bağımsızlaştırma | Evet |
+| İstek-yanıt gerekli | REST Kullan |
 
-### Setting Up Event Mesh
+### Event Mesh Kurulumu
 
 ```json
 {
@@ -262,29 +262,29 @@ graph TD
 
 ---
 
-## 15.5 Integration Patterns for Joule Skills
+## 15.5 Joule Yetenekleri için Entegrasyon Desenleri
 
-### Skill Calls Integration Flow
+### Yetenek Çağrıları Entegrasyon Akışı
 
 ```mermaid
 sequenceDiagram
-    participant J as Joule Skill
+    participant J as Joule Yeteneği
     participant CPI as Cloud Integration
-    participant M as Multiple Backends
+    participant M as Birden Fazla Backend
 
-    J->>CPI: Single request
-    CPI->>M: Call Backend 1
-    CPI->>M: Call Backend 2
-    CPI->>CPI: Aggregate results
-    CPI-->>J: Combined response
+    J->>CPI: Tek istek
+    CPI->>M: Backend 1'i çağır
+    CPI->>M: Backend 2'yi çağır
+    CPI->>CPI: Sonuçları birleştir
+    CPI-->>J: Birleştirilmiş yanıt
 ```
 
-**Use when:**
-- Skill needs data from multiple sources
-- Need transformation before returning to Joule
-- Want to shield Joule from backend complexity
+**Ne zaman kullanılır:**
+- Yetenek birden fazla kaynaktan veriye ihtiyaç duyduğunda
+- Joule'a döndürmeden önce dönüşüm gerektiğinde
+- Joule'u backend karmaşıklığından korumak istediğinizde
 
-**Destination for Integration Flow:**
+**Entegrasyon Akışı için Destination:**
 ```yaml
 Name: CPI_ORDER_AGGREGATOR
 Type: HTTP
@@ -296,49 +296,49 @@ Auth: OAuth2ClientCredentials
 
 ## 15.6 En İyi Uygulamalar
 
-### 1. Design for Failure
+### 1. Hataya Karşı Tasarım
 
 ```yaml
-Error Handling:
-  - Use try-catch blocks
-  - Log errors to external monitor
-  - Implement retry with exponential backoff
+Hata Yönetimi:
+  - Try-catch blokları kullanın
+  - Hataları harici monitöre kaydedin
+  - Üstel geri çekilme ile yeniden deneme uygulayın
 
-Retry Policy:
+Yeniden Deneme Politikası:
   retryCount: 3
   retryInterval: 30s
   backoffMultiplier: 2
 ```
 
-### 2. Use Externalized Configuration
+### 2. Dışsallaştırılmış Yapılandırma Kullanın
 
 ```xml
-<!-- Good -->
+<!-- İyi -->
 <http:address uri="{{salesforce.api.url}}"/>
 
-<!-- Bad - hardcoded -->
+<!-- Kötü - sabit kodlanmış -->
 <http:address uri="https://acme.salesforce.com/api"/>
 ```
 
-### 3. Implement Idempotency
+### 3. Idempotency Uygulayın
 
 ```mermaid
 flowchart TD
-    MSG[Message Arrives] --> CHECK{Message ID exists?}
-    CHECK --> |"Yes"| SKIP[Skip - Already processed]
-    CHECK --> |"No"| PROCESS[Process Message]
-    PROCESS --> STORE[Store Message ID]
+    MSG[Mesaj Geldi] --> CHECK{Mesaj ID mevcut mu?}
+    CHECK --> |"Evet"| SKIP[Atla - Zaten işlendi]
+    CHECK --> |"Hayır"| PROCESS[Mesajı İşle]
+    PROCESS --> STORE[Mesaj ID'yi Sakla]
 ```
 
 ---
 
 ## Temel Çıkarımlar
 
-1. **Integration Suite = Full integration platform** — Not just Cloud Integration
-2. **Use CPI for complex scenarios** — Transformations, orchestration, error handling
-3. **API Management for governance** — Rate limiting, analytics, security
-4. **Event Mesh for async** — Decouple systems, real-time events
-5. **Design for failure** — Retry, idempotency, monitoring
+1. **Integration Suite = Tam entegrasyon platformu** — Sadece Cloud Integration değil
+2. **Karmaşık senaryolarda CPI kullanın** — Dönüşümler, orkestrasyon, hata yönetimi
+3. **Yönetişim için API Management** — Hız sınırlama, analitik, güvenlik
+4. **Asenkron için Event Mesh** — Sistemleri bağımsızlaştırma, gerçek zamanlı olaylar
+5. **Hataya karşı tasarım** — Yeniden deneme, idempotency, izleme
 
 ---
 
@@ -348,6 +348,6 @@ flowchart TD
 
 ---
 
-**Yazar:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Storyteller & Digital Transformation Advocate
+**Yazar:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Hikaye Anlatıcısı & Dijital Dönüşüm Savunucusu
 
-*Oluşturuldu ❤️ dünya genelindeki SAP öğrencileri için*
+*Dünya genelindeki SAP öğrencileri için ❤️ ile oluşturuldu*

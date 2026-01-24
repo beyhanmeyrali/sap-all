@@ -1,56 +1,56 @@
-# Kısım 12: Managing Multiple Clients on BTP
+# Kısım 12: BTP'de Çoklu Müşteri Yönetimi
 
-> *The Consultant's Survival Guide*
-
----
-
-If you're a consultant, partner, or work in a shared services team, you'll manage BTP for multiple clients. This chapter shows you how to do it without losing your sanity.
+> *Danışmanın Hayatta Kalma Rehberi*
 
 ---
 
-## 12.1 The Classic Trap: One Subaccount for Everything
+Eğer bir danışman, iş ortağı veya paylaşılan hizmetler ekibinde çalışıyorsanız, birden fazla müşteri için BTP'yi yöneteceksiniz. Bu bölüm, aklınızı kaybetmeden bunu nasıl yapacağınızı gösterir.
 
-### What People Do Wrong
+---
+
+## 12.1 Klasik Tuzak: Her Şey Tek Subaccount'ta
+
+### İnsanların Yanlış Yaptığı Şey
 
 ```mermaid
 graph TD
-    subgraph "❌ Anti-Pattern: Everything in One"
+    subgraph "❌ Anti-Pattern: Her Şey Bir Arada"
         GA[Global Account]
-        GA --> SA[Single Subaccount]
-        SA --> A1[Client A's Joule Agent]
-        SA --> A2[Client B's Destinations]
-        SA --> A3[Client C's Test App]
-        SA --> A4[Your Playground]
-        SA --> A5[POC from 2023]
-        SA --> A6[Who knows what this is?]
+        GA --> SA[Tek Subaccount]
+        SA --> A1[Müşteri A'nın Joule Agent'ı]
+        SA --> A2[Müşteri B'nin Destination'ları]
+        SA --> A3[Müşteri C'nin Test Uygulaması]
+        SA --> A4[Sizin Oyun Alanınız]
+        SA --> A5[2023'ten POC]
+        SA --> A6[Bu ne kim bilir?]
     end
 
     style SA fill:#f44336,color:white
 ```
 
-### The Problems This Causes
+### Bunun Yarattığı Sorunlar
 
-| Problem | Impact |
-|---------|--------|
-| **Entitlement chaos** | Can't tell who's using what quota |
-| **Security nightmare** | Client A can see Client B's destinations |
-| **Naming collisions** | `S4_ORDERS` — whose S4? |
-| **Billing impossible** | Can't charge back costs per client |
-| **Handover problems** | "Here's access to everything" |
-| **Cleanup paralysis** | Afraid to delete anything |
+| Sorun | Etkisi |
+|-------|--------|
+| **Yetkilendirme kaos** | Kimin hangi kotayı kullandığı anlaşılamıyor |
+| **Güvenlik kabusu** | Müşteri A, Müşteri B'nin destination'larını görebiliyor |
+| **İsim çakışmaları** | `S4_ORDERS` — kimin S4'ü? |
+| **Faturalandırma imkansız** | Müşteri başına maliyet aktarılamıyor |
+| **Devir sorunları** | "İşte her şeye erişim" |
+| **Temizlik felci** | Bir şeyi silmekten korkuluyor |
 
 ---
 
-## 12.2 Best Practice: One Subaccount Per Client
+## 12.2 En İyi Uygulama: Müşteri Başına Bir Subaccount
 
-### The Recommended Structure
+### Önerilen Yapı
 
 ```mermaid
 graph TD
     subgraph "Global Account: Partner Account"
-        DIR1[Directory: EMEA Clients]
-        DIR2[Directory: APAC Clients]
-        DIR3[Directory: Internal]
+        DIR1[Directory: EMEA Müşterileri]
+        DIR2[Directory: APAC Müşterileri]
+        DIR3[Directory: Dahili]
 
         subgraph "EMEA"
             SA1[ACME_PROD]
@@ -64,7 +64,7 @@ graph TD
             SA6[TOSHIBA_DEV]
         end
 
-        subgraph "Internal"
+        subgraph "Dahili"
             SA7[TEMPLATES]
             SA8[DEMOS]
             SA9[TRAINING]
@@ -73,42 +73,42 @@ graph TD
 
     DIR1 --> EMEA
     DIR2 --> APAC
-    DIR3 --> Internal
+    DIR3 --> Dahili
 
     style SA1 fill:#4CAF50,color:white
     style SA3 fill:#4CAF50,color:white
     style SA5 fill:#4CAF50,color:white
 ```
 
-### Benefits
+### Faydaları
 
-| Benefit | Description |
-|---------|-------------|
-| **Isolation** | Clients can't see each other's data |
-| **Clear billing** | Usage tracked per subaccount |
-| **Easy handover** | Transfer entire subaccount to client |
-| **Clean naming** | No prefixes needed within subaccount |
-| **Simpler security** | Assign roles per subaccount |
+| Fayda | Açıklama |
+|-------|----------|
+| **İzolasyon** | Müşteriler birbirlerinin verilerini göremez |
+| **Net faturalandırma** | Kullanım subaccount başına takip edilir |
+| **Kolay devir** | Tüm subaccount müşteriye aktarılabilir |
+| **Temiz isimlendirme** | Subaccount içinde önek gerekmiyor |
+| **Daha basit güvenlik** | Subaccount başına rol atama |
 
 ---
 
-## 12.3 Naming Conventions That Scale
+## 12.3 Ölçeklenen İsimlendirme Kuralları
 
-### Subaccount Naming
+### Subaccount İsimlendirme
 
-**Pattern:** `{REGION}_{CLIENT}_{ENVIRONMENT}`
+**Kalıp:** `{BÖLGE}_{MÜŞTERİ}_{ORTAM}`
 
 ```
-Örneks:
-TR_ACME_PROD       → Turkey, Acme Corp, Production
-TR_ACME_DEV        → Turkey, Acme Corp, Development
-EU_GLOBEX_PROD     → Europe, Globex Inc, Production
-US_INITECH_POC     → USA, Initech, Proof of Concept
+Örnekler:
+TR_ACME_PROD       → Türkiye, Acme Corp, Üretim
+TR_ACME_DEV        → Türkiye, Acme Corp, Geliştirme
+EU_GLOBEX_PROD     → Avrupa, Globex Inc, Üretim
+US_INITECH_POC     → ABD, Initech, Kavram Kanıtı
 ```
 
-### Destination Naming
+### Destination İsimlendirme
 
-Within client subaccount, simpler names work:
+Müşteri subaccount'u içinde daha basit isimler çalışır:
 
 ```mermaid
 graph TD
@@ -126,13 +126,13 @@ graph TD
     end
 ```
 
-**Why this works:**
-- Within ACME's subaccount, `S4_SALES` is unambiguous
-- No collision with GLOBEX's `S4_SALES` (different subaccount)
+**Bunun neden işe yaradığı:**
+- ACME'nin subaccount'u içinde `S4_SALES` belirsizlik yaratmaz
+- GLOBEX'in `S4_SALES` ile çakışma yok (farklı subaccount)
 
-### For Shared Subaccounts (if you must)
+### Paylaşılan Subaccount'lar İçin (mecbur kalırsanız)
 
-If you have a shared subaccount, use full prefixes:
+Paylaşılan bir subaccount'unuz varsa, tam önek kullanın:
 
 ```
 ACME_S4_PROD_SALES
@@ -142,115 +142,115 @@ INITECH_S4_DEV_ORDERS
 
 ---
 
-## 12.4 Security & Access Management
+## 12.4 Güvenlik ve Erişim Yönetimi
 
-### Identity Provider Setup
+### Kimlik Sağlayıcı Kurulumu
 
 ```mermaid
 graph TD
-    subgraph "Options"
-        O1[SAP IAS<br/>Your managed IdP]
-        O2[Client's IdP<br/>Azure AD, Okta, etc.]
-        O3[Mixed<br/>Different per client]
+    subgraph "Seçenekler"
+        O1[SAP IAS<br/>Sizin yönettiğiniz IdP]
+        O2[Müşterinin IdP'si<br/>Azure AD, Okta, vb.]
+        O3[Karışık<br/>Müşteri başına farklı]
     end
 
-    subgraph "Recommendation per Client Type"
-        R1[Consulting Project → SAP IAS]
-        R2[Managed Service → Client's IdP]
+    subgraph "Müşteri Türüne Göre Öneri"
+        R1[Danışmanlık Projesi → SAP IAS]
+        R2[Yönetilen Hizmet → Müşterinin IdP'si]
         R3[POC/Demo → SAP IAS]
     end
 ```
 
-### Role Assignments
+### Rol Atamaları
 
-**Your Team (Consultants):**
+**Ekibiniz (Danışmanlar):**
 ```yaml
-Global Account Level:
-  - Global Account Administrator (you)
-  - Directory Administrator (team leads)
+Global Account Seviyesi:
+  - Global Account Administrator (siz)
+  - Directory Administrator (ekip liderleri)
 
-Subaccount Level (per client):
+Subaccount Seviyesi (müşteri başına):
   - Subaccount Administrator
   - Cloud Foundry Space Developer
   - Destination Administrator
 ```
 
-**Client Team:**
+**Müşteri Ekibi:**
 ```yaml
-Subaccount Level (their subaccount only):
-  - Subaccount Viewer (read-only) or
-  - Subaccount Administrator (full control)
-  - Role specific to their apps
+Subaccount Seviyesi (sadece kendi subaccount'ları):
+  - Subaccount Viewer (salt okunur) veya
+  - Subaccount Administrator (tam kontrol)
+  - Uygulamalarına özgü roller
 ```
 
-### Access Pattern for Client Handover
+### Müşteri Devir Erişim Kalıbı
 
 ```mermaid
 sequenceDiagram
-    participant C as Consultant
-    participant SA as Client Subaccount
-    participant CL as Client Admin
+    participant C as Danışman
+    participant SA as Müşteri Subaccount
+    participant CL as Müşteri Admin
 
-    C->>SA: Create and configure subaccount
-    Note over C,SA: Full admin during project
+    C->>SA: Subaccount oluştur ve yapılandır
+    Note over C,SA: Proje süresince tam admin
 
-    C->>CL: Add client as Subaccount Admin
-    CL->>SA: Client gains access
+    C->>CL: Müşteriyi Subaccount Admin olarak ekle
+    CL->>SA: Müşteri erişim kazanır
 
-    Note over CL,SA: Transition period: Both have access
+    Note over CL,SA: Geçiş dönemi: İkisi de erişime sahip
 
-    CL->>C: Remove consultant access
-    Note over CL,SA: Client owns subaccount
+    CL->>C: Danışman erişimini kaldır
+    Note over CL,SA: Müşteri subaccount'a sahip olur
 ```
 
 ---
 
-## 12.5 Entitlement Distribution
+## 12.5 Yetkilendirme Dağıtımı
 
-### Visualizing Entitlements
+### Yetkilendirmeleri Görselleştirme
 
 ```mermaid
-pie title "AI Units Distribution"
+pie title "AI Units Dağılımı"
     "ACME_PROD" : 40
     "ACME_DEV" : 10
     "GLOBEX_PROD" : 30
     "GLOBEX_DEV" : 10
-    "Internal" : 10
+    "Dahili" : 10
 ```
 
-### Managing Quotas
+### Kotaları Yönetme
 
-In BTP Cockpit:
+BTP Cockpit'te:
 
 1. **Global Account → Entitlements**
-2. **Entity Assignments** (formerly "Manage Quota")
-3. Distribute to subaccounts:
+2. **Entity Assignments** (eski adıyla "Manage Quota")
+3. Subaccount'lara dağıtın:
 
 ```yaml
 AI Core (AI Units):
-  Total: 1000 units/month
-  Distribution:
+  Toplam: 1000 ünite/ay
+  Dağılım:
     - ACME_PROD: 400
     - ACME_DEV: 100
     - GLOBEX_PROD: 300
     - GLOBEX_DEV: 100
-    - Internal: 100
+    - Dahili: 100
 
 Cloud Foundry Runtime:
-  Total: 16 GB
-  Distribution:
+  Toplam: 16 GB
+  Dağılım:
     - ACME_PROD: 4 GB
     - ACME_DEV: 2 GB
     - GLOBEX_PROD: 4 GB
     - GLOBEX_DEV: 2 GB
-    - Internal: 4 GB
+    - Dahili: 4 GB
 ```
 
 ---
 
-## 12.6 Cost Allocation and Chargeback
+## 12.6 Maliyet Tahsisi ve Geri Yükleme
 
-### Tracking Costs Per Client
+### Müşteri Başına Maliyetleri Takip Etme
 
 ```mermaid
 graph TD
@@ -258,11 +258,11 @@ graph TD
         UA[Usage Analytics]
     end
 
-    subgraph "Per Subaccount Metrics"
-        M1[AI Units consumed]
-        M2[CF Runtime hours]
-        M3[HANA storage]
-        M4[API calls]
+    subgraph "Subaccount Başına Metrikler"
+        M1[Tüketilen AI Units]
+        M2[CF Runtime saatleri]
+        M3[HANA depolama]
+        M4[API çağrıları]
     end
 
     UA --> M1
@@ -270,8 +270,8 @@ graph TD
     UA --> M3
     UA --> M4
 
-    subgraph "Client Invoice"
-        I[Monthly cost report per client]
+    subgraph "Müşteri Faturası"
+        I[Müşteri başına aylık maliyet raporu]
     end
 
     M1 --> I
@@ -280,128 +280,128 @@ graph TD
     M4 --> I
 ```
 
-### Export and Report
+### Dışa Aktarma ve Raporlama
 
 1. **BTP Cockpit → Usage Analytics**
-2. **Select subaccount** (or directory)
-3. **Export to CSV**
-4. **Build monthly reports per client**
+2. **Subaccount seçin** (veya directory)
+3. **CSV'ye dışa aktar**
+4. **Müşteri başına aylık raporlar oluşturun**
 
-### Sample Cost Report Structure
+### Örnek Maliyet Raporu Yapısı
 
 ```markdown
-# Monthly BTP Cost Report - ACME Corp
+# Aylık BTP Maliyet Raporu - ACME Corp
 
-Period: January 2026
+Dönem: Ocak 2026
 
-| Service | Usage | Unit Cost | Total |
-|---------|-------|-----------|-------|
+| Hizmet | Kullanım | Birim Maliyet | Toplam |
+|--------|----------|---------------|--------|
 | AI Core | 350 AI Units | €0.10 | €35.00 |
-| CF Runtime | 720 GB-hours | €0.05 | €36.00 |
+| CF Runtime | 720 GB-saat | €0.05 | €36.00 |
 | HANA Cloud | 50 GB | €2.00 | €100.00 |
-| Destination Service | 10,000 calls | €0.001 | €10.00 |
-| **Total** | | | **€181.00** |
+| Destination Service | 10,000 çağrı | €0.001 | €10.00 |
+| **Toplam** | | | **€181.00** |
 ```
 
 ---
 
-## 12.7 Template-Based Setup
+## 12.7 Şablon Tabanlı Kurulum
 
-### The Golden Template Approach
+### Altın Şablon Yaklaşımı
 
 ```mermaid
 flowchart TD
-    subgraph "Template Subaccount"
+    subgraph "Şablon Subaccount"
         T[TEMPLATES]
-        T --> TA[Standard Agents]
-        T --> TD[Destination Templates]
-        T --> TF[Fiori App Templates]
+        T --> TA[Standart Agent'lar]
+        T --> TD[Destination Şablonları]
+        T --> TF[Fiori Uygulama Şablonları]
     end
 
-    subgraph "New Client Setup"
-        C[Create Client Subaccount]
-        C --> |"Copy from"| T
-        C --> CUST[Customize for Client]
-        CUST --> DEP[Deploy]
+    subgraph "Yeni Müşteri Kurulumu"
+        C[Müşteri Subaccount Oluştur]
+        C --> |"Buradan kopyala"| T
+        C --> CUST[Müşteri için Özelleştir]
+        CUST --> DEP[Dağıt]
     end
 ```
 
-### Standard Setup Checklist
+### Standart Kurulum Kontrol Listesi
 
-When onboarding a new client:
+Yeni bir müşteri entegre ederken:
 
 ```yaml
-Client Onboarding Checklist:
+Müşteri Entegrasyon Kontrol Listesi:
   Subaccount:
-    - [ ] Create subaccount with naming convention
-    - [ ] Enable Cloud Foundry
-    - [ ] Assign entitlements
+    - [ ] İsimlendirme kuralına uygun subaccount oluştur
+    - [ ] Cloud Foundry'yi etkinleştir
+    - [ ] Yetkilendirmeleri ata
 
-  Connectivity:
-    - [ ] Create destination to S/4HANA
-    - [ ] Create destination to SuccessFactors (if needed)
-    - [ ] Set up Cloud Connector (if on-prem)
+  Bağlantı:
+    - [ ] S/4HANA'ya destination oluştur
+    - [ ] SuccessFactors'a destination oluştur (gerekirse)
+    - [ ] Cloud Connector kur (on-prem ise)
 
-  Identity:
-    - [ ] Configure trust with IdP
-    - [ ] Create initial users
-    - [ ] Set up role collections
+  Kimlik:
+    - [ ] IdP ile güven yapılandır
+    - [ ] İlk kullanıcıları oluştur
+    - [ ] Rol koleksiyonlarını ayarla
 
-  Services:
-    - [ ] Deploy standard Fiori apps
-    - [ ] Set up Joule agents from template
-    - [ ] Configure Work Zone
+  Hizmetler:
+    - [ ] Standart Fiori uygulamalarını dağıt
+    - [ ] Şablondan Joule agent'larını kur
+    - [ ] Work Zone'u yapılandır
 
-  Documentation:
-    - [ ] Document subaccount details
-    - [ ] Document credentials (secure storage)
-    - [ ] Create handover package
+  Dokümantasyon:
+    - [ ] Subaccount detaylarını belgele
+    - [ ] Kimlik bilgilerini belgele (güvenli depolama)
+    - [ ] Devir paketi oluştur
 ```
 
 ---
 
-## 12.8 Multi-Client Joule Agents
+## 12.8 Çoklu Müşteri Joule Agent'ları
 
-### Option 1: Separate Agents Per Client
+### Seçenek 1: Müşteri Başına Ayrı Agent'lar
 
 ```mermaid
 graph TD
     subgraph "ACME Subaccount"
-        A1[Customer Service Agent<br/>for ACME]
+        A1[Müşteri Hizmetleri Agent<br/>ACME için]
     end
 
     subgraph "GLOBEX Subaccount"
-        A2[Customer Service Agent<br/>for GLOBEX]
+        A2[Müşteri Hizmetleri Agent<br/>GLOBEX için]
     end
 ```
 
-**Pros:** Full isolation, client-specific customization
-**Cons:** More maintenance, changes replicated manually
+**Artıları:** Tam izolasyon, müşteriye özel özelleştirme
+**Eksileri:** Daha fazla bakım, değişiklikler manuel olarak tekrarlanır
 
-### Option 2: Shared Agent Template
+### Seçenek 2: Paylaşılan Agent Şablonu
 
-Build once, deploy to each:
+Bir kez oluştur, her birine dağıt:
 
 ```mermaid
 flowchart TD
-    subgraph "Template"
-        T[Generic Customer Service Agent]
+    subgraph "Şablon"
+        T[Genel Müşteri Hizmetleri Agent]
     end
 
     subgraph "ACME"
-        A1[Deployed Agent]
-        A1G[ACME Grounding Docs]
-        A1D[ACME Destinations]
+        A1[Dağıtılmış Agent]
+        A1G[ACME Grounding Dokümanları]
+        A1D[ACME Destination'ları]
     end
 
     subgraph "GLOBEX"
-        A2[Deployed Agent]
-        A2G[GLOBEX Grounding Docs]
-        A2D[GLOBEX Destinations]
+        A2[Dağıtılmış Agent]
+        A2G[GLOBEX Grounding Dokümanları]
+        A2D[GLOBEX Destination'ları]
     end
 
-    T --> |"Deploy"| A1
-    T --> |"Deploy"| A2
+    T --> |"Dağıt"| A1
+    T --> |"Dağıt"| A2
     A1G --> A1
     A1D --> A1
     A2G --> A2
@@ -410,64 +410,64 @@ flowchart TD
 
 ---
 
-## 12.9 Disaster Recovery Considerations
+## 12.9 Felaket Kurtarma Hususları
 
-### Per-Client Backup Strategy
+### Müşteri Başına Yedekleme Stratejisi
 
 ```yaml
-Backup Frequency:
-  Destinations: Weekly export
-  Agents: After each change
-  Fiori Apps: Git repository
-  Configurations: Document + export
+Yedekleme Sıklığı:
+  Destination'lar: Haftalık dışa aktarma
+  Agent'lar: Her değişiklikten sonra
+  Fiori Uygulamaları: Git deposu
+  Yapılandırmalar: Belgeleme + dışa aktarma
 
-Storage:
-  Location: Secure company storage
-  Format: JSON exports + documentation
-  Retention: 90 days minimum
+Depolama:
+  Konum: Güvenli şirket depolaması
+  Format: JSON dışa aktarımları + dokümantasyon
+  Saklama: Minimum 90 gün
 ```
 
-### Quick Recovery Plan
+### Hızlı Kurtarma Planı
 
 ```mermaid
 flowchart TD
-    DR[Disaster Detected] --> ASSESS{Assess Scope}
-    ASSESS --> |"Single destination"| FIX1[Recreate from backup]
-    ASSESS --> |"Entire subaccount"| FIX2[Create new + restore all]
-    ASSESS --> |"Global account"| FIX3[SAP Support + full restore]
+    DR[Felaket Tespit Edildi] --> ASSESS{Kapsamı Değerlendir}
+    ASSESS --> |"Tek destination"| FIX1[Yedekten yeniden oluştur]
+    ASSESS --> |"Tüm subaccount"| FIX2[Yeni oluştur + hepsini geri yükle]
+    ASSESS --> |"Global account"| FIX3[SAP Destek + tam geri yükleme]
 
-    FIX1 --> TEST[Test functionality]
+    FIX1 --> TEST[İşlevselliği test et]
     FIX2 --> TEST
     FIX3 --> TEST
 
-    TEST --> DONE[Back to normal]
+    TEST --> DONE[Normale dön]
 ```
 
 ---
 
 ## Temel Çıkarımlar
 
-1. **One subaccount per client** — Essential for isolation
-2. **Naming conventions** — `{REGION}_{CLIENT}_{ENV}`
-3. **Clear entitlement distribution** — Track quotas per client
-4. **Proper access control** — Consultants vs. client roles
-5. **Template approach** — Standardize and replicate
-6. **Cost tracking** — Enable chargeback
+1. **Müşteri başına bir subaccount** — İzolasyon için şart
+2. **İsimlendirme kuralları** — `{BÖLGE}_{MÜŞTERİ}_{ORTAM}`
+3. **Net yetkilendirme dağıtımı** — Müşteri başına kotaları takip edin
+4. **Doğru erişim kontrolü** — Danışmanlar vs. müşteri rolleri
+5. **Şablon yaklaşımı** — Standartlaştırın ve çoğaltın
+6. **Maliyet takibi** — Geri yüklemeyi etkinleştirin
 
 ---
 
 ## Sırada Ne Var?
 
-Now let's look at deploying the same solution across multiple clients—template-based vs. multi-tenant approaches.
+Şimdi aynı çözümü birden fazla müşteriye dağıtmaya bakalım—şablon tabanlı vs. çok kiracılı yaklaşımlar.
 
 ---
 
-*[Önceki: Kısım 11 – Agent Lifecycle & Deployment](11-agent-lifecycle.md) | [Sonraki: Kısım 13 – Cross-Customer Deployments](13-cross-customer-deployments.md)*
+*[Önceki: Kısım 11 – Agent Yaşam Döngüsü ve Dağıtım](11-agent-lifecycle.md) | [Sonraki: Kısım 13 – Müşteriler Arası Dağıtımlar](13-cross-customer-deployments.md)*
 
 *[İçindekilere Dön](../content.md)*
 
 ---
 
-**Yazar:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Storyteller & Digital Transformation Advocate
+**Yazar:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Hikaye Anlatıcısı & Dijital Dönüşüm Savunucusu
 
-*Oluşturuldu ❤️ dünya genelindeki SAP öğrencileri için*
+*Dünya genelindeki SAP öğrencileri için ❤️ ile oluşturuldu*
