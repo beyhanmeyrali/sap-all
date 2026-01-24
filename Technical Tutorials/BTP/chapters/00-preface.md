@@ -24,13 +24,40 @@ Richard Feynman, the Nobel Prize-winning physicist, had a simple rule:
 
 That's the approach here. Every concept gets explained like we're having coffee together—using analogies from everyday life, building from what you already know, and never hiding behind jargon.
 
-When we say "Destination," we'll explain it's like a contact card in your phone.  
-When we say "Subaccount," we'll show it's like an apartment in a building.  
+When we say "Destination," we'll explain it's like a contact card in your phone.
+When we say "Subaccount," we'll show it's like an apartment in a building.
 When we say "Clean Core," we'll be honest about what habits you'll need to change.
 
 ---
 
 ## How to Use This Book
+
+```mermaid
+flowchart TD
+    START[Pick Your Path] --> Q1{Your Experience?}
+
+    Q1 --> |"New to BTP"| PATH1[Start from Chapter 1]
+    Q1 --> |"Know BTP Basics"| PATH2[Jump to Your Interest]
+    Q1 --> |"Need Quick Answers"| PATH3[Go to Appendices]
+
+    PATH1 --> CH1[Chapter 1: What is BTP?]
+    CH1 --> CH2[Chapter 2: Architecture]
+    CH2 --> CH3[Chapter 3: RISE]
+    CH3 --> CONT[Continue sequentially...]
+
+    PATH2 --> OPT1[Part III: ABAP & Fiori]
+    PATH2 --> OPT2[Part IV: Joule & AI Agents]
+    PATH2 --> OPT3[Part V: Multi-Client Management]
+
+    PATH3 --> APP1[Appendix A: Cheat Sheets]
+    PATH3 --> APP2[Appendix B: Glossary]
+    PATH3 --> APP3[Appendix D: Troubleshooting]
+
+    style START fill:#2196F3,color:white
+    style PATH1 fill:#4CAF50,color:white
+    style PATH2 fill:#FF9800,color:white
+    style PATH3 fill:#9C27B0,color:white
+```
 
 ### If You're New to BTP
 Start from Chapter 1. We build each concept on the previous one, so the order matters.
@@ -49,6 +76,43 @@ Check the **Appendices**:
 
 ### The Idea File
 This book started as a conversation—a back-and-forth explanation of BTP concepts. That original content lives in `idea.txt` if you want the raw, unedited discussion format.
+
+---
+
+## Book Structure
+
+```mermaid
+mindmap
+  root((BTP Mini Book))
+    Part I: Foundation
+      What is BTP
+      Architecture
+    Part II: RISE
+      What is RISE
+      RISE + BTP
+    Part III: Core Concepts
+      Destinations
+      ABAP Cloud
+      Fiori/UI5
+    Part IV: Joule & AI
+      Fundamentals
+      Skills
+      Agents
+      Lifecycle
+    Part V: Consulting
+      Multi-Client
+      Cross-Customer
+      C-Level Agents
+    Part VI: Integration
+      Integration Suite
+      Cloud Connector
+      Clean Core
+    Appendices
+      Reference Tables
+      Glossary
+      Resources
+      Troubleshooting
+```
 
 ---
 
@@ -80,3 +144,9 @@ Ready? Grab your coffee (or çay ☕), and let's start with the simplest questio
 *[Next: Chapter 1 – What Even Is SAP BTP?](01-what-is-sap-btp.md)*
 
 *[Back to Table of Contents](../content.md)*
+
+---
+
+**Author:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Storyteller & Digital Transformation Advocate
+
+*Created with ❤️ for SAP learners worldwide*

@@ -8,6 +8,33 @@
 
 Imagine SAP BTP as a **huge cloud toolbox** where companies can build, run, and connect modern apps without buying 50 servers.
 
+```mermaid
+graph LR
+    subgraph "Old World"
+        HW[Buy Hardware]
+        OS[Install OS]
+        DB[Setup Database]
+        SAP[Install SAP]
+        TEAM[Maintain Everything]
+    end
+
+    subgraph "BTP World"
+        LOGIN[Just Login]
+        BUILD[Start Building]
+    end
+
+    HW --> OS --> DB --> SAP --> TEAM
+    LOGIN --> BUILD
+
+    style HW fill:#f44336,color:white
+    style OS fill:#f44336,color:white
+    style DB fill:#f44336,color:white
+    style SAP fill:#f44336,color:white
+    style TEAM fill:#f44336,color:white
+    style LOGIN fill:#4CAF50,color:white
+    style BUILD fill:#4CAF50,color:white
+```
+
 In the old world, you wanted to extend SAP? You needed:
 - Hardware (servers, storage, networking)
 - Operating systems
@@ -28,6 +55,34 @@ You focus on *what* you want to build, not *how* to set up infrastructure.
 ## 1.2 What's Inside: Databases, AI, Workflows, and Integrations
 
 Inside this toolbox, you get:
+
+```mermaid
+mindmap
+  root((SAP BTP Toolbox))
+    Databases
+      SAP HANA Cloud
+      PostgreSQL
+      Redis
+    AI Services
+      AI Core
+      AI Launchpad
+      Joule
+      Document Information Extraction
+    Workflow Tools
+      SAP Build Process Automation
+      Workflow Management
+    Integration
+      Integration Suite
+      Event Mesh
+      Open Connectors
+    Development
+      ABAP Environment
+      Business Application Studio
+      SAP Build Apps
+    Analytics
+      SAP Analytics Cloud
+      Data Warehouse Cloud
+```
 
 | Category | What It Includes | Old-World Equivalent |
 |----------|------------------|---------------------|
@@ -52,6 +107,29 @@ You don't have to use everything. Pick what you need, like choosing tools from a
 
 ### Skills vs. Agents: Quick Preview
 
+```mermaid
+graph TD
+    subgraph "Skill = Single Tool"
+        S1[Get Sales Order]
+        S2[Check Stock Level]
+        S3[Create Return Request]
+        S4[Send Email]
+    end
+
+    subgraph "Agent = Smart Boss"
+        AGENT[Agent Brain]
+        AGENT --> |"1. What order?"| S1
+        AGENT --> |"2. Stock available?"| S2
+        AGENT --> |"3. Process return"| S3
+        AGENT --> |"4. Notify customer"| S4
+    end
+
+    USER[User: Handle my complaint] --> AGENT
+
+    style AGENT fill:#2196F3,color:white
+    style USER fill:#FF9800,color:white
+```
+
 | Concept | What It Is | Example |
 |---------|------------|---------|
 | **Skill** | One specific superpower | "Look up sales order status" |
@@ -75,6 +153,28 @@ Here's an analogy that helps ABAP developers understand the mindset shift:
 
 ### The Old House: Classic On-Prem SAP
 
+```mermaid
+graph TD
+    subgraph "Your On-Prem SAP"
+        LAND[You Own the Land]
+        HOUSE[You Build the House]
+        PLUMB[You Install Plumbing]
+        PAINT[You Paint the Walls]
+        MAINT[You Maintain Everything]
+
+        LAND --> HOUSE --> PLUMB --> PAINT --> MAINT
+
+        subgraph "Inside Your House"
+            ABAP[ABAP Code]
+            TABLES[Z-Tables]
+            EXITS[User Exits]
+            FIORI[Fiori Apps]
+        end
+    end
+
+    style MAINT fill:#f44336,color:white
+```
+
 - You (or the customer) **own the land**
 - You **build the house** (hardware)
 - You **install plumbing/electricity** (infrastructure)
@@ -87,6 +187,34 @@ Here's an analogy that helps ABAP developers understand the mindset shift:
 
 ### The New Neighborhood: BTP Cloud
 
+```mermaid
+graph TD
+    subgraph "SAP Cloud Neighborhood"
+        BUILDING[SAP Provides the Building]
+        APT[You Rent an Apartment]
+        LANDLORD[Landlord Handles Maintenance]
+        CUSTOM[You Customize Your Space]
+
+        BUILDING --> APT
+        LANDLORD --> APT
+        APT --> CUSTOM
+
+        subgraph "Your Apartment - Subaccount"
+            APPS[Custom Apps]
+            RAP[RAP Services]
+            JOULE[Joule Agents]
+            INTEGR[Integrations]
+        end
+
+        subgraph "Workshop in Garage - BTP"
+            EXTEND[Extensions]
+        end
+    end
+
+    style LANDLORD fill:#4CAF50,color:white
+    style EXTEND fill:#2196F3,color:white
+```
+
 - SAP provides the **fully built building**
 - You **rent an apartment** (subaccount)
 - Maintenance is **handled by the landlord** (SAP manages infrastructure)
@@ -95,6 +223,47 @@ Here's an analogy that helps ABAP developers understand the mindset shift:
 - You **add a workshop in the garage** (BTP for extensions instead of modifying core)
 
 **Benefits**: Faster innovation, no infrastructure worries, forced best practices.
+
+---
+
+## 1.5 BTP Service Categories
+
+```mermaid
+graph LR
+    subgraph "BTP Services"
+        direction TB
+
+        subgraph "Foundation"
+            ACCOUNT[Account Management]
+            SECURITY[Security & Identity]
+            MONITOR[Monitoring]
+        end
+
+        subgraph "Database & Data"
+            HANA[HANA Cloud]
+            DWC[Data Warehouse Cloud]
+            DATASPHERE[Datasphere]
+        end
+
+        subgraph "Development"
+            ABAP[ABAP Environment]
+            BAS[Business App Studio]
+            BUILD[SAP Build]
+        end
+
+        subgraph "AI & Automation"
+            AICORE[AI Core]
+            JOULE[Joule]
+            BPA[Build Process Automation]
+        end
+
+        subgraph "Integration"
+            IS[Integration Suite]
+            EM[Event Mesh]
+            CC[Cloud Connector]
+        end
+    end
+```
 
 ---
 
@@ -116,3 +285,9 @@ Now that you know *what* BTP is, let's look at *how it's organized*. In the next
 *[Previous: Preface](00-preface.md) | [Next: Chapter 2 – The BTP Architecture](02-btp-architecture.md)*
 
 *[Back to Table of Contents](../content.md)*
+
+---
+
+**Author:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Storyteller & Digital Transformation Advocate
+
+*Created with ❤️ for SAP learners worldwide*
