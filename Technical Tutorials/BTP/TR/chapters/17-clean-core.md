@@ -1,53 +1,53 @@
-# Kısım 17: Clean Core Rules That Bite Old Habits
+# Kısım 17: Eski Alışkanlıkları Sınırlayan Clean Core Kuralları
 
-> *The Mindset Shift Every ABAP Developer Must Make*
-
----
-
-Clean Core is the most important concept for developers transitioning to RISE with SAP and BTP. Your old habits? They don't work anymore. Let's understand why and what to do instead.
+> *Her ABAP Geliştiricisinin Yapması Gereken Zihniyet Değişimi*
 
 ---
 
-## 17.1 What Is Clean Core?
+Clean Core, RISE with SAP ve BTP'ye geçiş yapan geliştiriciler için en önemli kavramdır. Eski alışkanlıklarınız mı? Artık işe yaramıyorlar. Neden olduğunu ve bunun yerine ne yapılması gerektiğini anlayalım.
+
+---
+
+## 17.1 Clean Core Nedir?
 
 ```mermaid
 mindmap
   root((Clean Core))
-    No Modifications
-      No SMOD/CMOD
-      No enhancement points in SAP code
-      No copies of standard programs
-    Extensions Only
-      Side-by-side on BTP
-      Released APIs only
-      Key User extensibility
-    Benefits
-      Faster upgrades
-      Easier support
-      Cloud-ready
-      Future-proof
+    Modifikasyon Yok
+      SMOD/CMOD yok
+      SAP kodunda enhancement point yok
+      Standart programların kopyası yok
+    Sadece Uzantılar
+      BTP'de side-by-side
+      Sadece released API'ler
+      Key User genişletilebilirliği
+    Faydalar
+      Daha hızlı yükseltmeler
+      Daha kolay destek
+      Buluta hazır
+      Geleceğe hazır
 ```
 
-### The Philosophy
+### Felsefe
 
-> **Old thinking:** "I'll modify this standard report to add my field"
+> **Eski düşünce:** "Bu standart raporu değiştirip alanımı ekleyeceğim"
 >
-> **Clean Core thinking:** "I'll build an extension that consumes the released API"
+> **Clean Core düşüncesi:** "Released API'yi tüketen bir uzantı oluşturacağım"
 
 ---
 
-## 17.2 What Can't You Do Anymore?
+## 17.2 Artık Ne Yapamıyorsunuz?
 
-### The Forbidden List
+### Yasak Listesi
 
 ```mermaid
 graph TD
-    subgraph "❌ NOT ALLOWED in Clean Core"
-        M1[Modifications to SAP code]
-        M2[Custom objects in S/4 core]
-        M3[Unreleased APIs]
-        M4[Direct database access]
-        M5[User exits / enhancement points]
+    subgraph "❌ Clean Core'da İZİN VERİLMEYEN"
+        M1[SAP kodunda modifikasyonlar]
+        M2[S/4 core'da özel nesneler]
+        M3[Released olmayan API'ler]
+        M4[Doğrudan veritabanı erişimi]
+        M5[User exit'ler / enhancement point'ler]
     end
 
     style M1 fill:#f44336,color:white
@@ -57,369 +57,258 @@ graph TD
     style M5 fill:#f44336,color:white
 ```
 
-### Specific Örneks
+### Spesifik Örnekler
 
-| What You Did Before | Why It's Forbidden | Impact |
-|--------------------|--------------------|--------|
-| `ENHANCEMENT my_enh` in standard program | Modifies SAP code | Breaks on upgrade |
-| Z-table in DDIC | Custom object in core | Migration issues |
-| `SELECT * FROM VBAK` | Direct table access | Table may change |
-| Calling unreleased FM | Internal API | May disappear |
-| User exit USEREXIT_* | Deprecated mechanism | Not cloud-ready |
+| Eski Alışkanlık | Neden Yasak | Ne Yapmalı |
+|-----------------|-------------|------------|
+| SE38'de Z-rapor | Core'da özel kod | BTP'de RAP servisi |
+| SE11'de Z-tablo | Core'da özel nesne | BTP HANA'da tablo |
+| SMOD/CMOD | SAP kodu modifikasyonu | Released BADI veya BTP uzantısı |
+| Doğrudan BKPF erişimi | Released olmayan tablo | API_JOURNALENTRY_SRV API'si |
+| FM değiştirme | SAP kodu modifikasyonu | Wrapper sınıfı veya BTP servisi |
 
 ---
 
-## 17.3 The Clean Core Extension Model
-
-### Side-by-Side Pattern
+## 17.3 Uzantılar vs. Modifikasyonlar
 
 ```mermaid
 graph LR
-    subgraph "S/4HANA Cloud (Clean Core)"
-        S4[Standard S/4HANA]
-        API[Released APIs]
-        S4 --> API
+    subgraph "❌ Modifikasyon"
+        MOD[SAP kodunu değiştir]
+        MOD --> PAIN1[Yükseltme kabusu]
+        MOD --> PAIN2[Destek sorunları]
+        MOD --> PAIN3[Regresyon riskleri]
     end
 
-    subgraph "BTP (Extensions)"
-        EXT[Custom Extensions]
-        RAP[RAP Services]
-        FIORI[Fiori Apps]
-        JOULE[Joule Skills]
+    subgraph "✅ Uzantı"
+        EXT[Side-by-side oluştur]
+        EXT --> GOOD1[Temiz yükseltmeler]
+        EXT --> GOOD2[İzole]
+        EXT --> GOOD3[Desteklenebilir]
     end
 
-    API --> |"OData / SOAP"| EXT
-    EXT --> RAP
-    EXT --> FIORI
-    EXT --> JOULE
-
-    style S4 fill:#4CAF50,color:white
-    style EXT fill:#2196F3,color:white
+    style MOD fill:#f44336,color:white
+    style EXT fill:#4CAF50,color:white
 ```
 
-### Three Extension Tiers
+### Üç Katmanlı Uzantı Modeli
 
 ```mermaid
 graph TD
-    subgraph "Tier 1: Key User Extensibility"
-        T1[No-code/Low-code]
-        T1 --> T1A[Custom fields]
-        T1 --> T1B[Custom logic]
-        T1 --> T1C[App extensions]
+    subgraph "Katman 1: In-App (S/4 içinde)"
+        L1[Key User Extensibility]
+        L1 --> L1A[Özel alanlar]
+        L1 --> L1B[Özel mantık - sınırlı]
+        L1 --> L1C[Yapılandırma]
     end
 
-    subgraph "Tier 2: Developer Extensibility"
-        T2[In-App Development]
-        T2 --> T2A[Custom CDS views]
-        T2 --> T2B[Custom business objects]
-        T2 --> T2C[Released BADIs]
+    subgraph "Katman 2: On-Stack (S/4 içinde RAP)"
+        L2[Embedded Steampunk]
+        L2 --> L2A[RAP servisleri]
+        L2 --> L2B[Released API'ler]
+        L2 --> L2C[S/4 içinde çalışır]
     end
 
-    subgraph "Tier 3: Side-by-Side"
-        T3[BTP Development]
-        T3 --> T3A[CAP / RAP services]
-        T3 --> T3B[Fiori apps]
-        T3 --> T3C[Joule agents]
+    subgraph "Katman 3: Side-by-Side (BTP)"
+        L3[BTP Uzantıları]
+        L3 --> L3A[Özel uygulamalar]
+        L3 --> L3B[Tam özgürlük]
+        L3 --> L3C[S/4 dışında]
     end
+
+    style L1 fill:#4CAF50,color:white
+    style L2 fill:#2196F3,color:white
+    style L3 fill:#FF9800,color:white
 ```
-
-| Tier | Who | Where | Ne Zaman Kullanılır |
-|------|-----|-------|-------------|
-| **Tier 1** | Business users | S/4 Fiori apps | Simple field additions, basic logic |
-| **Tier 2** | ABAP developers | S/4 ABAP | Custom analytics, released extensions |
-| **Tier 3** | Full-stack developers | BTP | Complex logic, integrations, AI |
 
 ---
 
-## 17.4 Adapting Your Development Mindset
+## 17.4 Eskiden Yeniye Tercüme Tablosu
 
-### Translation Table: Old to New
+| Eski Yol | Yeni Yol | Nerede |
+|----------|----------|--------|
+| `SE38` Z-rapor | RAP OData servisi | BTP ABAP Env |
+| `SE11` Z-tablo | CDS tanımlı tablo | BTP ABAP Env |
+| `SE37` Z-FM | ABAP sınıfı | BTP ABAP Env |
+| `SMOD/CMOD` | Released BADI | S/4 veya BTP |
+| `SE18/19` BADI | Released BADI | S/4 |
+| Doğrudan tablo erişimi | OData API | BTP'den |
+| `CALL TRANSACTION` | UI5 uygulaması | BTP |
+| ALV rapor | Fiori uygulaması | BTP |
 
-| Old Habit | New Approach |
-|-----------|--------------|
-| Add Z-field to VBAK | Key User extensibility or append structure via released API |
-| Create Z-report with ALV | Create RAP service + Fiori Elements app |
-| Modify user exit | Use released BADI or build side-by-side |
-| Copy standard program and modify | Build new solution using released APIs |
-| Direct table SELECT | Use released CDS view or OData API |
-| Enhancement spot in SAP code | Released extension point or side-by-side |
-| Custom transaction | Fiori tile with semantic navigation |
-| Print program (SAPscript) | Adobe Forms or Output Management |
+---
 
-### The Decision Flowchart
+## 17.5 Released API'leri Bulma
+
+### SAP API Business Hub
+
+```
+URL: https://api.sap.com
+```
+
+Burada şunları yapabilirsiniz:
+- Kullanılabilir API'leri arama
+- Dokümantasyon okuma
+- Sandbox ortamında test etme
+- OpenAPI spec'leri indirme
+
+### Eclipse ADT'de
+
+```
+1. ABAP Development Tools'u açın
+2. Bir S/4 sistemine bağlanın
+3. Project Explorer'da "Released Objects"u arayın
+4. API'ler @API annotation'ı ile işaretlidir
+```
+
+### Yaygın Released API'ler
+
+| İş Alanı | API Adı |
+|----------|---------|
+| Satış Siparişi | `API_SALES_ORDER_SRV` |
+| Satın Alma Siparişi | `API_PURCHASEORDER_PROCESS_SRV` |
+| İş Ortağı | `API_BUSINESS_PARTNER` |
+| Malzeme | `API_PRODUCT_SRV` |
+| GL Hesabı | `API_GLACCOUNTINCHARTOFACCOUNTS_SRV` |
+| Maliyet Merkezi | `API_COSTCENTER_SRV` |
+
+---
+
+## 17.6 ATC Bulut Hazırlık Kontrolleri
+
+ABAP Test Cockpit (ATC), kodunuzun bulut uyumlu olup olmadığını kontrol edebilir.
+
+### Kontrol Varyantı
+
+```
+ABAP_CLOUD_DEVELOPMENT
+```
+
+### Yaygın ATC Hataları
+
+| Hata | Anlam | Çözüm |
+|------|-------|-------|
+| "API released değil" | Desteklenmeyen FM/sınıf | Released alternatif bul |
+| "Doğrudan DB erişimi" | SELECT from BKPF | CDS view veya API kullan |
+| "Enhancement yasak" | SMOD/CMOD | BADI veya BTP uzantısı |
+| "Statement izin verilmez" | CALL TRANSACTION | Yeniden tasarla |
+
+---
+
+## 17.7 Migrasyon Stratejisi
 
 ```mermaid
 flowchart TD
-    REQ[New Requirement] --> Q1{Can I use a<br/>released extension point?}
-    Q1 --> |"Yes"| USE[Use it]
-    Q1 --> |"No"| Q2{Can Key User<br/>extensibility do it?}
-    Q2 --> |"Yes"| KEY[Key User tools]
-    Q2 --> |"No"| Q3{Is there a<br/>released API?}
-    Q3 --> |"Yes"| BTP[Build side-by-side on BTP]
-    Q3 --> |"No"| Q4{Push back or<br/>wait for API}
+    START[Mevcut Z-Kod] --> ANALYZE[ATC ile Analiz Et]
 
-    style USE fill:#4CAF50,color:white
-    style KEY fill:#4CAF50,color:white
-    style BTP fill:#2196F3,color:white
-    style Q4 fill:#FF9800,color:white
+    ANALYZE --> Q1{Bulut uyumlu?}
+
+    Q1 --> |"Evet"| MIGRATE[BTP'ye migrate et]
+    Q1 --> |"Hayır"| Q2{Refactor edilebilir mi?}
+
+    Q2 --> |"Evet"| REFACTOR[Released API'lerle refactor et]
+    Q2 --> |"Hayır"| Q3{Hala gerekli mi?}
+
+    Q3 --> |"Hayır"| RETIRE[Koddan vazgeç]
+    Q3 --> |"Evet"| REWRITE[BTP'de yeniden yaz]
+
+    REFACTOR --> MIGRATE
+    REWRITE --> DONE[Tamamlandı]
+    MIGRATE --> DONE
+    RETIRE --> DONE
+
+    style DONE fill:#4CAF50,color:white
+    style RETIRE fill:#9E9E9E,color:white
 ```
+
+### Adım Adım
+
+1. **Envanter çıkar** - Tüm Z-nesnelerini listele
+2. **ATC çalıştır** - Bulut uyumluluğunu kontrol et
+3. **Kategorize et** - Migrate/Refactor/Yeniden yaz/Vazgeç
+4. **Önceliklendir** - İş kritiğine göre sırala
+5. **Yürüt** - Her nesneyi migrate veya yeniden yaz
+6. **Doğrula** - Test et ve onayla
 
 ---
 
-## 17.5 Released APIs: Finding Them
+## 17.8 Pratik İpuçları
 
-### Where to Find Released APIs
+### Yapın ✅
 
-1. **SAP Business Accelerator Hub**
-   - URL: `https://api.sap.com`
-   - Browse S/4HANA Cloud APIs
-   - OData V2, V4, SOAP services
+- ✅ Her zaman SAP API Hub'ı released API'ler için kontrol edin
+- ✅ Uzantılar için BTP'yi kullanın
+- ✅ Migration'dan önce ATC çalıştırın
+- ✅ Key User extensibility'yi basit değişiklikler için kullanın
+- ✅ Mümkünse Fiori Elements kullanın
 
-2. **ABAP Development Tools (ADT)**
-   - In Eclipse: API State filter
-   - Look for `@ObjectModel.usageType: #CLOUD_API`
+### Yapmayın ❌
 
-3. **Custom Code Migration App**
-   - Fiori app in S/4HANA
-   - Analyzes your Z-code
-   - Suggests released alternatives
+- ❌ SAP kodunu modifiye etmeyin
+- ❌ Z-tablolarını S/4 core'a eklemeyin
+- ❌ Released olmayan FM'leri çağırmayın
+- ❌ Doğrudan tablo erişimi kullanmayın
+- ❌ Eski kalıpların çalışacağını varsaymayın
 
-### API Release Contracts
+---
+
+## 17.9 Clean Core Kontrol Listesi
 
 ```yaml
-API States:
-  - Released: Stable, supported, can use
-  - Deprecated: Will be removed, migrate away
-  - Not Released: Internal use only, forbidden
-```
+Geliştirmeden Önce:
+☐ Released API var mı kontrol ettim
+☐ Uzantı hangi katmanda olacak belirlendim
+☐ ATC bulut kontrollerini çalıştırdım
 
-### Örnek: Finding Sales Order API
+Geliştirme Sırasında:
+☐ Sadece released API'ler kullanıyorum
+☐ Özel nesneler BTP'de (S/4 core değil)
+☐ SAP kodu modifiye edilmedi
 
-```
-SAP Business Accelerator Hub:
-  → Product: S/4HANA Cloud
-  → Category: Sales
-  → API: Sales Order (A2X)
-  → Status: Released
-  → Protocol: OData V4
-  → Path: /sap/opu/odata4/sap/api_salesorder/srvd/sap/salesorder/0001/
-```
+Deploy Öncesi:
+☐ ATC temiz
+☐ Fonksiyonel testler geçti
+☐ Performans kabul edilebilir
 
----
-
-## 17.6 Practical Migration Örneks
-
-### Örnek 1: Z-Report → Fiori App
-
-**Before (Classic):**
-```abap
-REPORT z_sales_report.
-SELECT-OPTIONS: s_kunnr FOR kna1-kunnr.
-PARAMETERS: p_date TYPE sy-datum.
-
-SELECT * FROM vbak WHERE kunnr IN s_kunnr
-                     AND erdat = p_date.
-
-cl_salv_table=>factory( ... ).
-```
-
-**After (Clean Core):**
-
-1. Create CDS view (released interface)
-2. Add RAP behavior
-3. Generate Fiori Elements List Report
-
-```sql
-@AccessControl.authorizationCheck: #CHECK
-@EndUserText.label: 'Sales Orders Report'
-define root view entity ZC_SalesOrderReport
-  as select from I_SalesOrder
-{
-  key SalesOrder,
-      SoldToParty,
-      SalesOrderDate,
-      TotalNetAmount
-}
-```
-
-No SELECT-OPTIONS, no ALV—Fiori Elements handles the UI.
-
-### Örnek 2: User Exit → Released BADI
-
-**Before:**
-```abap
-" In standard include
-ENHANCEMENT z_my_enhancement.
-  " My custom logic
-  IF wa_vbak-kunnr = '1000'.
-    wa_vbak-vkorg = '2000'.
-  ENDIF.
-ENDENHANCEMENT.
-```
-
-**After:**
-```abap
-" In released BADI implementation
-CLASS zcl_badi_sd_pricing DEFINITION
-  PUBLIC FINAL
-  CREATE PUBLIC.
-  INTERFACES if_badi_sd_pricing.
-ENDCLASS.
-
-CLASS zcl_badi_sd_pricing IMPLEMENTATION.
-  METHOD if_badi_sd_pricing~calculate.
-    " Use only released APIs
-    " Business logic here
-  ENDMETHOD.
-ENDCLASS.
-```
-
-### Örnek 3: Direct Table → Released API
-
-**Before:**
-```abap
-SELECT * FROM vbak INTO TABLE @lt_orders
-  WHERE kunnr = @lv_customer.
-```
-
-**After:**
-```abap
-" Use released CDS view
-SELECT * FROM I_SalesOrder INTO TABLE @lt_orders
-  WHERE SoldToParty = @lv_customer.
-```
-
-Or via OData for side-by-side:
-```javascript
-// In BTP CAP service
-const orders = await S4.run(
-  SELECT.from('API_SALES_ORDER_SRV.A_SalesOrder')
-    .where({ SoldToParty: customer })
-);
-```
-
----
-
-## 17.7 Custom Code Migration Tools
-
-### ATC Cloud Readiness Check
-
-Run ABAP Test Cockpit with cloud-specific checks:
-
-```mermaid
-flowchart LR
-    CODE[Your Z-Code] --> ATC[ATC Check]
-    ATC --> |"Cloud Readiness"| RESULT{Results}
-    RESULT --> OK[Cloud Compatible]
-    RESULT --> WARN[Needs Attention]
-    RESULT --> ERR[Not Compatible]
-
-    style OK fill:#4CAF50,color:white
-    style WARN fill:#FF9800,color:white
-    style ERR fill:#f44336,color:white
-```
-
-### Common ATC Findings
-
-| Finding | Meaning | Action |
-|---------|---------|--------|
-| `CLOUD_UNAVAILABLE_API` | Using unreleased API | Find released alternative |
-| `CLOUD_FORBIDDEN_STATEMENT` | Forbidden statement | Rewrite logic |
-| `CLOUD_DEPRECATED_API` | API being removed | Migrate to new API |
-
-### Custom Code Migration App
-
-**Path:** S/4HANA Fiori → Custom Code Migration
-
-**What it does:**
-1. Scans your Z-code
-2. Identifies incompatibilities
-3. Suggests alternatives
-4. Tracks remediation progress
-
----
-
-## 17.8 Benefits of Clean Core
-
-### Why This Pain Is Worth It
-
-```mermaid
-graph TD
-    subgraph "With Modifications (Old)"
-        OLD[Upgrade] --> TEST1[Regression testing]
-        TEST1 --> FIX[Fix conflicts]
-        FIX --> TEST2[More testing]
-        TEST2 --> DEPLOY1[Deploy]
-        DEPLOY1 --> DONE1[6+ months]
-    end
-
-    subgraph "Clean Core (New)"
-        NEW[Upgrade] --> AUTO[Automatic compatibility]
-        AUTO --> QUICK[Quick validation]
-        QUICK --> DEPLOY2[Deploy]
-        DEPLOY2 --> DONE2[Weeks, not months]
-    end
-
-    style DONE1 fill:#f44336,color:white
-    style DONE2 fill:#4CAF50,color:white
-```
-
-| Benefit | Impact |
-|---------|--------|
-| **Faster upgrades** | No code conflicts to resolve |
-| **Continuous innovation** | Get new features immediately |
-| **Easier support** | SAP can help (standard behavior) |
-| **Cloud-ready** | Can move to RISE/Cloud anytime |
-| **Lower TCO** | Less maintenance effort |
-
----
-
-## 17.9 The Key Question
-
-Before writing any code, ask yourself:
-
-> **"Can I do this without touching the S/4HANA core?"**
-
-```mermaid
-flowchart TD
-    Q[Can I avoid touching S/4 core?] --> |"Yes"| BTP[Build on BTP]
-    Q --> |"No"| Q2{Is there a released<br/>extension point?}
-    Q2 --> |"Yes"| EXT[Use it]
-    Q2 --> |"No"| Q3{Is this requirement<br/>really necessary?}
-    Q3 --> |"Yes"| SAP[Request from SAP<br/>or push back]
-    Q3 --> |"No"| SKIP[Skip the requirement]
-
-    style BTP fill:#4CAF50,color:white
-    style EXT fill:#4CAF50,color:white
-    style SAP fill:#FF9800,color:white
-    style SKIP fill:#f44336,color:white
+Dokümantasyon:
+☐ Hangi API'ler kullanıldı belgelendi
+☐ Uzantı mimarisi açıklandı
+☐ Gelecek bakım için talimatlar
 ```
 
 ---
 
 ## Temel Çıkarımlar
 
-1. **Clean Core = No modifications** — Extensions only
-2. **Three tiers of extensibility** — Key User, Developer, Side-by-side
-3. **Released APIs mandatory** — Check api.sap.com
-4. **Side-by-side on BTP** — For complex requirements
-5. **Use migration tools** — ATC checks, Custom Code Migration app
-6. **Benefits outweigh pain** — Faster upgrades, lower TCO
+1. **Clean Core, SAP koduna dokunmamak** demektir
+2. **Modifikasyonlar yasak** — uzantılar zorunlu
+3. **Üç uzantı katmanı** — In-App, On-Stack, Side-by-Side
+4. **Released API'ler** tek yol
+5. **ATC** bulut uyumluluğunu kontrol eder
+6. **BTP** çoğu özel geliştirme için tercih edilen hedef
 
 ---
 
 ## Sırada Ne Var?
 
-Congratulations! You've completed the main chapters. Now check out the appendices for quick reference tables, glossary, resources, and troubleshooting guides.
+Tebrikler! SAP BTP Mini Kitabını tamamladınız. Artık şunları anlıyorsunuz:
+- BTP mimarisi ve kavramları
+- RISE with SAP
+- Destination'lar, ABAP Cloud, Fiori
+- Joule skill'leri ve agent'ları
+- Çoklu müşteri yönetimi
+- Entegrasyon ve Clean Core
+
+İyi geliştirmeler!
 
 ---
 
-*[Önceki: Kısım 16 – Cloud Connector](16-cloud-connector.md) | [Sonraki: Ek A – Hızlı Referans Tables](appendix-a-reference-tables.md)*
+*[Önceki: Kısım 16 – Cloud Connector](16-cloud-connector.md)*
 
 *[İçindekilere Dön](../content.md)*
 
 ---
 
-**Yazar:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Storyteller & Digital Transformation Advocate
+**Yazar:** [Beyhan Meyrali](https://www.linkedin.com/in/beyhanmeyrali) — SAP Hikaye Anlatıcısı & Dijital Dönüşüm Savunucusu
 
-*Oluşturuldu ❤️ dünya genelindeki SAP öğrencileri için*
+*Dünya genelindeki SAP öğrencileri için ❤️ ile oluşturuldu*
