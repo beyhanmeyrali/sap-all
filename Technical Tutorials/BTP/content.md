@@ -168,4 +168,4 @@
 
 ---
 
-*[Back to README](README.md) | [TODO List](todo.md)*
+*[Back to README](README.md)*

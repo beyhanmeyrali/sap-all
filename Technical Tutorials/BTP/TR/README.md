@@ -40,7 +40,7 @@ Artı hızlı referans tabloları, sözlük ve sorun giderme içeren **Ekler**.
 ## Hızlı Navigasyon
 
 📖 [İçindekiler](content.md)
-🔗 [Ham Linkler](links.md) — *Orijinal kaynak link koleksiyonu*
+🔗 [Ham Linkler](../links.md) — *Orijinal kaynak link koleksiyonu*
 
 ### Kısımlar
 

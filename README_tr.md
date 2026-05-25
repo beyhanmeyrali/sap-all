@@ -194,11 +194,11 @@ Maceranız şimdi başlıyor. Sizi organizasyonunuzun ihtiyaç duyduğu SAP kahr
 *"Bin millik yolculuk tek adımla başlar" - ve SAP dünyasına ilk adımınız burada başlar.*
 
 ## Hızlı Navigasyon
-- 📚 [Öğrenme Yolu Genel Bakış](./learning-path.md)
-- 🎯 [Kariyer Rehberliği](./career-guidance.md)  
-- 🔧 [Uygulamalı Egzersizler](./exercises/README.md)
-- 💡 [Gerçek Dünya Vaka Çalışmaları](./case-studies/README.md)
-- 🤝 [Topluluk ve Destek](./community.md)
+- 📚 [Buradan Başla: SAP Genel Bakış](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/01-overview/README.md)
+- 🧑‍💻 [Geliştirici Patikası: C# & Python'dan SAP ABAP'a](./Technical%20Tutorials/CSharp-to-ABAP/TR/README.md)  
+- ☁️ [SAP BTP Mini Kitabı](./Technical%20Tutorials/BTP/TR/README.md)
+- 📘 [SAP Modern Geliştirme El Kitabı](./Technical%20Tutorials/sap_development_handbook.md)
+- 🐙 [GitHub Deposu](https://github.com/beyhanmeyrali/sap-all)
 
 ---
 

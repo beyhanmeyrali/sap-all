@@ -194,11 +194,11 @@ Your adventure starts now. Let's turn you into the SAP hero your organization ne
 *"The journey of a thousand miles begins with a single step" - and your first step into the SAP world starts here.*
 
 ## Quick Navigation
-- 📚 [Learning Path Overview](./learning-path.md)
-- 🎯 [Career Guidance](./career-guidance.md)  
-- 🔧 [Hands-on Exercises](./exercises/README.md)
-- 💡 [Real-World Case Studies](./case-studies/README.md)
-- 🤝 [Community & Support](./community.md)
+- 📚 [Start Here: SAP Overview](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/01-overview/README.md)
+- 🧑‍💻 [Developer Track: From C# & Python to SAP ABAP](./Technical%20Tutorials/CSharp-to-ABAP/README.md)  
+- ☁️ [SAP BTP Mini Book](./Technical%20Tutorials/BTP/README.md)
+- 📘 [SAP Modern Development Handbook](./Technical%20Tutorials/sap_development_handbook.md)
+- 🐙 [GitHub Repository](https://github.com/beyhanmeyrali/sap-all)
 
 ---
 

@@ -40,8 +40,6 @@ Plus **Appendices** with quick reference tables, glossary, and troubleshooting.
 ## Quick Navigation
 
 📖 [Table of Contents](content.md)  
-📝 [Project TODO List](todo.md)  
-🤖 [Agent Resources](agent-resources.md) — *For AI-assisted content generation*  
 🔗 [Raw Links](links.md) — *Original source link collection*
 
 ### Chapters
