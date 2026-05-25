@@ -79,7 +79,7 @@ These courses are free; system access (where included) is temporary (typically f
 | Resource | What it covers | How to find it |
 |---|---|---|
 | **SAP Community** | Q&A forums, blog posts, expert answers. Stack Overflow equivalent for SAP questions — ask questions, search existing threads. | Search **"SAP Community"** |
-| **Clean ABAP Style Guide** | An opinionated, comprehensive guide to writing clean, modern, readable ABAP. Like the Google Style Guide but for ABAP. Published by SAP on GitHub. | Search **"Clean ABAP GitHub SAP"** — repository is `SAP/styleguides` under `clean-abap/`. |
+| **[Clean ABAP Style Guide](https://github.com/SAP/styleguides/blob/main/clean-abap/CleanABAP.md)** | An opinionated, comprehensive guide to writing clean, modern, readable ABAP. Like the Google Style Guide but for ABAP. Published by SAP on GitHub. **Bookmark this — it's the single most useful link in the book for code reviews and interviews.** | `github.com/SAP/styleguides` → `clean-abap/CleanABAP.md` |
 | **abapGit** | The open-source Git client for ABAP — lets you version-control ABAP objects and share code via GitHub. Essential for portfolio projects. | Search **"abapGit"** — project is at `abapGit.org` and the GitHub repository is `abapGit/abapGit`. |
 | **ABAP Open Checks (abaplint)** | A static analysis tool for ABAP code, usable in CI pipelines with abapGit. Like Roslyn analyzers for ABAP. | Search **"abaplint"** on GitHub. |
 | **blogs.sap.com** | SAP's official blogging platform — thousands of practitioner-written tutorials, deep dives, and how-tos. High signal-to-noise if you filter for recent posts. | `blogs.sap.com` |

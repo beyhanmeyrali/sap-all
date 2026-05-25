@@ -700,6 +700,8 @@ graph LR
 3. **Debugging.** The ABAP debugger in ADT (breakpoints, watchpoints, object inspection) is your best friend. Get fast at it.
 4. **Transport management.** Understand the development → quality → production transport chain (SE09/SE10). Releasing a transport wrong is how you break production.
 
+> 💡 **Read this on day one:** the **[Clean ABAP style guide](https://github.com/SAP/styleguides/blob/main/clean-abap/CleanABAP.md)** (`SAP/styleguides` on GitHub). It's short, free, and it's the checklist your reviewers use. Knowing it makes the difference between "writes code that works" and "writes code the team is happy to maintain" — which is exactly the difference between junior and mid-level. See [Chapter 11.6](11-abap-oop.md) for the highlights.
+
 **After 6 months — add these:**
 
 5. **RAP + CDS annotations.** You've started here. Go deeper: associations, draft, authorization objects with `@AccessControl`.
