@@ -416,7 +416,7 @@ Diego's Sales & Distribution Complete Flow:
 ---
 
 ## Navigation
-← [Previous: Production Planning](../04-production-planning/README.md) | [Back to Main Journey](../README.md) | [Next: Financial Accounting](../06-financial-accounting/README.md) →
+← [Previous: Production Planning](../04-production-planning/README.md) | [Back to Main Journey](../../README.md) | [Next: Financial Accounting](../06-financial-accounting/README.md) →
 
 ## Related Stories
 - 🌟 [Complete Integration Example](../01-overview/Complete-SAP-Integration-Example.md)

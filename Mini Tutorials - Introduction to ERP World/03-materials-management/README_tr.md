@@ -314,8 +314,8 @@ Bir sonraki bölümde, **Planlama Uzmanı Zehra** ile tanışacak ve Murat'ın m
 ---
 
 ## Navigasyon
-← [Önceki: Navigasyon](../02-navigation/README.md) | [Ana Yolculuğa Dön](../README.md) | [Sonraki: Üretim Planlaması](../04-production-planning/README.md) →
+← [Önceki: Navigasyon](../02-navigation/README.md) | [Ana Yolculuğa Dön](../../README_tr.md) | [Sonraki: Üretim Planlaması](../04-production-planning/README.md) →
 
 ## İlgili Hikayeler
-- 🎼 [MM'nin PP ile Nasıl Dans Ettiği](../Overall/MM-PP-Integration-Story.md)
-- 🌟 [Tam Entegrasyon Örneği](../Overall/Complete-SAP-Integration-Example.md)
+- 🎼 [MM'nin PP ile Nasıl Dans Ettiği](../01-overview/MM-PP-Integration-Story.md)
+- 🌟 [Tam Entegrasyon Örneği](../01-overview/Complete-SAP-Integration-Example.md)

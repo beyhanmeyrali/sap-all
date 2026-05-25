@@ -214,4 +214,4 @@ In our next chapter, you'll join **Marcus the Materials Master** as he dives dee
 ---
 
 ## Navigation
-← [Previous: Overview](../01-overview/README.md) | [Back to Main Journey](../README.md) | [Next: Materials Management](../03-materials-management/README.md) →
+← [Previous: Overview](../01-overview/README.md) | [Back to Main Journey](../../README.md) | [Next: Materials Management](../03-materials-management/README.md) →

@@ -1261,7 +1261,7 @@ ST05, SM50, ST22, SM21, STAD
 ---
 
 ## Navigasyon
-← [Önceki: Özelleştirme](../12-customization/README.md) | [Ana Yolculuğa Dön](../README.md) | [Yolculuk Tamamlandı] 🎉
+← [Önceki: Özelleştirme](../12-customization/README.md) | [Ana Yolculuğa Dön](../../README_tr.md) | [Yolculuk Tamamlandı] 🎉
 
 ## İlgili Hikayeler
 - 🌟 [Tam Entegrasyon Örneği](../01-overview/Complete-SAP-Integration-Example.md)

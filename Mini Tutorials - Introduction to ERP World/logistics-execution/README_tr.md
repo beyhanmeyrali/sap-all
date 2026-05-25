@@ -580,7 +580,7 @@ Bir sonraki bölümde, tüm SAP modüllerinin mükemmel uyum içinde nasıl çal
 ---
 
 ## Navigasyon
-← [Önceki: Tesis Bakımı](../10-plant-maintenance/README.md) | [Ana Yolculuğa Dön](../README.md) | [Sonraki: Entegrasyon Senaryoları](../11-integration-scenarios/README.md) →
+← [Önceki: Tesis Bakımı](../10-plant-maintenance/README.md) | [Ana Yolculuğa Dön](../../README_tr.md) | [Sonraki: Entegrasyon Senaryoları](../11-integration-scenarios/README.md) →
 
 ## İlgili Hikayeler
 - 🌟 [Tam Entegrasyon Örneği](../01-overview/Complete-SAP-Integration-Example.md)

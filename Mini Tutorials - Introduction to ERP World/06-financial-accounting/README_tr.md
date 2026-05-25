@@ -892,7 +892,7 @@ Selin KüreselTek yönetim kurulu toplantı odasında oturuyor, CFO'nun yönetim
 ---
 
 ## Navigasyon
-← [Önceki: Satış ve Dağıtım](../05-sales-distribution/README.md) | [Ana Yolculuğa Dön](../README.md) | [Sonraki: Kontrolling](../07-controlling/README.md) →
+← [Önceki: Satış ve Dağıtım](../05-sales-distribution/README.md) | [Ana Yolculuğa Dön](../../README_tr.md) | [Sonraki: Kontrolling](../07-controlling/README.md) →
 
 ## İlgili Hikayeler
 - 🌟 [Tam Entegrasyon Örneği](../01-overview/Complete-SAP-Integration-Example.md)

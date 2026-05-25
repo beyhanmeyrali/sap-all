@@ -738,11 +738,11 @@ Results Achieved:
 ---
 
 ## Navigation
-← [Previous: Quality Management](../09-quality-management/README.md) | [Back to Main Journey](../README.md) | [Next: Integration Scenarios](../11-integration-scenarios/README.md) →
+← [Previous: Quality Management](../09-quality-management/README.md) | [Back to Main Journey](../../README.md) | [Next: Integration Scenarios](../11-integration-scenarios/README.md) →
 
 ## Related Stories
 - 🌟 [Complete Integration Example](../01-overview/Complete-SAP-Integration-Example.md)
 - 🎼 [The SAP Orchestra](../01-overview/README-Orchestra.md)
 - 🏭 [Production Planning with Peter](../04-production-planning/README.md)
 - 📊 [Materials Management with Marcus](../03-materials-management/README.md)
-- 💰 [Financial Accounting with Franz](../05-financial-accounting/README.md)
+- 💰 [Financial Accounting with Franz](../06-financial-accounting/README.md)

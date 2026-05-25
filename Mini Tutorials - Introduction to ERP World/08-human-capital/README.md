@@ -1585,7 +1585,7 @@ truly our competitive advantage."
 ---
 
 ## Navigation
-← [Previous: Controlling](../07-controlling/README.md) | [Back to Main Journey](../README.md) | [Next: Quality Management](../09-quality-management/README.md) →
+← [Previous: Controlling](../07-controlling/README.md) | [Back to Main Journey](../../README.md) | [Next: Quality Management](../09-quality-management/README.md) →
 
 ## Related Stories
 - 🌟 [Complete Integration Example](../01-overview/Complete-SAP-Integration-Example.md)

@@ -1265,7 +1265,7 @@ You've mastered the individual modules. You've learned the integration patterns.
 ---
 
 ## Navigation
-← [Previous: Plant Maintenance](../10-plant-maintenance/README.md) | [Back to Main Journey](../README.md) | [Next: Customization](../12-customization/README.md) →
+← [Previous: Plant Maintenance](../10-plant-maintenance/README.md) | [Back to Main Journey](../../README.md) | [Next: Customization](../12-customization/README.md) →
 
 ## Related Stories
 - 🌟 [Complete Integration Example](../01-overview/Complete-SAP-Integration-Example.md)

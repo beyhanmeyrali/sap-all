@@ -580,7 +580,7 @@ In our next chapter, you'll discover how all SAP modules work together in perfec
 ---
 
 ## Navigation
-← [Previous: Plant Maintenance](../10-plant-maintenance/README.md) | [Back to Main Journey](../README.md) | [Next: Integration Scenarios](../11-integration-scenarios/README.md) →
+← [Previous: Plant Maintenance](../10-plant-maintenance/README.md) | [Back to Main Journey](../../README.md) | [Next: Integration Scenarios](../11-integration-scenarios/README.md) →
 
 ## Related Stories
 - 🌟 [Complete Integration Example](../01-overview/Complete-SAP-Integration-Example.md)

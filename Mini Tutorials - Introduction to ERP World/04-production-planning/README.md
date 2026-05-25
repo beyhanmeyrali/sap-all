@@ -322,8 +322,8 @@ In our next chapter, you'll join **Diego the Sales Dynamo** as he creates the cu
 ---
 
 ## Navigation
-← [Previous: Materials Management](../03-materials-management/README.md) | [Back to Main Journey](../README.md) | [Next: Sales & Distribution](../05-sales-distribution/README.md) →
+← [Previous: Materials Management](../03-materials-management/README.md) | [Back to Main Journey](../../README.md) | [Next: Sales & Distribution](../05-sales-distribution/README.md) →
 
 ## Related Stories
-- 💕 [The MM-PP Love Story](../Overall/MM-PP-Integration-Story.md)
-- 🌟 [Complete Integration Example](../Overall/Complete-SAP-Integration-Example.md)
+- 💕 [The MM-PP Love Story](../01-overview/MM-PP-Integration-Story.md)
+- 🌟 [Complete Integration Example](../01-overview/Complete-SAP-Integration-Example.md)

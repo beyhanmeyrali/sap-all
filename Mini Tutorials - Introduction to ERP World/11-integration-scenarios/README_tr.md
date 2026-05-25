@@ -1265,7 +1265,7 @@ Bireysel modülleri ustalaştınız. Entegrasyon modellerini öğrendiniz. Şimd
 ---
 
 ## Navigasyon
-← [Önceki: Tesis Bakımı](../10-plant-maintenance/README.md) | [Ana Yolculuğa Dön](../README.md) | [Sonraki: Özelleştirme](../12-customization/README.md) →
+← [Önceki: Tesis Bakımı](../10-plant-maintenance/README.md) | [Ana Yolculuğa Dön](../../README_tr.md) | [Sonraki: Özelleştirme](../12-customization/README.md) →
 
 ## İlgili Hikayeler
 - 🌟 [Tam Entegrasyon Örneği](../01-overview/Complete-SAP-Integration-Example.md)

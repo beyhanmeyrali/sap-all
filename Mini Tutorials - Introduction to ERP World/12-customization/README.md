@@ -786,4 +786,4 @@ In our next chapter, you'll join **Riley the Report Writer** as they transform A
 ---
 
 ## Navigation
-← [Previous: Integration Scenarios](../11-integration-scenarios/README.md) | [Back to Main Journey](../README.md) | [Next: Reporting & Analytics](../13-reporting/README.md) →
+← [Previous: Integration Scenarios](../11-integration-scenarios/README.md) | [Back to Main Journey](../../README.md) | [Next: Reporting & Analytics](../13-reporting/README.md) →

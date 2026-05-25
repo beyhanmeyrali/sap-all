@@ -873,7 +873,7 @@ Hafta 23-24: İş Zekası
 ---
 
 ## Navigasyon
-← [Önceki: Finansal Muhasebe](../06-financial-accounting/README.md) | [Ana Yolculuğa Dön](../README.md) | [Sonraki: İnsan Sermayesi Yönetimi](../08-human-capital/README.md) →
+← [Önceki: Finansal Muhasebe](../06-financial-accounting/README.md) | [Ana Yolculuğa Dön](../../README_tr.md) | [Sonraki: İnsan Sermayesi Yönetimi](../08-human-capital/README.md) →
 
 ## İlgili Hikayeler
 - 🌟 [Tam Entegrasyon Örneği](../01-overview/Complete-SAP-Integration-Example.md)

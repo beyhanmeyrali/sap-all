@@ -97,28 +97,34 @@ Melike'nin gözleri büyümüştü. "Yani SAP, Elif'le birlikte büyüyen işlet
 
 ### Aşama 1: Uyanış (Temel)
 **"Büyük Resmi Anlamak"**
-- [Genel Bakış](./Mini%20Tutorials/01-overview/README.md) - SAP ekosistemi ve modüllerin nasıl etkileştiği
-- [Temel Navigasyon](./Mini%20Tutorials/02-navigation/README.md) - SAP dünyasındaki ilk adımlarınız
+- [Genel Bakış](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/01-overview/README.md) - SAP ekosistemi ve modüllerin nasıl etkileştiği
+- [Temel Navigasyon](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/02-navigation/README.md) - SAP dünyasındaki ilk adımlarınız
 
 ### Aşama 2: Eğitim (Temel Modüller)
 **"Temel Becerileri Öğrenmek"**
-- [MM - Malzeme Yönetimi](./Mini%20Tutorials/03-materials-management/README.md) - "Eşyaları" yönetme sanatı
-- [PP - Üretim Planlama](./Mini%20Tutorials/04-production-planning/README.md) - Ham malzemeleri ürünlere dönüştürmek
-- [SD - Satış ve Dağıtım](./Mini%20Tutorials/05-sales-distribution/README.md) - Ürünleri müşterilere ulaştırmak
-- [FI - Mali Muhasebe](./Mini%20Tutorials/06-financial-accounting/README.md) - Para izini takip etmek
+- [MM - Malzeme Yönetimi](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/03-materials-management/README.md) - "Eşyaları" yönetme sanatı
+- [PP - Üretim Planlama](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/04-production-planning/README.md) - Ham malzemeleri ürünlere dönüştürmek
+- [SD - Satış ve Dağıtım](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/05-sales-distribution/README.md) - Ürünleri müşterilere ulaştırmak
+- [FI - Mali Muhasebe](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/06-financial-accounting/README.md) - Para izini takip etmek
 
 ### Aşama 3: Uzmanlaşma (Gelişmiş Modüller)
 **"Seçtiğiniz Yolda Ustalaşmak"**
-- [CO - Kontrolling](./Mini%20Tutorials/07-controlling/README.md) - Maliyet analizinin dedektif işi
-- [HCM - İnsan Sermayesi Yönetimi](./Mini%20Tutorials/08-human-capital/README.md) - En değerli varlığı yönetmek: insanlar
-- [QM - Kalite Yönetimi](./Mini%20Tutorials/09-quality-management/README.md) - Mükemmelliği sağlamak
-- [PM - Tesis Bakımı](./Mini%20Tutorials/10-plant-maintenance/README.md) - Çarkları döndürmeye devam etmek
+- [CO - Kontrolling](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/07-controlling/README.md) - Maliyet analizinin dedektif işi
+- [HCM - İnsan Sermayesi Yönetimi](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/08-human-capital/README.md) - En değerli varlığı yönetmek: insanlar
+- [QM - Kalite Yönetimi](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/09-quality-management/README.md) - Mükemmelliği sağlamak
+- [PM - Tesis Bakımı](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/10-plant-maintenance/README.md) - Çarkları döndürmeye devam etmek
 
 ### Aşama 4: Entegrasyon (Gelişmiş Konular)
 **"SAP Ustası Olmak"**
-- [Modüller Arası Senaryolar](./Mini%20Tutorials/11-integration-scenarios/README.md) - Her şey nasıl birlikte çalışır
-- [Özelleştirme ve Konfigürasyon](./Mini%20Tutorials/12-customization/README.md) - SAP'yi işiniz için çalıştırmak
-- [Raporlama ve Analitik](./Mini%20Tutorials/13-reporting/README.md) - Veriyi içgörüye dönüştürmek
+- [Modüller Arası Senaryolar](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/11-integration-scenarios/README.md) - Her şey nasıl birlikte çalışır
+- [Özelleştirme ve Konfigürasyon](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/12-customization/README.md) - SAP'yi işiniz için çalıştırmak
+- [Raporlama ve Analitik](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/13-reporting/README.md) - Veriyi içgörüye dönüştürmek
+
+### Aşama 5: Teknik Tarafa Geçiş (Geliştirici Patikası)
+**"İş Kullanıcısından SAP Geliştiricisine"**
+- [C# & Python'dan SAP ABAP'a](./Technical%20Tutorials/CSharp-to-ABAP/TR/README.md) — ABAP'a geçen geliştiriciler için 36 bölümlük, hızlıca işe hazır eden saha rehberi ([🇬🇧 English](./Technical%20Tutorials/CSharp-to-ABAP/README.md))
+- [Eski ABAP'çılar için SAP BTP Mini Kitabı](./Technical%20Tutorials/BTP/TR/README.md) — BTP, RISE, Joule & Clean Core Feynman tarzında anlatıldı ([🇬🇧 English](./Technical%20Tutorials/BTP/README.md))
+- [Komple SAP Modern Geliştirme El Kitabı](./Technical%20Tutorials/sap_development_handbook.md) — ABAP | RAP | CAP | BTP birleşik referans
 
 ## Modül Entegrasyonunun Büyüsü
 
@@ -177,7 +183,7 @@ SAP'yi anlamak dünya çapında fırsatlara kapı açar.
 
 ## Başlarken
 
-Yolculuğunuza başlamaya hazır mısınız? [Bölüm 1: SAP Genel Bakış](./Mini%20Tutorials/01-overview/README.md) ile başlayın; burada Melike ilk defa SAP'nin gerçekte ne olduğunu ve her başarılı işletmenin neden bu dili konuşması gerektiğini öğrenir.
+Yolculuğunuza başlamaya hazır mısınız? [Bölüm 1: SAP Genel Bakış](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/01-overview/README.md) ile başlayın; burada Melike ilk defa SAP'nin gerçekte ne olduğunu ve her başarılı işletmenin neden bu dili konuşması gerektiğini öğrenir.
 
 Unutmayın: Her SAP uzmanı bir zamanlar acemiydi. Başarılı olanlarla vazgeçenler arasındaki fark yetenek değil - sebat ve doğru rehberdir.
 

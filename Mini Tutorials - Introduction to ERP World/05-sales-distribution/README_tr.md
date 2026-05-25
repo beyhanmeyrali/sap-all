@@ -416,7 +416,7 @@ Deniz'in Satış ve Dağıtım Tam Akışı:
 ---
 
 ## Navigasyon
-← [Önceki: Üretim Planlaması](../04-production-planning/README.md) | [Ana Yolculuğa Dön](../README.md) | [Sonraki: Mali Muhasebe](../06-financial-accounting/README.md) →
+← [Önceki: Üretim Planlaması](../04-production-planning/README.md) | [Ana Yolculuğa Dön](../../README_tr.md) | [Sonraki: Mali Muhasebe](../06-financial-accounting/README.md) →
 
 ## İlgili Hikayeler
 - 🌟 [Tam Entegrasyon Örneği](../01-overview/Complete-SAP-Integration-Example.md)

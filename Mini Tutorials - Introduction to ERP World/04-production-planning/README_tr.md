@@ -322,8 +322,8 @@ Bir sonraki bölümde, Zehra'nın gerçeğe dönüştürdüğü müşteri talepl
 ---
 
 ## Navigasyon
-← [Önceki: Malzeme Yönetimi](../03-materials-management/README.md) | [Ana Yolculuğa Dön](../README.md) | [Sonraki: Satış ve Dağıtım](../05-sales-distribution/README.md) →
+← [Önceki: Malzeme Yönetimi](../03-materials-management/README.md) | [Ana Yolculuğa Dön](../../README_tr.md) | [Sonraki: Satış ve Dağıtım](../05-sales-distribution/README.md) →
 
 ## İlgili Hikayeler
-- 💕 [MM-PP Aşk Hikayesi](../Overall/MM-PP-Integration-Story.md)
-- 🌟 [Tam Entegrasyon Örneği](../Overall/Complete-SAP-Integration-Example.md)
+- 💕 [MM-PP Aşk Hikayesi](../01-overview/MM-PP-Integration-Story.md)
+- 🌟 [Tam Entegrasyon Örneği](../01-overview/Complete-SAP-Integration-Example.md)

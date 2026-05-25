@@ -97,28 +97,34 @@ Maria's eyes were wide. "So SAP is like... Emma's business brain that grew up wi
 
 ### Phase 1: The Awakening (Foundation)
 **"Understanding the Big Picture"**
-- [Overview](./Mini%20Tutorials/01-overview/README.md) - The SAP ecosystem and how modules interact
-- [Basic Navigation](./Mini%20Tutorials/02-navigation/README.md) - Your first steps in the SAP world
+- [Overview](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/01-overview/README.md) - The SAP ecosystem and how modules interact
+- [Basic Navigation](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/02-navigation/README.md) - Your first steps in the SAP world
 
 ### Phase 2: The Training (Core Modules)
 **"Learning the Essential Skills"**
-- [MM - Materials Management](./Mini%20Tutorials/03-materials-management/README.md) - The art of managing "stuff"
-- [PP - Production Planning](./Mini%20Tutorials/04-production-planning/README.md) - Turning raw materials into products
-- [SD - Sales & Distribution](./Mini%20Tutorials/05-sales-distribution/README.md) - Getting products to customers
-- [FI - Financial Accounting](./Mini%20Tutorials/06-financial-accounting/README.md) - Following the money trail
+- [MM - Materials Management](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/03-materials-management/README.md) - The art of managing "stuff"
+- [PP - Production Planning](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/04-production-planning/README.md) - Turning raw materials into products
+- [SD - Sales & Distribution](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/05-sales-distribution/README.md) - Getting products to customers
+- [FI - Financial Accounting](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/06-financial-accounting/README.md) - Following the money trail
 
 ### Phase 3: The Specialization (Advanced Modules)
 **"Mastering Your Chosen Path"**
-- [CO - Controlling](./Mini%20Tutorials/07-controlling/README.md) - The detective work of cost analysis
-- [HCM - Human Capital Management](./Mini%20Tutorials/08-human-capital/README.md) - Managing the most valuable asset: people
-- [QM - Quality Management](./Mini%20Tutorials/09-quality-management/README.md) - Ensuring excellence
-- [PM - Plant Maintenance](./Mini%20Tutorials/10-plant-maintenance/README.md) - Keeping the wheels turning
+- [CO - Controlling](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/07-controlling/README.md) - The detective work of cost analysis
+- [HCM - Human Capital Management](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/08-human-capital/README.md) - Managing the most valuable asset: people
+- [QM - Quality Management](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/09-quality-management/README.md) - Ensuring excellence
+- [PM - Plant Maintenance](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/10-plant-maintenance/README.md) - Keeping the wheels turning
 
 ### Phase 4: The Integration (Advanced Topics)
 **"Becoming the SAP Maestro"**
-- [Cross-Module Scenarios](./Mini%20Tutorials/11-integration-scenarios/README.md) - How everything works together
-- [Customization & Configuration](./Mini%20Tutorials/12-customization/README.md) - Making SAP work for your business
-- [Reporting & Analytics](./Mini%20Tutorials/13-reporting/README.md) - Turning data into insights
+- [Cross-Module Scenarios](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/11-integration-scenarios/README.md) - How everything works together
+- [Customization & Configuration](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/12-customization/README.md) - Making SAP work for your business
+- [Reporting & Analytics](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/13-reporting/README.md) - Turning data into insights
+
+### Phase 5: Going Technical (Developer Track)
+**"From Business User to SAP Developer"**
+- [From C# & Python to SAP ABAP](./Technical%20Tutorials/CSharp-to-ABAP/README.md) — A 36-chapter field guide for developers crossing into ABAP, job-ready fast ([🇹🇷 Türkçe](./Technical%20Tutorials/CSharp-to-ABAP/TR/README.md))
+- [SAP BTP Mini Book for Old ABAPers](./Technical%20Tutorials/BTP/README.md) — BTP, RISE, Joule & Clean Core explained the Feynman way ([🇹🇷 Türkçe](./Technical%20Tutorials/BTP/TR/README.md))
+- [The Complete SAP Modern Development Handbook](./Technical%20Tutorials/sap_development_handbook.md) — ABAP | RAP | CAP | BTP unified reference
 
 ## The Magic of Module Integration
 
@@ -177,7 +183,7 @@ Understanding SAP opens doors to opportunities worldwide.
 
 ## Getting Started
 
-Ready to begin your journey? Start with [Chapter 1: The SAP Overview](./Mini%20Tutorials/01-overview/README.md) where Maria first learns what SAP really is and why every successful business needs to speak its language.
+Ready to begin your journey? Start with [Chapter 1: The SAP Overview](./Mini%20Tutorials%20-%20Introduction%20to%20ERP%20World/01-overview/README.md) where Maria first learns what SAP really is and why every successful business needs to speak its language.
 
 Remember: Every SAP expert was once a beginner. The difference between those who succeed and those who give up isn't talent - it's persistence and the right guide.
 

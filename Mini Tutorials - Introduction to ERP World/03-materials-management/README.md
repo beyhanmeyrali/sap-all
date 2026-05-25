@@ -314,8 +314,8 @@ In our next chapter, you'll join **Clara the Production Planner** as she transfo
 ---
 
 ## Navigation
-← [Previous: Navigation](../02-navigation/README.md) | [Back to Main Journey](../README.md) | [Next: Production Planning](../04-production-planning/README.md) →
+← [Previous: Navigation](../02-navigation/README.md) | [Back to Main Journey](../../README.md) | [Next: Production Planning](../04-production-planning/README.md) →
 
 ## Related Stories
-- 🎼 [How MM Dances with PP](../Overall/MM-PP-Integration-Story.md)
-- 🌟 [Complete Integration Example](../Overall/Complete-SAP-Integration-Example.md)
+- 🎼 [How MM Dances with PP](../01-overview/MM-PP-Integration-Story.md)
+- 🌟 [Complete Integration Example](../01-overview/Complete-SAP-Integration-Example.md)

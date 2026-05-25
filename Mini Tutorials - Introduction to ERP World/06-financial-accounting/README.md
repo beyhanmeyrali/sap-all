@@ -892,7 +892,7 @@ Week 23-24: Troubleshooting & Process Optimization
 ---
 
 ## Navigation
-← [Previous: Sales & Distribution](../05-sales-distribution/README.md) | [Back to Main Journey](../README.md) | [Next: Controlling](../07-controlling/README.md) →
+← [Previous: Sales & Distribution](../05-sales-distribution/README.md) | [Back to Main Journey](../../README.md) | [Next: Controlling](../07-controlling/README.md) →
 
 ## Related Stories
 - 🌟 [Complete Integration Example](../01-overview/Complete-SAP-Integration-Example.md)

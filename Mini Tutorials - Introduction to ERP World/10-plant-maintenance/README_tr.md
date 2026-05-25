@@ -738,11 +738,11 @@ Elde Edilen Sonuçlar:
 ---
 
 ## Navigasyon
-← [Önceki: Kalite Yönetimi](../09-quality-management/README.md) | [Ana Yolculuğa Dön](../README.md) | [Sonraki: Entegrasyon Senaryoları](../11-integration-scenarios/README.md) →
+← [Önceki: Kalite Yönetimi](../09-quality-management/README.md) | [Ana Yolculuğa Dön](../../README_tr.md) | [Sonraki: Entegrasyon Senaryoları](../11-integration-scenarios/README.md) →
 
 ## İlgili Hikayeler
 - 🌟 [Tam Entegrasyon Örneği](../01-overview/Complete-SAP-Integration-Example.md)
 - 🎼 [SAP Orkestrası](../01-overview/README-Orchestra.md)
 - 🏭 [Peter ile Üretim Planlama](../04-production-planning/README.md)
 - 📊 [Marcus ile Malzeme Yönetimi](../03-materials-management/README.md)
-- 💰 [Franz ile Mali Muhasebe](../05-financial-accounting/README.md)
+- 💰 [Franz ile Mali Muhasebe](../06-financial-accounting/README.md)

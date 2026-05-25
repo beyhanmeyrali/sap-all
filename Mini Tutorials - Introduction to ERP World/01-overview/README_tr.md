@@ -42,4 +42,4 @@ Melike'nin yolculuğunun gerçekten başladığı yer burası - SAP'nin gerçekt
 ---
 
 ## Navigasyon
-← [Ana Yolculuğa Geri Dön](../README_tr.md) | [Sonraki: Temel Navigasyon](../02-navigation/README_tr.md) →
+← [Ana Yolculuğa Geri Dön](../../README_tr.md) | [Sonraki: Temel Navigasyon](../02-navigation/README_tr.md) →

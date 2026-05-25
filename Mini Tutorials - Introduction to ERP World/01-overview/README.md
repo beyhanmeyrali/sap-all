@@ -42,4 +42,4 @@ Here is where Maria's journey truly begins - understanding what SAP really is an
 ---
 
 ## Navigation
-← [Back to Main Journey](../README.md) | [Next: Basic Navigation](../02-navigation/README.md) →
+← [Back to Main Journey](../../README.md) | [Next: Basic Navigation](../02-navigation/README.md) →

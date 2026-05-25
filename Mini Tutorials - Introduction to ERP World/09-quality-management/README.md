@@ -694,7 +694,7 @@ Remember Viktor's motto: *"Quality isn't what you inspect in - it's what you des
 ---
 
 ## Navigation
-← [Previous: Human Capital Management](../08-human-capital/README.md) | [Back to Main Journey](../README.md) | [Next: Plant Maintenance](../10-plant-maintenance/README.md) →
+← [Previous: Human Capital Management](../08-human-capital/README.md) | [Back to Main Journey](../../README.md) | [Next: Plant Maintenance](../10-plant-maintenance/README.md) →
 
 ## Related Stories
 - 🌟 [Complete Integration Example](../01-overview/Complete-SAP-Integration-Example.md)

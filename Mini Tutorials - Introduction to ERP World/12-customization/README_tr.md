@@ -786,4 +786,4 @@ Bir sonraki bölümde, Alp'in mükemmel şekilde konfigüre edilmiş sistemini e
 ---
 
 ## Navigasyon
-← [Önceki: Entegrasyon Senaryoları](../11-integration-scenarios/README.md) | [Ana Yolculuğa Dön](../README.md) | [Sonraki: Raporlama ve Analitik](../13-reporting/README.md) →
+← [Önceki: Entegrasyon Senaryoları](../11-integration-scenarios/README.md) | [Ana Yolculuğa Dön](../../README_tr.md) | [Sonraki: Raporlama ve Analitik](../13-reporting/README.md) →

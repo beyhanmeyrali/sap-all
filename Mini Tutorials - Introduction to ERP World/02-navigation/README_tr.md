@@ -214,4 +214,4 @@ Bir sonraki bölümde, Malzeme Yönetimi'ne derinlemesine dalan **Murat Malzeme 
 ---
 
 ## Navigasyon
-← [Önceki: Genel Bakış](../01-overview/README.md) | [Ana Yolculuğa Dön](../README.md) | [Sonraki: Malzeme Yönetimi](../03-materials-management/README.md) →
+← [Önceki: Genel Bakış](../01-overview/README.md) | [Ana Yolculuğa Dön](../../README_tr.md) | [Sonraki: Malzeme Yönetimi](../03-materials-management/README.md) →

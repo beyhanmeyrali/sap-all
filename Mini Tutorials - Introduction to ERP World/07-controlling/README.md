@@ -954,7 +954,7 @@ Week 23-24: Business Intelligence
 ---
 
 ## Navigation
-← [Previous: Financial Accounting](../06-financial-accounting/README.md) | [Back to Main Journey](../README.md) | [Next: Human Capital Management](../08-human-capital/README.md) →
+← [Previous: Financial Accounting](../06-financial-accounting/README.md) | [Back to Main Journey](../../README.md) | [Next: Human Capital Management](../08-human-capital/README.md) →
 
 ## Related Stories
 - 🌟 [Complete Integration Example](../01-overview/Complete-SAP-Integration-Example.md)

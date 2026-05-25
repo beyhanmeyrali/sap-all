@@ -2,6 +2,8 @@
 
 > *"If you can't explain it simply, you don't understand it well enough."* — Richard Feynman
 
+> 🇹🇷 **Türkçe sürüm:** [TR/README.md](TR/README.md)
+
 ## Welcome
 
 You already write good code. You know C#, maybe Python too. You understand classes, generics, LINQ, async, REST, ORMs, dependency injection. Now you want to **become a SAP ABAP developer — and land the job fast.**
